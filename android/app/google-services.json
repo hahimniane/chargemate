@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "141676675081",
+    "project_id": "chargemate-4d26f",
+    "storage_bucket": "chargemate-4d26f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:141676675081:android:2b7e759f47172f07c4b8d8",
+        "android_client_info": {
+          "package_name": "com.example.chargemate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "141676675081-r1bt3rcad5b2jo6e6re9bf9486rgimde.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYl1oian1QHB0jaZLk1DY_rxBPEA4XA68"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "141676675081-r1bt3rcad5b2jo6e6re9bf9486rgimde.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
