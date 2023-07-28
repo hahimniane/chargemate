@@ -530,19 +530,17 @@ class _PhoneNumberInputPageState extends State<PhoneNumberInputPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffDEEBE9),
       body: SafeArea(
         top: true,
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Container(
-                color: Color(0xffDEEBE9),
-
-
-                child: Image(
-                  image: AssetImage('assets/images/logos/img.png'),
-                ),
+            Container(
+              color: Color(0xffDEEBE9),
+              width: MediaQuery.of(context).size.width * 0.50,
+              child: Image(
+                fit: BoxFit.scaleDown,
+                image: AssetImage('assets/images/logos/img.png'),
               ),
             ),
             Expanded(
@@ -551,7 +549,6 @@ class _PhoneNumberInputPageState extends State<PhoneNumberInputPage> {
                 decoration: const BoxDecoration(
                   color: Color(0xffDEEBE9),
                 ),
-                height: MediaQuery.of(context).size.height / 2.367,
                 child: const Image(
                   image: AssetImage(
                     'assets/images/Asset 1 1.png',
@@ -560,155 +557,173 @@ class _PhoneNumberInputPageState extends State<PhoneNumberInputPage> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 12.0, bottom: 30),
-              child: Text(
-                'OTP Verification',
-                style: TextStyle(
-                  fontSize: 23,
-                  fontWeight: FontWeight.bold,
-                  color: appColor,
+            Expanded(
+              child: Container(
+                color: Colors.white70,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 12.0, bottom: 30),
+                      child: Text(
+                        textAlign:TextAlign.center,
+                        'Lütfen Telefon Numarınızı Giriniz!',
+                        style: TextStyle(
+                          fontSize: 23,
+                          fontWeight: FontWeight.bold,
+                          color: appColor,
+                        ),
+                      ),
+                    ),
+                    const Text(
+                      'Size tek şifrelik bir\ndoğrulama kodu göndereceğiz!',
+                      style: TextStyle(
+                        color: Color(0xff143463),
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 20),
+                    Form(
+                      key: _formKey,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: Container(
+
+                              height: 50,
+                              decoration: BoxDecoration(
+
+                                border: Border.all(color: Colors.grey, width: 1),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    Image(
+                                      image: AssetImage(
+                                        'assets/images/tr.png',
+                                      ),
+                                      height: 28,
+                                      width: 28,
+                                      fit: BoxFit.scaleDown,
+                                    ),
+                                    SizedBox(width: 5),
+                                    Text(
+                                      '+90',
+                                      style: TextStyle(),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 16),
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+
+                              height: 50,
+                              child: TextFormField(
+                                controller: _phoneNumberController,
+                                keyboardType: TextInputType.numberWithOptions(),
+                                decoration: InputDecoration(
+                                  isCollapsed: false,
+                                  contentPadding: EdgeInsets.all(10),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  labelText: 'Telefon Numarası',
+                                ),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please enter a phone number';
+                                  }
+                                  final phoneRegex = RegExp(r'^\d{10}$');
+                                  if (!phoneRegex.hasMatch(value)) {
+                                    return 'Please enter a valid phone number without the country code';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 10),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Expanded(
+                            child: const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(
+                                'We will send you a one-time\n password to this mobile number',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Color(0xff64748B),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                bottom: 0.0,
+                                right: 8,
+                                left: 8,
+                                top: 10,
+                              ),
+                              child: RoundedLoadingButton(
+                                borderRadius: 12,
+                                width: MediaQuery.of(context).size.width * 0.90,
+                                color: appColor,
+                                onPressed: () async {
+                                  if (_formKey.currentState!.validate()) {
+                                    final phoneNumber =
+                                        '+90' + _phoneNumberController.text;
+                                    print('the phone number is $phoneNumber');
+                                    final numberExists =
+                                    await _viewModel.checkIfNumberExists(phoneNumber);
+                                    if (numberExists) {
+                                      showToast(
+                                          'This number is already registered. Please sign in.');
+                                      _loadingButtonController.error();
+                                      _loadingButtonController.reset();
+                                    } else {
+                                      _viewModel.registerUser(context, phoneNumber);
+                                    }
+                                  } else {
+                                    _loadingButtonController.error();
+                                    _loadingButtonController.reset();
+                                  }
+                                },
+                                controller: _loadingButtonController,
+                                child: const Text(
+                                  'Send code',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
-            const Text(
-              'Charge Mate with OTP\n Verification: Safe & Easy!',
-              style: TextStyle(
-                color: Color(0xff143463),
-                fontWeight: FontWeight.w400,
-                fontSize: 16,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 20),
-            Form(
-              key: _formKey,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey, width: 1),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Image(
-                              image: AssetImage(
-                                'assets/images/tr.png',
-                              ),
-                              height: 28,
-                              width: 28,
-                              fit: BoxFit.scaleDown,
-                            ),
-                            SizedBox(width: 5),
-                            Text(
-                              '+90',
-                              style: TextStyle(),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 16),
-                  Expanded(
-                    flex: 2,
-                    child: Container(
-                      height: 50,
-                      child: TextFormField(
-                        controller: _phoneNumberController,
-                        keyboardType: TextInputType.numberWithOptions(),
-                        decoration: InputDecoration(
-                          isCollapsed: false,
-                          contentPadding: EdgeInsets.all(10),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          labelText: 'Phone number',
-                        ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter a phone number';
-                          }
-                          final phoneRegex = RegExp(r'^\d{10}$');
-                          if (!phoneRegex.hasMatch(value)) {
-                            return 'Please enter a valid phone number without the country code';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      'We will send you a one-time\n password to this mobile number',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Color(0xff64748B),
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      bottom: 0.0,
-                      right: 8,
-                      left: 8,
-                      top: 10,
-                    ),
-                    child: RoundedLoadingButton(
-                      borderRadius: 12,
-                      width: MediaQuery.of(context).size.width * 0.90,
-                      color: appColor,
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          final phoneNumber =
-                              '+90' + _phoneNumberController.text;
-                          print('the phone number is $phoneNumber');
-                          final numberExists =
-                              await _viewModel.checkIfNumberExists(phoneNumber);
-                          if (numberExists) {
-                            showToast(
-                                'This number is already registered. Please sign in.');
-                            _loadingButtonController.error();
-                            _loadingButtonController.reset();
-                          } else {
-                            _viewModel.registerUser(context, phoneNumber);
-                          }
-                        } else {
-                          _loadingButtonController.error();
-                          _loadingButtonController.reset();
-                        }
-                      },
-                      controller: _loadingButtonController,
-                      child: const Text(
-                        'Send code',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+
           ],
         ),
       ),
