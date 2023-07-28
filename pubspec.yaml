@@ -48,6 +48,7 @@ dependencies:
   map_launcher: ^2.5.0+1
   share_plus: ^7.0.2
   device_preview: ^1.1.0
+  google_fonts: ^4.0.4
 
 
 dev_dependencies:

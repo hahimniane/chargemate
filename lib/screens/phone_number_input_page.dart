@@ -537,9 +537,9 @@ class _PhoneNumberInputPageState extends State<PhoneNumberInputPage> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Container(
-                color: Colors.white,
-                height: 36.43,
-                width: 200,
+                color: Color(0xffDEEBE9),
+
+
                 child: Image(
                   image: AssetImage('assets/images/logos/img.png'),
                 ),

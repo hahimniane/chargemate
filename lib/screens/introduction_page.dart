@@ -221,6 +221,7 @@
 import 'package:flutter/material.dart';
 import 'package:chargemate/screens/phone_number_input_page.dart';
 import 'package:chargemate/screens/registration/login_page.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../modals/introduction_page_view_model.dart';
 
@@ -241,7 +242,7 @@ class IntroductionScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Container(
-                color: Colors.white,
+                // color: Colors.white70,
                 height: 36.43,
                 width: 200,
                 child: Image(
@@ -262,76 +263,118 @@ class IntroductionScreen extends StatelessWidget {
             ),
             Expanded(
               flex: 2,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      textAlign: TextAlign.center,
-                      'Tüm İstasyonlar Tek Uygulamada',
-                      style: TextStyle(
-                        color: Color(0xff145063),
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.w700,
+              child: Container(
+                // color: Colors.yellow,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        textAlign: TextAlign.center,
+                        'Tüm İstasyonlar Tek Uygulamada',
+                        style: GoogleFonts.montserrat(
+
+                          color: Color(0xff145063),
+                          fontSize: 26.0,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 16.0),
-                    const Text(
-                      'Size en uygun istasyonu bulun,rezervasyon yaparak yolculuğunuzu kusursuz planlamanın tadını çıkarın ',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 15.0),
-                    ),
-                    const SizedBox(height: 32.0),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: const Color(0xff145063),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () {
-                              viewModel.forgetStartedButton(context);
-                            },
-                            style: ElevatedButton.styleFrom(
-                              side: BorderSide.none,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    6.0), // Set the desired border radius here
-                              ),
-                            ),
-                            child: const Text(
-                              'KAYIT OL',
-                              style: TextStyle(fontWeight: FontWeight.w500),
-                            ),
+                      const SizedBox(height: 16.0),
+                       Text(
+                        'Size en uygun istasyonu bulun,rezervasyon yaparak yolculuğunuzu kusursuz planlamanın tadını çıkarın ',
+                        style: GoogleFonts.montserrat(
+                          textStyle: TextStyle(
+                            color: Color(0xFF555555), // Set the text color
+                            fontSize: 16, // Set the font size
+                            fontWeight: FontWeight.w400, // Set the font weight
+                            height: 1.5, // Set the line height (line spacing as a multiple of the font size)
+                            letterSpacing: -0.41, // Set the letter spacing
                           ),
-                          const SizedBox(height: 16.0),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text(
-                                'Hesabınız var mı?',
-                                style: TextStyle(color: Colors.white54),
-                              ),
-                              TextButton(
-                                onPressed: () async {
-                                  viewModel.forSignInButton(context);
-                                },
-                                child: const Text(
-                                  'Giriş Yapın',
-                                  style: TextStyle(color: Colors.white),
+                          // You can also set other font styles like `fontStyle` if needed
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 40.0),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: const Color(0xff145063),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                viewModel.forGetStartedButton(context);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                side: BorderSide.none,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      8.0), // Set the desired border radius here
                                 ),
                               ),
-                            ],
-                          ),
-                        ],
+                              child:  Text(
+                                textAlign:TextAlign.center,
+                                'KAYIT OL',
+                                // style: TextStyle(fontWeight: FontWeight.w500),
+                                style: GoogleFonts.montserrat(
+
+                                  letterSpacing: 0.01,
+                                  fontWeight: FontWeight.w600,
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 16
+                                ),
+                              ),
+                            ),
+                            // const SizedBox(height: 2.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                 Text(
+                                  'Hesabınız var mı?',
+                                   style: GoogleFonts.montserrat(
+                                     textStyle: TextStyle(
+                                       color: Colors.white, // Set the text color to white
+                                       fontSize: 13, // Set the font size to 13
+                                       fontWeight: FontWeight.w400, // Set the font weight to normal (400)
+                                       height: 1.38462, // Set the line height (line spacing as a multiple of the font size)
+                                       letterSpacing: 0.49, // Set the letter spacing to 0.49
+                                     ),
+                                     // You can also set other font styles like `fontStyle` if needed
+                                   ),
+                                   textAlign: TextAlign.center,
+                                ),
+                                TextButton(
+                                  onPressed: () async {
+                                    viewModel.forSignInButton(context);
+                                  },
+                                  child:  Text(
+                                    'Giriş Yapın',
+                                   style: GoogleFonts.montserrat(
+                                      textStyle: TextStyle(
+                                        color: Colors.white, // Set the text color to white
+                                        fontSize: 13, // Set the font size to 13
+                                        fontWeight: FontWeight.w700, // Set the font weight to 700 (bold)
+                                        height: 1.33333, // Set the line height (line spacing as a multiple of the font size)
+                                        letterSpacing: 0.49, // Set the letter spacing to 0.49
+                                        decoration: TextDecoration.underline,
+                                        decorationColor: Colors.grey,
+                                        decorationThickness: 2, // Set the text underline
+                                      ),
+                                   ),),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
