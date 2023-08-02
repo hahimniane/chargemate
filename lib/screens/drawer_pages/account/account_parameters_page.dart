@@ -1,5 +1,6 @@
 import 'package:chargemate/screens/drawer_pages/account/profile_page.dart';
 import 'package:chargemate/screens/drawer_pages/account/saved_address/addresses_welcome_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants/constants.dart';
@@ -50,8 +51,12 @@ class AccountPage extends StatelessWidget {
         } else if (isLogoutSection) {
           bool isLoggedOut = await signOut();
           if (isLoggedOut) {
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => LoginPage()));
+            FirebaseAuth auth = FirebaseAuth.instance;
+            auth.signOut().then((value) {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => LoginPage()));
+            });
+            ;
           }
 
           // implement logout section

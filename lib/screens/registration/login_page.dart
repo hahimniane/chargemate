@@ -124,6 +124,19 @@ class _LoginPageState extends State<LoginPage> {
                         child: Container(
                           height: 50,
                           child: TextFormField(
+                            onChanged: (value) {
+                              if (value.length > 12) {
+                                phoneNumberController.text =
+                                    value.substring(0, 10);
+                                phoneNumberController.selection =
+                                    TextSelection.fromPosition(
+                                  TextPosition(
+                                      offset:
+                                          phoneNumberController.text.length),
+                                );
+                                print('Only 10 values allowed.');
+                              }
+                            },
                             inputFormatters: [
                               LengthLimitingTextInputFormatter(12),
                               FilteringTextInputFormatter.digitsOnly,

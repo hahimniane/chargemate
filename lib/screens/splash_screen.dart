@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../modals/introduction_page_view_model.dart';
 import 'introduction_page.dart';
@@ -107,4 +108,12 @@ class _SplashScreenState extends State<SplashScreen>
     _controller.dispose();
     super.dispose();
   }
+}
+
+setFirstTimeUserToFalse() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  try {
+    prefs.setBool('firstTimeUser', false);
+    print('have set first time user variable to false');
+  } catch (e) {}
 }

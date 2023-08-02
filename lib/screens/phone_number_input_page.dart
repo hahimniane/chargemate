@@ -559,13 +559,19 @@ class _PhoneNumberInputPageState extends State<PhoneNumberInputPage> {
             ),
             Expanded(
               child: Container(
-                color: Colors.white70,
+                decoration: BoxDecoration(
+                  color: Colors.white70,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  ),
+                ),
                 child: Column(
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(top: 12.0, bottom: 30),
                       child: Text(
-                        textAlign:TextAlign.center,
+                        textAlign: TextAlign.center,
                         'Lütfen Telefon Numarınızı Giriniz!',
                         style: TextStyle(
                           fontSize: 23,
@@ -576,7 +582,7 @@ class _PhoneNumberInputPageState extends State<PhoneNumberInputPage> {
                       ),
                     ),
                     const Text(
-                      'Size tek şifrelik bir\ndoğrulama kodu göndereceğiz!',
+                      'Size tek seferlik bir\ndoğrulama kodu göndereceğiz!',
                       style: TextStyle(
                         color: Color(0xff143463),
                         fontWeight: FontWeight.w400,
@@ -593,11 +599,10 @@ class _PhoneNumberInputPageState extends State<PhoneNumberInputPage> {
                           SizedBox(width: 10),
                           Expanded(
                             child: Container(
-
                               height: 50,
                               decoration: BoxDecoration(
-
-                                border: Border.all(color: Colors.grey, width: 1),
+                                border:
+                                    Border.all(color: Colors.grey, width: 1),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Padding(
@@ -626,11 +631,25 @@ class _PhoneNumberInputPageState extends State<PhoneNumberInputPage> {
                           Expanded(
                             flex: 2,
                             child: Container(
-
                               height: 50,
                               child: TextFormField(
+                                onChanged: (value) {
+                                  if (value.length > 10) {
+                                    _phoneNumberController.text =
+                                        value.substring(0, 10);
+                                    _phoneNumberController.selection =
+                                        TextSelection.fromPosition(
+                                      TextPosition(
+                                          offset: _phoneNumberController
+                                              .text.length),
+                                    );
+                                    print('Only 10 values allowed.');
+                                  }
+                                },
                                 controller: _phoneNumberController,
-                                keyboardType: TextInputType.numberWithOptions(),
+                                keyboardType: TextInputType.numberWithOptions(
+                                  signed: true,
+                                ),
                                 decoration: InputDecoration(
                                   isCollapsed: false,
                                   contentPadding: EdgeInsets.all(10),
@@ -691,15 +710,16 @@ class _PhoneNumberInputPageState extends State<PhoneNumberInputPage> {
                                     final phoneNumber =
                                         '+90' + _phoneNumberController.text;
                                     print('the phone number is $phoneNumber');
-                                    final numberExists =
-                                    await _viewModel.checkIfNumberExists(phoneNumber);
+                                    final numberExists = await _viewModel
+                                        .checkIfNumberExists(phoneNumber);
                                     if (numberExists) {
                                       showToast(
                                           'This number is already registered. Please sign in.');
                                       _loadingButtonController.error();
                                       _loadingButtonController.reset();
                                     } else {
-                                      _viewModel.registerUser(context, phoneNumber);
+                                      _viewModel.registerUser(
+                                          context, phoneNumber);
                                     }
                                   } else {
                                     _loadingButtonController.error();
@@ -708,7 +728,7 @@ class _PhoneNumberInputPageState extends State<PhoneNumberInputPage> {
                                 },
                                 controller: _loadingButtonController,
                                 child: const Text(
-                                  'Send code',
+                                  'Kodu Gönder',
                                   style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     color: Colors.white,
@@ -724,7 +744,6 @@ class _PhoneNumberInputPageState extends State<PhoneNumberInputPage> {
                 ),
               ),
             ),
-
           ],
         ),
       ),
