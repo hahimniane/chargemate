@@ -92,21 +92,17 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   mapType: mapType,
                   initialCameraPosition: initialCameraPosition,
                   markers: markers,
+                  myLocationEnabled: true, // Enable user's current location
+                  myLocationButtonEnabled: true,
+                  // Disable the default location button
                   onMapCreated: (GoogleMapController controller) {
                     googleMapController = controller;
-                    // controller.setMapStyle('['
-                    //     '{"featureType": "all", "stylers": [{"color": "#F7F7F7"}]},'
-                    //     // '{"featureType": "road", "elementType": "geometry", "stylers": [{"color": "#cccccc"}]},'
-                    //     // '{"featureType": "water", "elementType": "geometry", "stylers": [{"color": "#a2daf2"}]},'
-                    //     // '{"featureType": "poi", "elementType": "geometry", "stylers": [{"color": "#C0E8D5"}]}'
-                    //     ']'
-                    // );
-
                     _controller.complete(controller);
                     _manager.setMapId(controller.mapId);
                   },
                   onCameraMove: _manager.onCameraMove,
-                  onCameraIdle: _manager.updateMap)
+                  onCameraIdle: _manager.updateMap,
+                )
               : stationsListViewWidget(
                   stations: widget.allStations,
                 ),
@@ -316,6 +312,34 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ),
             ),
           ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              height: 120, // Adjust the height as needed
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: 4, // Replace with your actual data count
+                itemBuilder: (context, index) {
+                  // Replace with your Card widget implementation
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10)),
+                      width: MediaQuery.of(context).size.width * 0.60,
+                      child: Card(
+                        child: Center(
+                          child: Text(''),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
         ]),
       ),
     );
@@ -332,7 +356,8 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 showMarkerDetails(context, cluster.items.first);
               } else {
                 googleMapController.animateCamera(
-                    CameraUpdate.newLatLngZoom(cluster.items.first.latLng, 14));
+                  CameraUpdate.newLatLngZoom(cluster.items.first.latLng, 14),
+                );
               }
             },
             icon:

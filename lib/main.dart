@@ -52,54 +52,73 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  late Future<List<ElectricStation>> allStationsFuture;
+  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  List<ElectricStation> allStations = []; // Store the fetched data
+
+  @override
+  void initState() {
+    super.initState();
+    allStationsFuture = getAllStations();
+  }
+
   Future<List<ElectricStation>> getAllStations() async {
     Stations station = Stations();
     List<ElectricStation>? myData = await station.getStations(headers);
-    setState(() {
-      allStations = myData ?? [];
-    });
-
     return myData ?? [];
-  }
-
-  List<ElectricStation>? allStations;
-  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-
-  @override
-  initState() {
-    super.initState();
-    // allStations = await getAllStations();
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      locale: DevicePreview.locale(context),
-      builder: DevicePreview.appBuilder,
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff145063)),
-        useMaterial3: true,
-      ),
-      // Show appropriate screen based on firstTimeUser value
+      // ... (other MaterialApp properties)
       home: widget.firstTimeUser
           ? SplashScreen()
-          : (firebaseAuth.currentUser == null
-              ? LoginPage()
-              : FutureBuilder<List<ElectricStation>>(
-                  future: getAllStations(),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return Center(
-                          child: SizedBox(
-                              height: 30,
-                              width: 30,
-                              child: CircularProgressIndicator()));
-                    } else {
-                      return HomeScreen(allStations: allStations!);
-                    }
-                  },
-                )),
+          : StreamBuilder<User?>(
+              stream: firebaseAuth.authStateChanges(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.active) {
+                  if (snapshot.data == null) {
+                    return LoginPage();
+                  } else if (snapshot.hasData) {
+                    return FutureBuilder<List<ElectricStation>>(
+                      future: allStationsFuture,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Scaffold(
+                            body: Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          );
+                        } else if (snapshot.hasData) {
+                          allStations =
+                              snapshot.data!; // Store the fetched data
+                          return allStations.isNotEmpty
+                              ? HomeScreen(allStations: allStations)
+                              : Scaffold(
+                                  body: Center(
+                                    child: Text('Istasyonlari bos'),
+                                  ),
+                                );
+                        } else {
+                          return Scaffold(
+                            body: Center(
+                              child: Text('Error loading data'),
+                            ),
+                          );
+                        }
+                      },
+                    );
+                  }
+                }
+                return Scaffold(
+                  body: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              },
+            ),
     );
   }
 }

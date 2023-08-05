@@ -7,6 +7,7 @@ class Stations {
 
   // Retrieve the list of charging stations
   Future<List<ElectricStation>> getStations(Map<String, String> headers) async {
+    print('it has been called again');
     //https://wvot3qzae6.execute-api.eu-central-1.amazonaws.com/dev/v1/chargeStations/list
     final Uri uriForNearStations = Uri.parse(
         'https://wvot3qzae6.execute-api.eu-central-1.amazonaws.com/dev/v1/chargeStations?latitude=37.762583&longitude=30.612583&distance=200000');
@@ -71,6 +72,7 @@ class Stations {
   //Retrieve the list of close charging stations based on the user location;
   Future<List<ElectricStation>> getNearByStations(
       Map<String, String> headers) async {
+    print('it has been called again near by stations');
     //https://wvot3qzae6.execute-api.eu-central-1.amazonaws.com/dev/v1/chargeStations/list
     final Uri uriForNearStations = Uri.parse(
         'https://wvot3qzae6.execute-api.eu-central-1.amazonaws.com/dev/v1/chargeStations?latitude=37.762583&longitude=30.612583&distance=100000');

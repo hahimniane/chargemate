@@ -12,6 +12,7 @@ import '../../service/phone_number_formatter.dart';
 import '../../service/user_location_service.dart';
 import '../../widgets/bottonNavbarController.dart';
 
+import '../home_screen.dart';
 import '../phone_number_input_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -270,7 +271,9 @@ class _LoginPageState extends State<LoginPage> {
                             Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => BottomNavBar(),
+                                builder: (context) => HomeScreen(
+                                  allStations: myData,
+                                ),
                                 //     HomeScreen(
                                 //   allStations: myData,
                                 // ),
