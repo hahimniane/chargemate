@@ -1,6 +1,7 @@
 import 'package:chargemate/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:map_launcher/map_launcher.dart';
 
 import '../screens/home_screen.dart';
@@ -32,6 +33,8 @@ class _TabViewUtilState extends State<TabViewUtil>
       body: Column(
         children: [
           TabBar(
+            labelColor: appColor,
+            labelStyle: GoogleFonts.montserrat(fontWeight: FontWeight.bold),
             indicatorColor: appColor,
             controller: _tabController,
             tabs: [
@@ -85,7 +88,6 @@ class _TabViewUtilState extends State<TabViewUtil>
 //   }
 // }
 
-
 class facilityWidget extends StatelessWidget {
   // Data model for facility items
   final List<FacilityItem> items = [
@@ -101,12 +103,6 @@ class facilityWidget extends StatelessWidget {
     FacilityItem('Banka', Icons.money),
     FacilityItem('Otopark', FontAwesomeIcons.squareParking),
     FacilityItem('Oto Yıkama', Icons.local_car_wash),
-
-
-
-
-
-
   ];
 
   @override
@@ -143,7 +139,7 @@ class facilityWidget extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            height: 40,
+              height: 40,
               width: 40,
               decoration: BoxDecoration(
                 boxShadow: [
@@ -151,20 +147,25 @@ class facilityWidget extends StatelessWidget {
                     color: Colors.grey.withOpacity(0.5), // Shadow color
                     spreadRadius: 2, // Spread radius of the shadow
                     blurRadius: 4, // Blur radius of the shadow
-                    offset: Offset(0, 0), // Offset of the shadow (vertical, horizontal)
+                    offset: Offset(
+                        0, 0), // Offset of the shadow (vertical, horizontal)
                   ),
                 ],
-
-
                 borderRadius: BorderRadius.circular(8),
                 color: Colors.white,
               ),
-              child: Icon(item.icon,color: appColor,)),
+              child: Icon(
+                item.icon,
+                color: appColor,
+              )),
           SizedBox(width: 6),
-          Text(item.name,style: TextStyle(
-            color: appColor,
-            fontWeight: FontWeight.bold,
-          ),),
+          Text(
+            item.name,
+            style: TextStyle(
+              color: appColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ],
       ),
     );
@@ -179,7 +180,6 @@ class FacilityItem {
   FacilityItem(this.name, this.icon);
 }
 
-
 class socketWidget extends StatelessWidget {
   const socketWidget({
     super.key,
@@ -190,32 +190,36 @@ class socketWidget extends StatelessWidget {
     final Size screenSize = MediaQuery.of(context).size;
     return ListView.builder(
         itemCount: 2,
-        itemBuilder: (context,index){
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Card(
-          color: Colors.white,
-          elevation: 4,
-          // height: screenSize.height * 0.10,
-          // width: screenSize.width * 90,
-          child: Padding(
+        itemBuilder: (context, index) {
+          return Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+            child: Card(
+              color: Colors.white,
+              elevation: 4,
+              // height: screenSize.height * 0.10,
+              // width: screenSize.width * 90,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image(
-                      height: 35,
-                      width: 35,
-                      image: AssetImage('assets/icons/img_5.png'),
-                    ),
-                    Expanded(
-                        child: ListTile(
-                          title: Text('AC Type 2',style: TextStyle(
-                            color: appColor,fontWeight: FontWeight.bold,
-                          ),),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Image(
+                          height: 35,
+                          width: 35,
+                          image: AssetImage('assets/icons/img_5.png'),
+                        ),
+                        Expanded(
+                            child: ListTile(
+                          title: Text(
+                            'AC Type 2',
+                            style: TextStyle(
+                              color: appColor,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                           subtitle: Text(textAlign: TextAlign.start, '22 kw'),
                           trailing: Column(
                             children: [
@@ -223,7 +227,8 @@ class socketWidget extends StatelessWidget {
                                 child: Image(
                                   height: 30,
                                   width: 30,
-                                  image: AssetImage('assets/icons/moneyIcon.png'),
+                                  image:
+                                      AssetImage('assets/icons/moneyIcon.png'),
                                 ),
                               ),
                               SizedBox(
@@ -232,16 +237,19 @@ class socketWidget extends StatelessWidget {
                               RichText(
                                 textScaleFactor: 1,
                                 text: TextSpan(
-                                  style: DefaultTextStyle.of(context).style.copyWith(
-                                    fontSize: DefaultTextStyle.of(context)
-                                        .style
-                                        .fontSize,
-                                    textBaseline: DefaultTextStyle.of(context)
-                                        .style
-                                        .textBaseline,
+                                  style: DefaultTextStyle.of(context)
+                                      .style
+                                      .copyWith(
+                                        fontSize: DefaultTextStyle.of(context)
+                                            .style
+                                            .fontSize,
+                                        textBaseline:
+                                            DefaultTextStyle.of(context)
+                                                .style
+                                                .textBaseline,
 
-                                    // Adjust this value to make the text closer
-                                  ),
+                                        // Adjust this value to make the text closer
+                                      ),
                                   children: [
                                     TextSpan(
                                       text: '7.5',
@@ -276,137 +284,136 @@ class socketWidget extends StatelessWidget {
                           //   detail: 'TL/Kw',
                           // ),
                         )),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        flex:2,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(6),
-                              color: appColor
-                          ),
-
-                          child: Center(
-                            child: TextButton(
-                              style: ButtonStyle(
-
-                              ),
-                              onPressed: () {},
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(6),
+                                  color: appColor),
                               child: Center(
-                                child: Text('Start Charging',style: TextStyle(
-                                    fontSize: 10,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600
-                                ),),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      Expanded(
-                        flex:2,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(color: appColor),
-                              borderRadius: BorderRadius.circular(6),
-                              // color: Colors.white
-                            ),
-
-                            child: TextButton(
-                              onPressed: () {},
-                              child: Text('Reserve',style: TextStyle(
-                                  color: appColor,
-                                  fontWeight: FontWeight.w600
-                              ),),
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      Expanded(
-                        flex: 2,
-                        child: Container(
-
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: Color(0xff56B78B),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                child: Icon(
-                                  Icons.check_circle_outlined,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              Expanded(
-                                flex: 2,
-                                child: Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(right: 2.0),
+                                child: TextButton(
+                                  style: ButtonStyle(),
+                                  onPressed: () {},
+                                  child: Center(
                                     child: Text(
-                                      'Available',
+                                      'Start Charging',
                                       style: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.white,
-                                      ),
+                                          fontSize: 10,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600),
                                     ),
                                   ),
                                 ),
                               ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
-                      // Expanded(
-                      //   child: Container(
-                      //
-                      //     decoration: BoxDecoration(
-                      //       border: Border.all(color: appColor),
-                      //       borderRadius: BorderRadius.circular(6),
-                      //       // color: Colors.green
-                      //     ),
-                      //
-                      //     child: TextButton(
-                      //       onPressed: () {},
-                      //       child: ListTile(
-                      //         title: Text('Available',style: TextStyle(
-                      //             color:Colors.black,
-                      //             fontWeight: FontWeight.w400
-                      //         ),),
-                      //         leading: Icon(
-                      //             Icons.adb
-                      //         ),
-                      //
-                      //
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 7,
-                )
-              ],
-            ),
-          ),
-        ),
-      );
 
-    });
+                          Expanded(
+                            flex: 2,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 4.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: appColor),
+                                  borderRadius: BorderRadius.circular(6),
+                                  // color: Colors.white
+                                ),
+                                child: TextButton(
+                                  onPressed: () {},
+                                  child: Text(
+                                    'Reserve',
+                                    style: TextStyle(
+                                        color: appColor,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: Color(0xff56B78B),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    child: Icon(
+                                      Icons.check_circle_outlined,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 2,
+                                    child: Center(
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 2.0),
+                                        child: Text(
+                                          'Available',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          // Expanded(
+                          //   child: Container(
+                          //
+                          //     decoration: BoxDecoration(
+                          //       border: Border.all(color: appColor),
+                          //       borderRadius: BorderRadius.circular(6),
+                          //       // color: Colors.green
+                          //     ),
+                          //
+                          //     child: TextButton(
+                          //       onPressed: () {},
+                          //       child: ListTile(
+                          //         title: Text('Available',style: TextStyle(
+                          //             color:Colors.black,
+                          //             fontWeight: FontWeight.w400
+                          //         ),),
+                          //         leading: Icon(
+                          //             Icons.adb
+                          //         ),
+                          //
+                          //
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 7,
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
   }
 }
 
@@ -575,7 +582,6 @@ class stationTabBarWidget extends StatelessWidget {
             isItThreeWidgets
                 ? GestureDetector(
                     onTap: () {
-
                       _showAvailableMapsModal(context);
                     },
                     child: Padding(

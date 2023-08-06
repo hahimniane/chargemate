@@ -312,34 +312,36 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ),
             ),
           ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              height: 120, // Adjust the height as needed
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 4, // Replace with your actual data count
-                itemBuilder: (context, index) {
-                  // Replace with your Card widget implementation
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10)),
-                      width: MediaQuery.of(context).size.width * 0.60,
-                      child: Card(
-                        child: Center(
-                          child: Text(''),
-                        ),
-                      ),
+          activeView == screenViewTypes.mapView
+              ? Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    height: 120, // Adjust the height as needed
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: 4, // Replace with your actual data count
+                      itemBuilder: (context, index) {
+                        // Replace with your Card widget implementation
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10)),
+                            width: MediaQuery.of(context).size.width * 0.60,
+                            child: Card(
+                              child: Center(
+                                child: Text(''),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
-            ),
-          ),
+                  ),
+                )
+              : Container(),
         ]),
       ),
     );
