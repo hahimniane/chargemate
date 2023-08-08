@@ -7,6 +7,7 @@ import 'package:chargemate/modals/model_stations.dart';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 import 'dart:ui';
@@ -14,6 +15,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
 import 'package:text_scroll/text_scroll.dart';
+import '../service/user_location_service.dart';
 import '../utils/convert_image_to_icon.dart';
 import '../widgets/drawer.dart';
 
@@ -43,7 +45,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late GoogleMapController googleMapController;
 
   Set<Marker> markers = Set();
-  late CameraPosition initialCameraPosition;
+  CameraPosition? initialCameraPosition;
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
@@ -53,18 +55,33 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   late TabController _tabController;
+  LocationService locationService = LocationService();
+  late LatLng userLocation;
+  Future<LatLng> location() async {
+    Position position = await locationService.determinePosition();
+    print(position.longitude); //Output: 80.24599079
+    print(position.latitude);
+    return LatLng(position.latitude, position.longitude);
+  }
+
+  Future<void> getLocationAndInitialize() async {
+    _manager = _initClusterManager();
+    userLocation = await location();
+    initialCameraPosition = CameraPosition(
+        target: LatLng(userLocation.latitude, userLocation.longitude),
+        zoom: 14.0);
+    setState(() {}); // Trigger a rebuild after obtaining the location
+  }
 
   @override
   void initState() {
-    _manager = _initClusterManager();
-    initialCameraPosition =
-        CameraPosition(target: widget.allStations.first.latLng, zoom: 14.0);
+    super.initState();
+    getLocationAndInitialize();
     _tabController = TabController(
       initialIndex: 1,
       length: 4,
       vsync: this,
     );
-    super.initState();
   }
 
   ClusterManager<ElectricStation> _initClusterManager() {
@@ -90,11 +107,11 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           activeView == screenViewTypes.mapView
               ? GoogleMap(
                   mapType: mapType,
-                  initialCameraPosition: initialCameraPosition,
+                  initialCameraPosition:
+                      initialCameraPosition!, // Use the calculated position
                   markers: markers,
-                  myLocationEnabled: true, // Enable user's current location
+                  myLocationEnabled: true,
                   myLocationButtonEnabled: true,
-                  // Disable the default location button
                   onMapCreated: (GoogleMapController controller) {
                     googleMapController = controller;
                     _controller.complete(controller);
@@ -350,7 +367,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Future<Marker> Function(Cluster<ElectricStation>) get _markerBuilder =>
       (cluster) async {
         return Marker(
-            infoWindow: InfoWindow(title: 'show station id'),
+            infoWindow: InfoWindow(),
             markerId: MarkerId(cluster.getId()),
             position: cluster.location,
             onTap: () {
@@ -471,9 +488,26 @@ class stationListViewCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     store = ElectricStore.fromElectricStation(station);
     return GestureDetector(
-      onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => StationDetailedPage()));
+      onTap: () async {
+        try {
+          bool isFavorite = await Stations.isStationFavorite(
+            stationId: station.id,
+            userId: auth.currentUser!.uid,
+          );
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => StationDetailedPage(
+                station: station,
+                isFavorite: isFavorite,
+              ),
+            ),
+          );
+        } catch (error) {
+          print("Error navigating to detailed page: $error");
+          // Handle the error gracefully, such as displaying an error message to the user.
+        }
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -570,105 +604,7 @@ class stationListViewCardWidget extends StatelessWidget {
                     ),
                   )
                 ],
-              )
-              // ListTile(
-              //   leading: Padding(
-              //     padding: const EdgeInsets.all(8.0),
-              //     child: Image(
-              //       // height: 30,
-              //       // width: 30,
-              //       image: AssetImage('assets/icons/img_5.png'),
-              //     ),
-              //   ),
-              //   title: Text(
-              //     'Sabancı Üniversitesi',
-              //     style: TextStyle(
-              //       fontWeight: FontWeight.bold,
-              //       fontSize: 16,
-              //       color: appColor,
-              //     ),
-              //   ),
-              //   subtitle: Text('Ccs Type 2,Type 2'),
-              //   trailing: SizedBox(
-              //     height: 60,
-              //     width: 100,
-              //     child: Column(
-              //       children: [
-              //         Expanded(
-              //           child: Text(
-              //             '8 km',
-              //             style: TextStyle(
-              //               color: appColor,
-              //             ),
-              //           ),
-              //         ),
-              //         Container(
-              //           decoration: BoxDecoration(
-              //               color: Colors.green,
-              //               borderRadius: BorderRadius.circular(12)),
-              //           child: Row(
-              //             children: [
-              //               Padding(
-              //                 padding: const EdgeInsets.all(8.0),
-              //                 child: Icon(
-              //                   Icons.check_circle_outlined,
-              //                   color: Colors.white,
-              //                 ),
-              //               ),
-              //               Text(
-              //                 'Available',
-              //                 style: TextStyle(
-              //                   fontWeight: FontWeight.w400,
-              //                   color: Colors.white,
-              //                 ),
-              //               ),
-              //             ],
-              //           ),
-              //         )
-              //         // Padding(
-              //         //   padding: const EdgeInsets.all(8.0),
-              //         //   child: Container(
-              //         //     height: 25,
-              //         //     width: 50,
-              //         //     decoration: BoxDecoration(
-              //         //       color: Color(0xff56B78B),
-              //         //       borderRadius: BorderRadius.circular(5),
-              //         //     ),
-              //         //     child: Row(
-              //         //       mainAxisAlignment: MainAxisAlignment.center,
-              //         //       children: [
-              //         //         Expanded(
-              //         //           child: Icon(
-              //         //             Icons.check_circle_outlined,
-              //         //             color: Colors.white,
-              //         //           ),
-              //         //         ),
-              //         //         Expanded(
-              //         //           flex: 2,
-              //         //           child: Center(
-              //         //             child: Padding(
-              //         //               padding:
-              //         //                   const EdgeInsets.only(right: 2.0),
-              //         //               child: Text(
-              //         //                 'Available',
-              //         //                 style: TextStyle(
-              //         //                   fontWeight: FontWeight.w400,
-              //         //                   color: Colors.white,
-              //         //                 ),
-              //         //               ),
-              //         //             ),
-              //         //           ),
-              //         //         ),
-              //         //       ],
-              //         //     ),
-              //         //   ),
-              //         // ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
-
-              ),
+              )),
         )),
       ),
     );
@@ -830,11 +766,26 @@ void showMarkerDetails(BuildContext context, ElectricStation station) {
                         backgroundColor:
                             MaterialStateProperty.all<Color>(appColor),
                       ),
-                      onPressed: () {
-                        Navigator.push(
+                      onPressed: () async {
+                        try {
+                          bool isFavorite = await Stations.isStationFavorite(
+                            stationId: station.id,
+                            userId: auth.currentUser!.uid,
+                          );
+
+                          Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => StationDetailedPage()));
+                              builder: (context) => StationDetailedPage(
+                                station: station,
+                                isFavorite: isFavorite,
+                              ),
+                            ),
+                          );
+                        } catch (error) {
+                          print("Error navigating to detailed page: $error");
+                          // Handle the error gracefully, such as displaying an error message to the user.
+                        }
                       },
                       child: Text(
                         'View Station Details',

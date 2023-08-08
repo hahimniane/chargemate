@@ -1,3 +1,4 @@
+import 'package:chargemate/modals/model_stations.dart';
 import 'package:chargemate/utils/Carousel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,22 +8,27 @@ import 'package:share_plus/share_plus.dart';
 import 'package:vibration/vibration.dart';
 
 import '../constants/constants.dart';
+import '../service/api_service.dart';
 import '../utils/tabBar.dart';
 import 'filter_page.dart';
 
 class StationDetailedPage extends StatefulWidget {
-  const StationDetailedPage({super.key});
+  final ElectricStation station;
+  bool isFavorite;
+  StationDetailedPage(
+      {super.key, required this.station, required this.isFavorite});
 
   @override
   State<StationDetailedPage> createState() => _StationDetailedPageState();
 }
 
 class _StationDetailedPageState extends State<StationDetailedPage> {
-  var isFavorite = false;
-
   @override
   Widget build(BuildContext context) {
+    final ElectricStore store =
+        ElectricStore.fromElectricStation(widget.station);
     final Size screenSize = MediaQuery.of(context).size;
+    print(widget.station.id);
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -66,7 +72,7 @@ class _StationDetailedPageState extends State<StationDetailedPage> {
                     title: Padding(
                       padding: const EdgeInsets.only(left: 16.0),
                       child: Text(
-                        'ZES-Radisson Hotel',
+                        store.name,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: appColor,
@@ -105,16 +111,30 @@ class _StationDetailedPageState extends State<StationDetailedPage> {
                           backgroundColor: Colors.white,
                           child: GestureDetector(
                             onTap: () async {
-                              print(isFavorite);
-                              if (!isFavorite) {
-                                HapticFeedback.heavyImpact();
-                                // Vibration.vibrate(duration: 1000);
+                              print(widget.isFavorite);
+                              if (!widget.isFavorite) {
+                                try {
+                                  HapticFeedback.heavyImpact();
+                                  Stations.addFavoriteStation(
+                                    stationId: widget.station.id,
+                                    userId: auth.currentUser!.uid,
+                                    headers: headers,
+                                  );
+                                } catch (e) {}
+                              } else {
+                                try {
+                                  Stations.deleteFavoriteStation(
+                                    stationId: widget.station.id,
+                                    userId: auth.currentUser!.uid,
+                                    headers: headers,
+                                  );
+                                } catch (e) {}
                               }
                               setState(() {
-                                isFavorite = !isFavorite;
+                                widget.isFavorite = !widget.isFavorite;
                               });
                             },
-                            child: isFavorite
+                            child: widget.isFavorite
                                 ? Icon(
                                     Icons.favorite,
                                     color: appColor,
