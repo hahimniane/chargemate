@@ -2,6 +2,7 @@ import 'package:chargemate/screens/drawer_pages/account/profile_page.dart';
 import 'package:chargemate/screens/drawer_pages/account/saved_address/addresses_welcome_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../constants/constants.dart';
 import '../../../phone_auth_test.dart';
@@ -49,15 +50,7 @@ class AccountPage extends StatelessWidget {
           // Navigator.push(context,
           //     MaterialPageRoute(builder: (context) => PhoneVerificationPage()));
         } else if (isLogoutSection) {
-          bool isLoggedOut = await signOut();
-          if (isLoggedOut) {
-            FirebaseAuth auth = FirebaseAuth.instance;
-            auth.signOut().then((value) {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => LoginPage()));
-            });
-            ;
-          }
+          showLogoutConfirmationDialog(context);
 
           // implement logout section
         }
@@ -82,6 +75,54 @@ class AccountPage extends StatelessWidget {
           if (hasDivider) Divider(),
         ],
       ),
+    );
+  }
+
+  showLogoutConfirmationDialog(BuildContext context) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(32.0),
+            ),
+          ),
+          title: Text(
+            'Çıkış Onayı',
+            style: GoogleFonts.montserrat(
+                color: appColor, fontWeight: FontWeight.bold),
+          ),
+          content: Text('Çıkış yapmak istediğinizden emin misiniz?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () =>
+                  Navigator.of(context).pop(false), // User canceled logout
+              child: Text('iptal'),
+            ),
+            TextButton(
+              onPressed: () async {
+                bool isLoggedOut = await signOut();
+                if (isLoggedOut) {
+                  FirebaseAuth auth = FirebaseAuth.instance;
+                  auth.signOut().then((value) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LoginPage(
+                          isComingFromHomeScreen: true,
+                        ),
+                      ),
+                    );
+                  });
+                  ;
+                }
+              }, // User confirmed logout
+              child: Text('çıkış '),
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:chargemate/constants/constants.dart';
 import 'package:chargemate/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -78,37 +79,44 @@ class IntroductionScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 40.0),
                       Container(
-                        height: MediaQuery.of(context).size.height * 0.19,
+                        width: MediaQuery.of(context).size.width * 0.90,
+                        padding: EdgeInsets.fromLTRB(10, 20, 10, 5),
+                        height: MediaQuery.of(context).size.height * 0.14,
                         decoration: BoxDecoration(
                           color: const Color(0xff145063),
                           borderRadius: BorderRadius.circular(30),
                         ),
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(16.0),
+                        // width: double.infinity,
+                        // padding: const EdgeInsets.all(16.0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                viewModel.forGetStartedButton(context);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                side: BorderSide.none,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      8.0), // Set the desired border radius here
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  viewModel.forGetStartedButton(context);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  foregroundColor: appColor,
+                                  backgroundColor: Colors.white, // Text color
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  // padding: EdgeInsets.symmetric(
+                                  //     vertical: 19.0, horizontal: 137.0),
+                                  alignment: Alignment
+                                      .center, // Center the content horizontally and vertically
                                 ),
-                              ),
-                              child: Text(
-                                textAlign: TextAlign.center,
-                                'KAYIT OL',
-                                // style: TextStyle(fontWeight: FontWeight.w500),
-                                style: GoogleFonts.montserrat(
+                                child: Text(
+                                  'KAYIT OL',
+                                  style: GoogleFonts.montserrat(
                                     letterSpacing: 0.01,
                                     fontWeight: FontWeight.w600,
                                     fontStyle: FontStyle.normal,
-                                    fontSize: 16),
+                                    fontSize: 16,
+                                  ),
+                                ),
                               ),
                             ),
                             // const SizedBox(height: 2.0),
@@ -136,7 +144,7 @@ class IntroductionScreen extends StatelessWidget {
                                   ),
                                   TextButton(
                                     onPressed: () async {
-                                      viewModel.forSignInButton(context);
+                                      viewModel.forSignInButton(context, false);
                                     },
                                     child: Text(
                                       'Giriş Yapın',

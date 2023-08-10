@@ -34,7 +34,7 @@ Future<void> main() async {
 
   runApp(
     DevicePreview(
-      enabled: !kReleaseMode,
+      enabled: false,
       builder: (context) => MyApp(
         firstTimeUser: isFirstTimeUser,
       ), // Pass the firstTimeUser value to MyApp
@@ -71,16 +71,19 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(primarySwatch: myMaterialAppColor),
       debugShowCheckedModeBanner: false,
       // ... (other MaterialApp properties)
-      home: widget.firstTimeUser
+      home: !widget.firstTimeUser
           ? SplashScreen()
           : StreamBuilder<User?>(
               stream: firebaseAuth.authStateChanges(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.active) {
                   if (snapshot.data == null) {
-                    return LoginPage();
+                    return LoginPage(
+                      isComingFromHomeScreen: true,
+                    );
                   } else if (snapshot.hasData) {
                     return FutureBuilder<List<ElectricStation>>(
                       future: allStationsFuture,

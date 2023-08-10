@@ -464,14 +464,23 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffDEEBE9),
       // appBar: AppBar(
       //   title: Text('Phone Verification'),
       // ),
       body: SafeArea(
-        top: false,
+        top: true,
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
+            Container(
+              color: Color(0xffDEEBE9),
+              width: MediaQuery.of(context).size.width * 0.50,
+              child: Image(
+                fit: BoxFit.scaleDown,
+                image: AssetImage('assets/images/logos/img.png'),
+              ),
+            ),
             Expanded(
               child: Container(
                 width: double.infinity,
@@ -487,145 +496,182 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20.0, bottom: 30),
-              child: Text('OTP Verification',
-                  style: TextStyle(
-                      fontSize: 23,
-                      fontWeight: FontWeight.bold,
-                      color: appColor)),
-            ),
-            // const SizedBox(height: 40),
-            Text(
-              'Enter the Otp to sent to +90 ${widget.phoneNumber}',
-              style: TextStyle(
-                  color: Color(0xff143463),
-                  fontWeight: FontWeight.w400,
-                  fontSize: 16),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 40),
-            Text(
-              formatTime(_secondsRemaining),
-              style: TextStyle(color: appColor, fontSize: 18),
-            ),
-
-            const SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: PinCodeTextField(
-                controller: code_controller,
-                length: 6,
-                obscureText: false,
-                animationType: AnimationType.fade,
-                pinTheme: PinTheme(
-                  shape: PinCodeFieldShape.box,
-                  borderRadius: BorderRadius.circular(5.0),
-                  fieldHeight: 50,
-                  fieldWidth: 40,
-                  activeFillColor: Colors.white,
-                ),
-                animationDuration: Duration(milliseconds: 300),
-                onChanged: (value) {},
-                appContext: context,
-              ),
-            ),
-            SizedBox(height: 16.0),
-            // ElevatedButton(
-            //   onPressed: () {
-            //     print(textEditingController.text);
-            //   },
-            //   child: Text('Verify'),
-            // ),
             Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Didn\'t you receive a code? ',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Color(0xff64748B),
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400),
-                      ),
-                      TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          'Resend code',
-                          style: TextStyle(
-                            decoration: TextDecoration.underline,
-                          ),
-                        ),
-                      )
-                    ],
+              flex: 2,
+              child: Container(
+                decoration: BoxDecoration(
+                  // color: Colors.yellow,
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        bottom: 0.0, right: 8, left: 8, top: 10),
-                    child: RoundedLoadingButton(
-                      borderRadius: 12,
-                      width: MediaQuery.of(context).size.width * 0.90,
-                      controller: verifyLoadingButtonController,
-                      color: appColor,
-                      // style: ElevatedButton.styleFrom(
-                      //   backgroundColor: appColor,
-                      // ),
-                      onPressed: () async {
-                        FirebaseAuth auth = FirebaseAuth.instance;
-
-                        String smsCode = code_controller.text.trim();
-
-                        PhoneAuthCredential _credential =
-                            PhoneAuthProvider.credential(
-                                verificationId: widget.verificationId,
-                                smsCode: smsCode);
-                        auth
-                            .signInWithCredential(_credential)
-                            .then((result) async {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => EmailInputPage(
-                                        phoneNumber: widget.phoneNumber!,
-                                        // allStations: allStations,
-                                      )));
-                        }).catchError((e) {
-                          print('in here');
-                          Fluttertoast.showToast(
-                              gravity: ToastGravity.CENTER,
-                              toastLength: Toast.LENGTH_LONG,
-                              backgroundColor: Colors.red,
-                              msg: e.code == 'invalid-verification-code'
-                                  ? "girdiğiniz şifre yanlış"
-                                  : e.code);
-                          verifyLoadingButtonController.error();
-
-                          verifyLoadingButtonController.reset();
-                        });
-
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => EmailInputPage()));
-                      },
-                      child: const Text(
-                        'Verify',
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20.0, bottom: 20),
+                      child: Text('SMS DOĞRULAMA',
+                          style: TextStyle(
+                              fontSize: 23,
+                              fontWeight: FontWeight.bold,
+                              color: appColor)),
+                    ),
+                    // const SizedBox(height: 40),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Text(
+                        'Lütfen  ${widget.phoneNumber} No\'lu telefona gelen kodu giriniz!',
                         style: TextStyle(
-                          wordSpacing: 0.5,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w800,
-                          color: Colors.white,
+                            color: Color(0xff143463),
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      formatTime(_secondsRemaining),
+                      style: TextStyle(color: appColor, fontSize: 18),
+                    ),
+
+                    const SizedBox(height: 0),
+                    Flexible(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: PinCodeTextField(
+                          keyboardType: TextInputType.numberWithOptions(
+                            decimal: true,
+                            // signed: true,
+                          ),
+                          controller: code_controller,
+                          length: 6,
+                          obscureText: false,
+                          animationType: AnimationType.fade,
+                          pinTheme: PinTheme(
+                            shape: PinCodeFieldShape.box,
+                            borderRadius: BorderRadius.circular(5.0),
+                            fieldHeight: 50,
+                            fieldWidth: 40,
+                            activeFillColor: Colors.white,
+                          ),
+                          animationDuration: Duration(milliseconds: 300),
+                          onChanged: (value) {},
+                          appContext: context,
                         ),
                       ),
                     ),
-                  ),
-                ],
+                    SizedBox(height: 14.0),
+                    // ElevatedButton(
+                    //   onPressed: () {
+                    //     print(textEditingController.text);
+                    //   },
+                    //   child: Text('Verify'),
+                    // ),
+                    Expanded(
+                      child: Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Expanded(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Doğrulama kodu henüz gelmedi mi?',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Color(0xff64748B),
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {},
+                                    child: Text(
+                                      'Tekrar Gönder',
+                                      style: TextStyle(
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  bottom: 0.0, right: 8, left: 8, top: 10),
+                              child: RoundedLoadingButton(
+                                borderRadius: 12,
+                                width: MediaQuery.of(context).size.width * 0.90,
+                                controller: verifyLoadingButtonController,
+                                color: appColor,
+                                // style: ElevatedButton.styleFrom(
+                                //   backgroundColor: appColor,
+                                // ),
+                                onPressed: () async {
+                                  FirebaseAuth auth = FirebaseAuth.instance;
+
+                                  String smsCode = code_controller.text.trim();
+
+                                  PhoneAuthCredential _credential =
+                                      PhoneAuthProvider.credential(
+                                          verificationId: widget.verificationId,
+                                          smsCode: smsCode);
+                                  auth
+                                      .signInWithCredential(_credential)
+                                      .then((result) async {
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                EmailInputPage(
+                                                  phoneNumber:
+                                                      widget.phoneNumber!,
+                                                  // allStations: allStations,
+                                                )));
+                                  }).catchError((e) {
+                                    print('in here');
+                                    Fluttertoast.showToast(
+                                        gravity: ToastGravity.CENTER,
+                                        toastLength: Toast.LENGTH_LONG,
+                                        backgroundColor: Colors.red,
+                                        msg: e.code ==
+                                                'invalid-verification-code'
+                                            ? "girdiğiniz doğrulama kodu yanlış"
+                                            : e.code);
+                                    verifyLoadingButtonController.error();
+
+                                    verifyLoadingButtonController.reset();
+                                  });
+
+                                  // Navigator.push(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //         builder: (context) => EmailInputPage(
+                                  //               phoneNumber:
+                                  //                   widget.phoneNumber!,
+                                  //             )));
+                                },
+                                child: const Text(
+                                  'Onayla',
+                                  style: TextStyle(
+                                    wordSpacing: 0.5,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w800,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
+            )
           ],
         ),
       ),

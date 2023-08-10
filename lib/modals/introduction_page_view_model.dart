@@ -11,7 +11,11 @@ class IntroductionViewModel {
     navigationService.navigateTo(context, PhoneNumberInputPage());
   }
 
-  void forSignInButton(BuildContext context) {
-    navigationService.navigateTo(context, LoginPage());
+  void forSignInButton(BuildContext context, bool comingFromHomeScreen) {
+    navigationService.navigateTo(
+        context,
+        LoginPage(
+          isComingFromHomeScreen: comingFromHomeScreen,
+        ));
   }
 }

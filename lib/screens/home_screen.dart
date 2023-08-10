@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:chargemate/constants/constants.dart';
 import 'package:chargemate/screens/station_detailed_page.dart';
 import 'package:chargemate/service/api_service.dart';
@@ -99,267 +97,350 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     Completer<GoogleMapController> _controller = Completer();
-    return Scaffold(
-      key: _key,
-      drawer: drawer(),
-      body: SafeArea(
-        child: Stack(children: [
-          activeView == screenViewTypes.mapView
-              ? GoogleMap(
-                  mapType: mapType,
-                  initialCameraPosition:
-                      initialCameraPosition!, // Use the calculated position
-                  markers: markers,
-                  myLocationEnabled: true,
-                  myLocationButtonEnabled: true,
-                  onMapCreated: (GoogleMapController controller) {
-                    googleMapController = controller;
-                    _controller.complete(controller);
-                    _manager.setMapId(controller.mapId);
-                  },
-                  onCameraMove: _manager.onCameraMove,
-                  onCameraIdle: _manager.updateMap,
-                )
-              : stationsListViewWidget(
-                  stations: widget.allStations,
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Scaffold(
+        key: _key,
+        drawer: drawer(),
+        body: SafeArea(
+          child: Stack(alignment: Alignment.center, children: [
+            activeView == screenViewTypes.mapView
+                ? initialCameraPosition != null
+                    ? GoogleMap(
+                        mapType: mapType,
+                        initialCameraPosition:
+                            initialCameraPosition!, // Use the calculated position
+                        markers: markers,
+                        myLocationEnabled: true,
+                        myLocationButtonEnabled: false,
+                        onMapCreated: (GoogleMapController controller) {
+                          googleMapController = controller;
+                          _controller.complete(controller);
+                          _manager.setMapId(controller.mapId);
+                        },
+                        onCameraMove: _manager.onCameraMove,
+                        onCameraIdle: _manager.updateMap,
+                      )
+                    : Center(
+                        child: Container(
+                          child: CircularProgressIndicator(
+                            color: appColor,
+                          ),
+                        ),
+                      )
+                : stationsListViewWidget(
+                    stations: widget.allStations,
+                  ),
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                height: 159,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(15),
+                    bottomRight: Radius.circular(15),
+                  ),
                 ),
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              height: 159,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Container(
-                      color: Colors.white,
-                      height: 36.43,
-                      width: 200,
-                      child: Image(
-                        image: AssetImage('assets/images/logos/img.png'),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Container(
+                        color: Colors.white,
+                        height: 36.43,
+                        width: 200,
+                        child: Image(
+                          image: AssetImage('assets/images/logos/img.png'),
+                        ),
                       ),
                     ),
-                  ),
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Card(
-                          elevation: 3,
-                          child: Container(
-                            height: 48,
-                            width: 48,
-                            decoration: BoxDecoration(
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Card(
+                            elevation: 3,
+                            child: Container(
+                              height: 48,
+                              width: 48,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(12)),
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.menu,
+                                  color: Colors.black,
+                                  size: 25,
+                                ),
+                                onPressed: () {
+                                  _key.currentState!.openDrawer();
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 16.0),
+                            child: Material(
+                              borderRadius: BorderRadius.circular(12),
+                              elevation: 4,
+                              child: TextField(
+                                style: TextStyle(
+                                  color:
+                                      Colors.black, // Set the color of the text
+                                ),
+                                decoration: InputDecoration(
+                                  hintText: 'Search stations',
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.all(16),
+                                  suffixIcon: IconButton(
+                                    color: Colors.black,
+                                    icon: Icon(
+                                      FontAwesomeIcons.sliders,
+                                    ),
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        PageRouteBuilder(
+                                          transitionDuration:
+                                              Duration(milliseconds: 500),
+                                          pageBuilder: (BuildContext context,
+                                              Animation<double> animation,
+                                              Animation<double>
+                                                  secondaryAnimation) {
+                                            return FadeTransition(
+                                              opacity: animation,
+                                              child: FilterPage(),
+                                            );
+                                          },
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                                onChanged: (value) {
+                                  // Handle search bar changes
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              top: 175,
+
+              // left: 20,
+              // width: MediaQuery.of(context).size.width * 0.95,
+              // right: 0,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                width: 365,
+                height: 58,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          changeActiveButton(screenViewTypes.mapView);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Material(
+                            elevation:
+                                activeView != screenViewTypes.mapView ? 5 : 0.5,
+                            child: Container(
+                              width: 175,
+                              height: 45,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    child: Icon(
+                                      Icons.map_outlined,
+                                      color: appColor,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 3,
+                                    child: Text(
+                                      'Map View',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                        color: appColor,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              decoration: BoxDecoration(
                                 color: Colors.white,
-                                borderRadius: BorderRadius.circular(12)),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          changeActiveButton(screenViewTypes.listView);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Material(
+                            elevation: activeView != screenViewTypes.listView
+                                ? 5
+                                : 0.5,
+                            child: Container(
+                              width: 175,
+                              height: 45,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    child: Icon(
+                                      Icons.menu_sharp,
+                                      color: appColor,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 3,
+                                    child: Text(
+                                      'List View',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                        color: appColor,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            activeView == screenViewTypes.mapView
+                ? Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      height: 120, // Adjust the height as needed
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 4, // Replace with your actual data count
+                        itemBuilder: (context, index) {
+                          // Replace with your Card widget implementation
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10)),
+                              width: MediaQuery.of(context).size.width * 0.60,
+                              child: Card(
+                                child: Center(
+                                  child: Text(
+                                      'En yakın istasyonları gelecek burada'),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  )
+                : Container(),
+            activeView == screenViewTypes.mapView
+                ? Positioned(
+                    bottom: 118.0,
+                    right: 8.0,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: Colors.white,
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.layers,
+                              color: appColor,
+                            ),
+                            onPressed: () {
+                              activateTerrain();
+                              // Handle changing terrain
+                            },
+                          ),
+                        ),
+                        SizedBox(height: 8.0),
+                        InkWell(
+                          child: CircleAvatar(
+                            backgroundColor: Colors.white,
                             child: IconButton(
                               icon: Icon(
-                                Icons.menu,
-                                color: Colors.black,
-                                size: 25,
+                                Icons.location_searching_outlined,
+                                color: appColor,
                               ),
                               onPressed: () {
-                                _key.currentState!.openDrawer();
+                                moveToUserLocation();
+                                // Handle changing terrain
                               },
                             ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 16.0),
-                          child: Material(
-                            borderRadius: BorderRadius.circular(12),
-                            elevation: 4,
-                            child: TextField(
-                              style: TextStyle(
-                                color:
-                                    Colors.black, // Set the color of the text
-                              ),
-                              decoration: InputDecoration(
-                                hintText: 'Search stations',
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.all(16),
-                                suffixIcon: IconButton(
-                                  color: Colors.black,
-                                  icon: Icon(
-                                    FontAwesomeIcons.sliders,
-                                  ),
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      PageRouteBuilder(
-                                        transitionDuration:
-                                            Duration(milliseconds: 500),
-                                        pageBuilder: (BuildContext context,
-                                            Animation<double> animation,
-                                            Animation<double>
-                                                secondaryAnimation) {
-                                          return FadeTransition(
-                                            opacity: animation,
-                                            child: FilterPage(),
-                                          );
-                                        },
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                              onChanged: (value) {
-                                // Handle search bar changes
-                              },
+                        // IconButton(
+                        //   icon: Image(
+                        //     image: AssetImage('assets/icons/locationImage.png'),
+                        //   ),
+                        //   onPressed: () {
+                        //     moveToUserLocation();
+                        //     // Handle redirecting the camera to the user's location
+                        //   },
+                        // ),
+                        SizedBox(height: 8.0),
+                        CircleAvatar(
+                          backgroundColor: Colors.white,
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.info,
+                              color: appColor,
                             ),
+                            onPressed: () {
+                              // Handle changing terrain
+                            },
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: 175,
-            left: 20,
-            // right: 0,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              width: 365,
-              height: 58,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        changeActiveButton(screenViewTypes.mapView);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Material(
-                          elevation:
-                              activeView != screenViewTypes.mapView ? 5 : 0.5,
-                          child: Container(
-                            width: 175,
-                            height: 45,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  child: Icon(
-                                    Icons.map_outlined,
-                                    color: appColor,
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 3,
-                                  child: Text(
-                                    'Map View',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                      color: appColor,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                        ),
-                      ),
+                      ],
                     ),
-                  ),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        changeActiveButton(screenViewTypes.listView);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Material(
-                          elevation:
-                              activeView != screenViewTypes.listView ? 5 : 0.5,
-                          child: Container(
-                            width: 175,
-                            height: 45,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  child: Icon(
-                                    Icons.menu_sharp,
-                                    color: appColor,
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 3,
-                                  child: Text(
-                                    'List View',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                      color: appColor,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          activeView == screenViewTypes.mapView
-              ? Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: Container(
-                    height: 120, // Adjust the height as needed
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 4, // Replace with your actual data count
-                      itemBuilder: (context, index) {
-                        // Replace with your Card widget implementation
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10)),
-                            width: MediaQuery.of(context).size.width * 0.60,
-                            child: Card(
-                              child: Center(
-                                child: Text(''),
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                )
-              : Container(),
-        ]),
+                  )
+                : Container(),
+          ]),
+        ),
       ),
     );
   }
@@ -440,6 +521,28 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     setState(() {
       activeView = view;
     });
+  }
+
+  void moveToUserLocation() async {
+    LatLng userLocation = await location();
+    googleMapController.animateCamera(
+      CameraUpdate.newLatLngZoom(
+        LatLng(userLocation.latitude, userLocation.longitude),
+        14.0,
+      ),
+    );
+  }
+
+  void activateTerrain() {
+    if (mapType == MapType.normal) {
+      setState(() {
+        mapType = MapType.satellite;
+      });
+    } else {
+      setState(() {
+        mapType = MapType.normal;
+      });
+    }
   }
 }
 

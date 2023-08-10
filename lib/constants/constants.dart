@@ -14,3 +14,18 @@ String stationListURL =
     'https://wvot3qzae6.execute-api.eu-central-1.amazonaws.com/dev/v1/chargeStations/list';
 String addOrDeleteFavoriteStationURL =
     'https://wvot3qzae6.execute-api.eu-central-1.amazonaws.com/dev/v1/user/favourites';
+MaterialColor myMaterialAppColor = MaterialColor(
+  appColor.value,
+  <int, Color>{
+    50: appColor.withOpacity(0.1),
+    100: appColor.withOpacity(0.2),
+    200: appColor.withOpacity(0.3),
+    300: appColor.withOpacity(0.4),
+    400: appColor.withOpacity(0.5),
+    500: appColor, // Primary Color
+    600: appColor.withOpacity(0.6),
+    700: appColor.withOpacity(0.7),
+    800: appColor.withOpacity(0.8),
+    900: appColor.withOpacity(0.9),
+  },
+);

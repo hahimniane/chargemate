@@ -9,6 +9,9 @@ class FilterPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('FilterPage'),
       ),
+      body: Center(
+        child: Text('Bu sayfa daha hazir degil'),
+      ),
     );
   }
 }
