@@ -12,6 +12,7 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:text_scroll/text_scroll.dart';
 import '../service/user_location_service.dart';
 import '../utils/convert_image_to_icon.dart';
@@ -108,31 +109,31 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           child: Stack(alignment: Alignment.center, children: [
             activeView == screenViewTypes.mapView
                 ? initialCameraPosition != null
-                    ? GoogleMap(
-                        mapType: mapType,
-                        initialCameraPosition:
-                            initialCameraPosition!, // Use the calculated position
-                        markers: markers,
-                        myLocationEnabled: true,
-                        myLocationButtonEnabled: false,
-                        onMapCreated: (GoogleMapController controller) {
-                          googleMapController = controller;
-                          _controller.complete(controller);
-                          _manager.setMapId(controller.mapId);
-                        },
-                        onCameraMove: _manager.onCameraMove,
-                        onCameraIdle: _manager.updateMap,
-                      )
-                    : Center(
-                        child: Container(
-                          child: CircularProgressIndicator(
-                            color: appColor,
-                          ),
-                        ),
-                      )
+                ? GoogleMap(
+              mapType: mapType,
+              initialCameraPosition:
+              initialCameraPosition!, // Use the calculated position
+              markers: markers,
+              myLocationEnabled: true,
+              myLocationButtonEnabled: false,
+              onMapCreated: (GoogleMapController controller) {
+                googleMapController = controller;
+                _controller.complete(controller);
+                _manager.setMapId(controller.mapId);
+              },
+              onCameraMove: _manager.onCameraMove,
+              onCameraIdle: _manager.updateMap,
+            )
+                : Center(
+              child: Container(
+                child: CircularProgressIndicator(
+                  color: appColor,
+                ),
+              ),
+            )
                 : stationsListViewWidget(
-                    stations: widget.allStations,
-                  ),
+              stations: widget.allStations,
+            ),
             Positioned(
               top: 0,
               left: 0,
@@ -193,7 +194,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               child: TextField(
                                 style: TextStyle(
                                   color:
-                                      Colors.black, // Set the color of the text
+                                  Colors.black, // Set the color of the text
                                 ),
                                 decoration: InputDecoration(
                                   hintText: 'Search stations',
@@ -209,11 +210,11 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         context,
                                         PageRouteBuilder(
                                           transitionDuration:
-                                              Duration(milliseconds: 500),
+                                          Duration(milliseconds: 500),
                                           pageBuilder: (BuildContext context,
                                               Animation<double> animation,
                                               Animation<double>
-                                                  secondaryAnimation) {
+                                              secondaryAnimation) {
                                             return FadeTransition(
                                               opacity: animation,
                                               child: FilterPage(),
@@ -261,7 +262,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           padding: const EdgeInsets.all(8.0),
                           child: Material(
                             elevation:
-                                activeView != screenViewTypes.mapView ? 5 : 0.5,
+                            activeView != screenViewTypes.mapView ? 5 : 0.5,
                             child: Container(
                               width: 175,
                               height: 45,
@@ -347,97 +348,97 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
             activeView == screenViewTypes.mapView
                 ? Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Container(
-                      height: 120, // Adjust the height as needed
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 4, // Replace with your actual data count
-                        itemBuilder: (context, index) {
-                          // Replace with your Card widget implementation
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10)),
-                              width: MediaQuery.of(context).size.width * 0.60,
-                              child: Card(
-                                child: Center(
-                                  child: Text(
-                                      'En yakın istasyonları gelecek burada'),
-                                ),
-                              ),
-                            ),
-                          );
-                        },
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                height: 120, // Adjust the height as needed
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 4, // Replace with your actual data count
+                  itemBuilder: (context, index) {
+                    // Replace with your Card widget implementation
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10)),
+                        width: MediaQuery.of(context).size.width * 0.60,
+                        child: Card(
+                          child: Center(
+                            child: Text(
+                                'En yakın istasyonları gelecek burada'),
+                          ),
+                        ),
                       ),
-                    ),
-                  )
+                    );
+                  },
+                ),
+              ),
+            )
                 : Container(),
             activeView == screenViewTypes.mapView
                 ? Positioned(
-                    bottom: 118.0,
-                    right: 8.0,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: Colors.white,
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.layers,
-                              color: appColor,
-                            ),
-                            onPressed: () {
-                              activateTerrain();
-                              // Handle changing terrain
-                            },
-                          ),
-                        ),
-                        SizedBox(height: 8.0),
-                        InkWell(
-                          child: CircleAvatar(
-                            backgroundColor: Colors.white,
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.location_searching_outlined,
-                                color: appColor,
-                              ),
-                              onPressed: () {
-                                moveToUserLocation();
-                                // Handle changing terrain
-                              },
-                            ),
-                          ),
-                        ),
-                        // IconButton(
-                        //   icon: Image(
-                        //     image: AssetImage('assets/icons/locationImage.png'),
-                        //   ),
-                        //   onPressed: () {
-                        //     moveToUserLocation();
-                        //     // Handle redirecting the camera to the user's location
-                        //   },
-                        // ),
-                        SizedBox(height: 8.0),
-                        CircleAvatar(
-                          backgroundColor: Colors.white,
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.info,
-                              color: appColor,
-                            ),
-                            onPressed: () {
-                              // Handle changing terrain
-                            },
-                          ),
-                        ),
-                      ],
+              bottom: 118.0,
+              right: 8.0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    backgroundColor: Colors.white,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.layers,
+                        color: appColor,
+                      ),
+                      onPressed: () {
+                        activateTerrain();
+                        // Handle changing terrain
+                      },
                     ),
-                  )
+                  ),
+                  SizedBox(height: 8.0),
+                  InkWell(
+                    child: CircleAvatar(
+                      backgroundColor: Colors.white,
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.location_searching_outlined,
+                          color: appColor,
+                        ),
+                        onPressed: () {
+                          moveToUserLocation();
+                          // Handle changing terrain
+                        },
+                      ),
+                    ),
+                  ),
+                  // IconButton(
+                  //   icon: Image(
+                  //     image: AssetImage('assets/icons/locationImage.png'),
+                  //   ),
+                  //   onPressed: () {
+                  //     moveToUserLocation();
+                  //     // Handle redirecting the camera to the user's location
+                  //   },
+                  // ),
+                  SizedBox(height: 8.0),
+                  CircleAvatar(
+                    backgroundColor: Colors.white,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.info,
+                        color: appColor,
+                      ),
+                      onPressed: () {
+                        showInformationPopup(context);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            )
                 : Container(),
           ]),
         ),
@@ -446,7 +447,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   Future<Marker> Function(Cluster<ElectricStation>) get _markerBuilder =>
-      (cluster) async {
+          (cluster) async {
         return Marker(
             infoWindow: InfoWindow(),
             markerId: MarkerId(cluster.getId()),
@@ -461,16 +462,16 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               }
             },
             icon:
-                // await myOwnImageOrange(),
-                cluster.isMultiple
-                    ? await _getMarkerBitmap(
-                        cluster.isMultiple ? 125 : 75,
-                        text: cluster.isMultiple
-                            ? cluster.count.toString()
-                            : null,
-                      )
-                    : BitmapDescriptor.fromBytes(await getBytesFromAsset(
-                        'assets/icons/blueIcon.png', 65)));
+            // await myOwnImageOrange(),
+            cluster.isMultiple
+                ? await _getMarkerBitmap(
+              cluster.isMultiple ? 125 : 75,
+              text: cluster.isMultiple
+                  ? cluster.count.toString()
+                  : null,
+            )
+                : BitmapDescriptor.fromBytes(await getBytesFromAsset(
+                'assets/icons/blueIcon.png', 65)));
       };
 
   Future<BitmapDescriptor> _getMarkerBitmap(int size, {String? text}) async {
@@ -544,6 +545,26 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       });
     }
   }
+
+  void showInformationPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Popup Title'),
+          content: Text('Buraya ne gelmesi gerekiyor'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the pop-up
+              },
+              child: Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
 
 class stationsListViewWidget extends StatelessWidget {
@@ -556,7 +577,7 @@ class stationsListViewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        // color: Colors.blue,
+      // color: Colors.blue,
         height: double.infinity,
         width: double.infinity,
         child: Padding(
@@ -565,7 +586,7 @@ class stationsListViewWidget extends StatelessWidget {
             widthFactor: 0.99, // 20% width of the outer container
             heightFactor: 1.0, // 20% height of the outer container
             child: Container(
-                // color: Colors.red,
+              // color: Colors.red,
                 child: ListView.builder(
                     itemCount: stations.length,
                     itemBuilder: (context, index) {
@@ -616,105 +637,106 @@ class stationListViewCardWidget extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Center(
             child: Container(
-          // height: 100,
-          child: Card(
-              color: Colors.white,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 4, right: 8.0),
-                    child: Image(
-                      height: 40,
-                      width: 40,
-                      image: AssetImage('assets/icons/img_5.png'),
-                    ),
-                  ),
-                  Flexible(
-                    child: Center(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 20.0),
-                            child: TextScroll(
-                              store.name,
-                              velocity:
+              // height: 100,
+              child: Card(
+                  color: Colors.white,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 4, right: 8.0),
+                        child: Image(
+                          height: 40,
+                          width: 40,
+                          image: AssetImage('assets/icons/img_5.png'),
+                        ),
+                      ),
+                      Flexible(
+                        child: Center(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 20.0),
+                                child: TextScroll(
+                                  store.name,
+                                  velocity:
                                   Velocity(pixelsPerSecond: Offset(30, 0)),
-                              mode: TextScrollMode.endless,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                color: appColor,
+                                  mode: TextScrollMode.endless,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    color: appColor,
+                                  ),
+                                ),
+                              ),
+                              Text('Ccs Type 2,Type 2'),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 1,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10.0, bottom: 8),
+                              child: Text(
+                                '8 km',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: appColor,
+                                ),
                               ),
                             ),
-                          ),
-                          Text('Ccs Type 2,Type 2'),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 1,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10.0, bottom: 8),
-                          child: Text(
-                            '8 km',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: appColor,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            bottom: 8.0,
-                          ),
-                          child: Container(
-                            // height: 25,
-                            width: 100,
-                            decoration: BoxDecoration(
-                              color: Color(0xff56B78B),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 8.0),
-                                  child: Icon(
-                                    Icons.check_circle_outlined,
-                                    color: Colors.white,
-                                  ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                bottom: 8.0,
+                              ),
+                              child: Container(
+                                // height: 25,
+                                width: 100,
+                                decoration: BoxDecoration(
+                                  color: Color(0xff56B78B),
+                                  borderRadius: BorderRadius.circular(5),
                                 ),
-                                Text(
-                                  'Available',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.white,
-                                  ),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 8.0),
+                                      child: Icon(
+                                        Icons.check_circle_outlined,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Available',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
-                    ),
-                  )
-                ],
-              )),
-        )),
+                      )
+                    ],
+                  )),
+            )),
       ),
     );
   }
 }
 
 void showMarkerDetails(BuildContext context, ElectricStation station) {
+  bool _isButtonDisabled = false;
   ElectricStore store = ElectricStore.fromElectricStation(station);
   // print(store.name);
   // print(station.plug);
@@ -726,6 +748,8 @@ void showMarkerDetails(BuildContext context, ElectricStation station) {
   showModalBottomSheet(
     context: context,
     builder: (BuildContext context) {
+      RoundedLoadingButtonController viewStationDetailsButtonController =
+      RoundedLoadingButtonController();
       return Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
@@ -857,20 +881,32 @@ void showMarkerDetails(BuildContext context, ElectricStation station) {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                    child: TextButton(
-                      style: ButtonStyle(
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                6.0), // Adjust the value as per your requirement
-                          ),
-                        ),
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(appColor),
-                      ),
+                    child: RoundedLoadingButton(
+                      elevation: 0,
+                      width: MediaQuery.of(context).size.width * 0.90,
+                      color: appColor,
+                      borderRadius:
+                      6, // Adjust the value as per your requirement
+
+                      // style: ButtonStyle(
+                      //   shape:
+                      //       MaterialStateProperty.all<RoundedRectangleBorder>(
+                      //     RoundedRectangleBorder(
+                      //       borderRadius: BorderRadius.circular(
+                      //           6.0), // Adjust the value as per your requirement
+                      //     ),
+                      //   ),
+                      //   backgroundColor:
+                      //       MaterialStateProperty.all<Color>(appColor),
+                      // ),
                       onPressed: () async {
+                        // if (_isButtonDisabled) return;
+                        // setState(() {
+                        //   _isButtonDisabled = true;
+                        // });
+
                         try {
+                          viewStationDetailsButtonController.start();
                           bool isFavorite = await Stations.isStationFavorite(
                             stationId: station.id,
                             userId: auth.currentUser!.uid,
@@ -885,11 +921,16 @@ void showMarkerDetails(BuildContext context, ElectricStation station) {
                               ),
                             ),
                           );
+                          viewStationDetailsButtonController.success();
+                          viewStationDetailsButtonController.reset();
                         } catch (error) {
                           print("Error navigating to detailed page: $error");
+                          viewStationDetailsButtonController.error();
+                          viewStationDetailsButtonController.reset();
                           // Handle the error gracefully, such as displaying an error message to the user.
                         }
                       },
+                      controller: viewStationDetailsButtonController,
                       child: Text(
                         'View Station Details',
                         style: TextStyle(
@@ -956,13 +997,13 @@ class bottomModalProperties extends StatelessWidget {
         children: [
           isText
               ? Text(
-                  name,
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: appColor,
-                    fontWeight: FontWeight.bold,
-                  ),
-                )
+            name,
+            style: TextStyle(
+              fontSize: 20,
+              color: appColor,
+              fontWeight: FontWeight.bold,
+            ),
+          )
               : iconData,
           SizedBox(
             height: 10,
@@ -971,12 +1012,12 @@ class bottomModalProperties extends StatelessWidget {
             textScaleFactor: 1,
             text: TextSpan(
               style: DefaultTextStyle.of(context).style.copyWith(
-                    fontSize: DefaultTextStyle.of(context).style.fontSize,
-                    textBaseline:
-                        DefaultTextStyle.of(context).style.textBaseline,
+                fontSize: DefaultTextStyle.of(context).style.fontSize,
+                textBaseline:
+                DefaultTextStyle.of(context).style.textBaseline,
 
-                    // Adjust this value to make the text closer
-                  ),
+                // Adjust this value to make the text closer
+              ),
               children: [
                 TextSpan(
                   text: numberOfAvailableNames,

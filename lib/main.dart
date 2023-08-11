@@ -1,20 +1,17 @@
 import 'package:chargemate/screens/home_screen.dart';
-import 'package:chargemate/screens/introduction_page.dart';
-import 'package:chargemate/screens/phone_number_input_page.dart';
 import 'package:chargemate/screens/registration/login_page.dart';
 import 'package:chargemate/screens/splash_screen.dart';
 import 'package:chargemate/service/api_service.dart';
-import 'package:chargemate/modals/model_stations.dart';
-import 'package:chargemate/widgets/bottonNavbarController.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'constants/constants.dart';
 import 'firebase_options.dart';
+import 'modals/model_stations.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -74,7 +71,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(primarySwatch: myMaterialAppColor),
       debugShowCheckedModeBanner: false,
       // ... (other MaterialApp properties)
-      home: !widget.firstTimeUser
+      home: widget.firstTimeUser
           ? SplashScreen()
           : StreamBuilder<User?>(
               stream: firebaseAuth.authStateChanges(),

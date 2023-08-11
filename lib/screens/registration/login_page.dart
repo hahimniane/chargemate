@@ -58,13 +58,13 @@ class _LoginPageState extends State<LoginPage> {
             leading: widget.isComingFromHomeScreen
                 ? Container()
                 : IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: Icon(
-                      Icons.arrow_back_ios_new,
-                      color: appColor,
-                    )),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(
+                  Icons.arrow_back_ios_new,
+                  color: appColor,
+                )),
             elevation: 0,
             backgroundColor: Color(0xffDEEBE9),
             title: Container(
@@ -180,10 +180,10 @@ class _LoginPageState extends State<LoginPage> {
                                                 value.substring(0, 10);
                                             phoneNumberController.selection =
                                                 TextSelection.fromPosition(
-                                              TextPosition(
-                                                  offset: phoneNumberController
-                                                      .text.length),
-                                            );
+                                                  TextPosition(
+                                                      offset: phoneNumberController
+                                                          .text.length),
+                                                );
                                             print('Only 10 values allowed.');
                                           }
                                         },
@@ -195,13 +195,13 @@ class _LoginPageState extends State<LoginPage> {
                                         ],
                                         controller: phoneNumberController,
                                         keyboardType:
-                                            TextInputType.numberWithOptions(),
+                                        TextInputType.numberWithOptions(),
                                         decoration: InputDecoration(
                                           isCollapsed: false,
                                           contentPadding: EdgeInsets.all(10),
                                           border: OutlineInputBorder(
                                             borderRadius:
-                                                BorderRadius.circular(8),
+                                            BorderRadius.circular(8),
                                           ),
                                           labelText: 'Telefon Numarası',
                                         ),
@@ -214,7 +214,7 @@ class _LoginPageState extends State<LoginPage> {
                                           print('the value is $value');
 
                                           final phoneRegex =
-                                              RegExp(r'^\d{10}$');
+                                          RegExp(r'^\d{10}$');
                                           if (!phoneRegex.hasMatch(value)) {
                                             print(value);
                                             return 'Please enter a valid phone number without the country code';
@@ -240,11 +240,11 @@ class _LoginPageState extends State<LoginPage> {
                                 child: Container(
                                   height: 50,
                                   width:
-                                      MediaQuery.of(context).size.width * 0.85,
+                                  MediaQuery.of(context).size.width * 0.98,
                                   child: TextFormField(
                                     controller: passwordController,
                                     obscureText:
-                                        true, // To hide the entered password
+                                    true, // To hide the entered password
                                     decoration: InputDecoration(
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(
@@ -252,7 +252,7 @@ class _LoginPageState extends State<LoginPage> {
                                       ),
                                       labelText: 'Şifre', // Optional label text
                                       hintText:
-                                          'Enter your password', // Optional hint text
+                                      'Enter your password', // Optional hint text
                                     ),
                                     validator: (value) {
                                       if (value!.isEmpty) {
@@ -263,7 +263,7 @@ class _LoginPageState extends State<LoginPage> {
                                       print('the value is $value');
 
                                       RegExp passwordRegex =
-                                          RegExp(r'^(?=.{8,}$).*$');
+                                      RegExp(r'^(?=.{8,}$).*$');
                                       if (!passwordRegex.hasMatch(value)) {
                                         print(value);
                                         return 'Please enter a valid password. minimum 8 characters';
@@ -306,7 +306,7 @@ class _LoginPageState extends State<LoginPage> {
                                 child: RoundedLoadingButton(
                                   borderRadius: 12,
                                   width:
-                                      MediaQuery.of(context).size.width * 0.90,
+                                  MediaQuery.of(context).size.width * 0.90,
                                   color: appColor,
                                   // style: ElevatedButton.styleFrom(
                                   //   backgroundColor: appColor,
@@ -329,7 +329,7 @@ class _LoginPageState extends State<LoginPage> {
                                             password: _password!);
                                         Stations station = Stations();
                                         List<ElectricStation>? myData =
-                                            await station.getStations(headers);
+                                        await station.getStations(headers);
                                         // print(myData);
                                         Navigator.pushAndRemoveUntil(
                                           context,
@@ -341,7 +341,7 @@ class _LoginPageState extends State<LoginPage> {
                                             //   allStations: myData,
                                             // ),
                                           ),
-                                          (route) => false,
+                                              (route) => false,
                                         );
                                       } on Exception catch (e) {
                                         print(e.toString());

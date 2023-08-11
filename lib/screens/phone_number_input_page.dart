@@ -141,9 +141,7 @@ class _PhoneNumberInputPageState extends State<PhoneNumberInputPage> {
                                     }
                                   },
                                   controller: _phoneNumberController,
-                                  keyboardType: TextInputType.numberWithOptions(
-                                    signed: true,
-                                  ),
+                                  keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
                                     isCollapsed: false,
                                     contentPadding: EdgeInsets.all(10),
