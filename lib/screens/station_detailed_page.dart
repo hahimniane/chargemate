@@ -4,19 +4,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:map_launcher/map_launcher.dart';
+import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:vibration/vibration.dart';
 
 import '../constants/constants.dart';
+import '../modals/distance_matrix_model.dart';
+import '../modals/electric_store.dart';
 import '../service/api_service.dart';
+import '../service/favorite_station.dart';
 import '../utils/tabBar.dart';
 import 'filter_page.dart';
 
 class StationDetailedPage extends StatefulWidget {
   final ElectricStation station;
-  bool isFavorite;
-  StationDetailedPage(
-      {super.key, required this.station, required this.isFavorite});
+  // final Distance distance;
+  // bool isFavorite;
+  StationDetailedPage({
+    super.key,
+    required this.station,
+  });
 
   @override
   State<StationDetailedPage> createState() => _StationDetailedPageState();
@@ -28,7 +35,7 @@ class _StationDetailedPageState extends State<StationDetailedPage> {
     final ElectricStore store =
         ElectricStore.fromElectricStation(widget.station);
     final Size screenSize = MediaQuery.of(context).size;
-    print(widget.station.id);
+    // print(widget.station.id);
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -110,40 +117,65 @@ class _StationDetailedPageState extends State<StationDetailedPage> {
                         CircleAvatar(
                           backgroundColor: Colors.white,
                           child: GestureDetector(
-                            onTap: () async {
-                              print(widget.isFavorite);
-                              if (!widget.isFavorite) {
-                                try {
-                                  HapticFeedback.heavyImpact();
-                                  Stations.addFavoriteStation(
-                                    stationId: widget.station.id,
-                                    userId: auth.currentUser!.uid,
-                                    headers: headers,
-                                  );
-                                } catch (e) {}
-                              } else {
-                                try {
-                                  Stations.deleteFavoriteStation(
-                                    stationId: widget.station.id,
-                                    userId: auth.currentUser!.uid,
-                                    headers: headers,
-                                  );
-                                } catch (e) {}
-                              }
-                              setState(() {
-                                widget.isFavorite = !widget.isFavorite;
-                              });
+                              //     onTap: () async {
+                              //   // print(
+                              //   //     'is the  station favorite ${widget.isFavorite} coming from homepage');
+                              //   // if (!widget.isFavorite) {
+                              //   //   try {
+                              //   //     HapticFeedback.heavyImpact();
+                              //   //     Stations.addFavoriteStation(
+                              //   //       stationId: widget.station.id,
+                              //   //       userId: auth.currentUser!.uid,
+                              //   //       headers: headers,
+                              //   //     );
+                              //   //   } catch (e) {}
+                              //   // } else {
+                              //   //   try {
+                              //   //     Stations.deleteFavoriteStation(
+                              //   //       stationId: widget.station.id,
+                              //   //       userId: auth.currentUser!.uid,
+                              //   //       headers: headers,
+                              //   //     );
+                              //   //   } catch (e) {}
+                              //   // }
+                              //   // setState(() {
+                              //   //   widget.isFavorite = !widget.isFavorite;
+                              //   // });
+                              // },
+                              child: Consumer<FavoriteStation>(
+                            builder: (context, dataModel, child) {
+                              return GestureDetector(
+                                onTap: () {
+                                  dataModel.toggleFavorite(
+                                      stationId: widget.station.id,
+                                      userId: auth.currentUser!.uid);
+                                  // Toggle the favorite status on tap
+                                  // dataModel.toggleFavorite();
+                                },
+                                child: dataModel.isFavorite
+                                    ? Icon(
+                                        Icons.favorite,
+                                        color: appColor,
+                                      )
+                                    : Icon(
+                                        Icons.favorite_border,
+                                        color: appColor,
+                                      ),
+                              );
                             },
-                            child: widget.isFavorite
-                                ? Icon(
-                                    Icons.favorite,
-                                    color: appColor,
-                                  )
-                                : Icon(
-                                    Icons.favorite_border,
-                                    color: appColor,
-                                  ),
-                          ),
+                          )
+
+                              //widget.isFavorite
+
+                              // ? Icon(
+                              //     Icons.favorite,
+                              //     color: appColor,
+                              //   )
+                              // : Icon(
+                              //     Icons.favorite_border,
+                              //     color: appColor,
+                              //   ),
+                              ),
                         ),
                         SizedBox(
                           width: 5,
@@ -184,15 +216,25 @@ class _StationDetailedPageState extends State<StationDetailedPage> {
                   ),
                   Expanded(
                       flex: 2,
-                      child: CarouselWithIndicators(imageList: [
-                        'assets/images/chargingCar.png',
-                        'assets/images/chargingCar.png',
-                        'assets/images/chargingCar.png'
-                      ])),
+                      child: Image(
+                        image: AssetImage('assets/images/chargingCar.png'),
+                      )
+                      // CarouselWithIndicators(
+                      //   imageList: [
+                      //     'assets/images/chargingCar.png',
+                      //     'assets/images/chargingCar.png',
+                      //     'assets/images/chargingCar.png'
+                      //   ],
+                      // ),
+                      ),
                   SizedBox(
                     height: 4,
                   ),
-                  Expanded(flex: 3, child: TabViewUtil()),
+                  Expanded(
+                      flex: 3,
+                      child: TabViewUtil(
+                        station: widget.station,
+                      )),
 
                   // Row(
                   //   mainAxisAlignment: MainAxisAlignment.center,
@@ -226,5 +268,13 @@ class _StationDetailedPageState extends State<StationDetailedPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    final dataModel = Provider.of<FavoriteStation>(context, listen: false);
+    dataModel.checkFavoriteStatus(
+        stationId: widget.station.id, userId: auth.currentUser!.uid);
+    super.initState();
   }
 }

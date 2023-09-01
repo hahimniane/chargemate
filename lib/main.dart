@@ -2,16 +2,17 @@ import 'package:chargemate/screens/home_screen.dart';
 import 'package:chargemate/screens/registration/login_page.dart';
 import 'package:chargemate/screens/splash_screen.dart';
 import 'package:chargemate/service/api_service.dart';
+import 'package:chargemate/service/favorite_station.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'constants/constants.dart';
 import 'firebase_options.dart';
 import 'modals/model_stations.dart';
-
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,7 +32,7 @@ Future<void> main() async {
 
   runApp(
     DevicePreview(
-      enabled: false,
+      enabled: true,
       builder: (context) => MyApp(
         firstTimeUser: isFirstTimeUser,
       ), // Pass the firstTimeUser value to MyApp
@@ -67,59 +68,62 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(primarySwatch: myMaterialAppColor),
-      debugShowCheckedModeBanner: false,
-      // ... (other MaterialApp properties)
-      home: widget.firstTimeUser
-          ? SplashScreen()
-          : StreamBuilder<User?>(
-              stream: firebaseAuth.authStateChanges(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.active) {
-                  if (snapshot.data == null) {
-                    return LoginPage(
-                      isComingFromHomeScreen: true,
-                    );
-                  } else if (snapshot.hasData) {
-                    return FutureBuilder<List<ElectricStation>>(
-                      future: allStationsFuture,
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Scaffold(
-                            body: Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                          );
-                        } else if (snapshot.hasData) {
-                          allStations =
-                              snapshot.data!; // Store the fetched data
-                          return allStations.isNotEmpty
-                              ? HomeScreen(allStations: allStations)
-                              : Scaffold(
-                                  body: Center(
-                                    child: Text('Istasyonlari bos'),
-                                  ),
-                                );
-                        } else {
-                          return Scaffold(
-                            body: Center(
-                              child: Text('Error loading data'),
-                            ),
-                          );
-                        }
-                      },
-                    );
+    return ChangeNotifierProvider(
+      create: (BuildContext context) => FavoriteStation(),
+      child: MaterialApp(
+        theme: ThemeData(primarySwatch: myMaterialAppColor),
+        debugShowCheckedModeBanner: false,
+        // ... (other MaterialApp properties)
+        home: widget.firstTimeUser
+            ? SplashScreen()
+            : StreamBuilder<User?>(
+                stream: firebaseAuth.authStateChanges(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.active) {
+                    if (snapshot.data == null) {
+                      return LoginPage(
+                        isComingFromHomeScreen: true,
+                      );
+                    } else if (snapshot.hasData) {
+                      return FutureBuilder<List<ElectricStation>>(
+                        future: allStationsFuture,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Scaffold(
+                              body: Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            );
+                          } else if (snapshot.hasData) {
+                            allStations =
+                                snapshot.data!; // Store the fetched data
+                            return allStations.isNotEmpty
+                                ? HomeScreen(allStations: allStations)
+                                : Scaffold(
+                                    body: Center(
+                                      child: Text('Istasyonlari bos'),
+                                    ),
+                                  );
+                          } else {
+                            return Scaffold(
+                              body: Center(
+                                child: Text('Error loading data'),
+                              ),
+                            );
+                          }
+                        },
+                      );
+                    }
                   }
-                }
-                return Scaffold(
-                  body: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              },
-            ),
+                  return Scaffold(
+                    body: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                },
+              ),
+      ),
     );
   }
 }

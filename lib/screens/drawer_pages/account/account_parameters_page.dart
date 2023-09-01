@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../constants/constants.dart';
+import '../../../figma/page-1/profile.dart';
 import '../../../phone_auth_test.dart';
 import '../../../service/firebase_servies.dart';
 import '../../registration/login_page.dart';
@@ -42,7 +43,7 @@ class AccountPage extends StatelessWidget {
         // Navigate to the appropriate screen based on the section clicked
         if (isProfileSection) {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => ProfilePage()));
+              context, MaterialPageRoute(builder: (context) => ProfileCard()));
         } else if (isSavedAddressesSection) {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => AddressesHomePage()));

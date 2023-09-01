@@ -6,6 +6,8 @@ Color appColor = Color(0xff145063);
 Color yellowColor = Color(0xffFFB400);
 Color lightGreenColor = Color(0xffDEEBE9);
 var headers = {'x-api-key': 'ZXSDkAOYdz18y4As0Pfap4IMkJBJR5Rh5tTDso5q'};
+String iosGoogleApi = 'AIzaSyAxpzgoo8WVjaxsvqfOFm_3cSuIhMER5h0';
+String distanceMatrixApiKey = "AIzaSyAxpzgoo8WVjaxsvqfOFm_3cSuIhMER5h0";
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 FirebaseAuth auth = FirebaseAuth.instance;
 String nearByStationURI =
@@ -29,3 +31,31 @@ MaterialColor myMaterialAppColor = MaterialColor(
     900: appColor.withOpacity(0.9),
   },
 );
+final Map<String, IconData> placeIcons = {
+  'Kafe': Icons.local_cafe,
+  'Restoran': Icons.restaurant,
+  'AVM': Icons.local_mall,
+  'Otopark': Icons.local_parking,
+  'Market': Icons.shopping_cart,
+  'Banka': Icons.account_balance,
+  'ATM': Icons.atm,
+  'Sinema': Icons.local_movies,
+  'WiFi': Icons.wifi,
+  'Kuaför': Icons.cut,
+  'Otobüs Durağı': Icons.directions_bus_rounded,
+  'Büfe': Icons.local_restaurant_outlined,
+  'Cami': Icons.mosque,
+  'Otel': Icons.hotel,
+  'Taksi Durağı': Icons.local_taxi,
+  'Havaalanı': Icons.local_airport,
+  'Hastane': Icons.local_hospital,
+
+  // Add more place names and their associated icons here
+};
+
+final List<String> placeData = [
+  'Kafe', 'Restoran', 'AVM', 'Otopark', 'Market', 'Banka', 'ATM', 'Sinema',
+  'WiFi', 'Kuaför', ' Otobüs Durağı', 'Büfe', 'Cami', 'Otel',
+  'Taksi Durağı', 'Havaalanı', 'Hastane'
+  // Add more place data strings here
+];
