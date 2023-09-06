@@ -1,13 +1,17 @@
+
+
 import 'package:chargemate/constants/constants.dart';
 import 'package:chargemate/modals/comment_model.dart';
 import 'package:chargemate/modals/model_stations.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:map_launcher/map_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../modals/electric_store.dart';
 import '../screens/home_screen.dart';
@@ -530,77 +534,77 @@ class socketWidget extends StatelessWidget {
                         ),
                         Expanded(
                             child: ListTile(
-                          title: Text(
-                            'AC Type 2',
-                            style: TextStyle(
-                              color: appColor,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          subtitle: Text(textAlign: TextAlign.start, '22 kw'),
-                          trailing: Column(
-                            children: [
-                              Expanded(
-                                child: Image(
-                                  height: 30,
-                                  width: 30,
-                                  image:
-                                      AssetImage('assets/icons/moneyIcon.png'),
+                              title: Text(
+                                'AC Type 2',
+                                style: TextStyle(
+                                  color: appColor,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              RichText(
-                                textScaleFactor: 1,
-                                text: TextSpan(
-                                  style: DefaultTextStyle.of(context)
-                                      .style
-                                      .copyWith(
+                              subtitle: Text(textAlign: TextAlign.start, '22 kw'),
+                              trailing: Column(
+                                children: [
+                                  Expanded(
+                                    child: Image(
+                                      height: 30,
+                                      width: 30,
+                                      image:
+                                      AssetImage('assets/icons/moneyIcon.png'),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  RichText(
+                                    textScaleFactor: 1,
+                                    text: TextSpan(
+                                      style: DefaultTextStyle.of(context)
+                                          .style
+                                          .copyWith(
                                         fontSize: DefaultTextStyle.of(context)
                                             .style
                                             .fontSize,
                                         textBaseline:
-                                            DefaultTextStyle.of(context)
-                                                .style
-                                                .textBaseline,
+                                        DefaultTextStyle.of(context)
+                                            .style
+                                            .textBaseline,
 
                                         // Adjust this value to make the text closer
                                       ),
-                                  children: [
-                                    TextSpan(
-                                      text: '7.5',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        color: appColor,
-                                      ),
+                                      children: [
+                                        TextSpan(
+                                          text: '7.5',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: appColor,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: 'TL/Kw',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.normal,
+                                            // color: Colors.black,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    TextSpan(
-                                      text: 'TL/Kw',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.normal,
-                                        // color: Colors.black,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                          // bottomModalProperties(
-                          //   iconData: Image(
-                          //     height: 30,
-                          //     width: 30,
-                          //     image: AssetImage('assets/icons/moneyIcon.png'),
-                          //   ),
-                          //   isText: false,
-                          //   name: 'DC',
-                          //   numberOfAvailableNames: '7.5',
-                          //   detail: 'TL/Kw',
-                          // ),
-                        )),
+                                  )
+                                ],
+                              ),
+                              // bottomModalProperties(
+                              //   iconData: Image(
+                              //     height: 30,
+                              //     width: 30,
+                              //     image: AssetImage('assets/icons/moneyIcon.png'),
+                              //   ),
+                              //   isText: false,
+                              //   name: 'DC',
+                              //   numberOfAvailableNames: '7.5',
+                              //   detail: 'TL/Kw',
+                              // ),
+                            )),
                       ],
                     ),
                     Padding(
@@ -639,7 +643,7 @@ class socketWidget extends StatelessWidget {
                             flex: 2,
                             child: Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 4.0),
+                              const EdgeInsets.symmetric(horizontal: 4.0),
                               child: Container(
                                 decoration: BoxDecoration(
                                   border: Border.all(color: appColor),
@@ -686,7 +690,7 @@ class socketWidget extends StatelessWidget {
                                     child: Center(
                                       child: Padding(
                                         padding:
-                                            const EdgeInsets.only(right: 2.0),
+                                        const EdgeInsets.only(right: 2.0),
                                         child: Text(
                                           'Available',
                                           style: TextStyle(
@@ -759,35 +763,65 @@ class stationWidget extends StatelessWidget {
           stationTabBarWidget(
             isItThreeWidgets: true,
             iconUrl: 'assets/icons/stationIcon.png',
-            label: 'Mesafe',
+            label: Text('Mesafe',  style: TextStyle(
+              color: appColor,
+              fontWeight: FontWeight.bold,
+            ),),
             secondLabel: '',
             station: station,
           ),
           stationTabBarWidget(
             isItThreeWidgets: false,
             iconUrl: 'assets/icons/distanceIcon.png',
-            label: 'Konum',
+            label: Text('Konum', style: TextStyle(
+              color: appColor,
+              fontWeight: FontWeight.bold,
+            )),
             secondLabel: store.address,
             station: station,
           ),
           stationTabBarWidget(
             isItThreeWidgets: false,
             iconUrl: 'assets/icons/distanceIcon.png',
-            label: 'Açıklama',
+            label: Text('Açıklama' , style: TextStyle(
+              color: appColor,
+              fontWeight: FontWeight.bold,
+            ),),
             secondLabel: '-',
             station: station,
           ),
           stationTabBarWidget(
             isItThreeWidgets: false,
             iconUrl: 'assets/icons/customerServiceIcon.png',
-            label: 'Müşteri hizmetleri',
+            label:GestureDetector(
+              onTap: () async {
+                print('clicked');
+                Uri phoneno = Uri.parse('www.google.com');
+       try{
+         const number = '+905541524403'; //set the number here
+         bool? res = await FlutterPhoneDirectCaller.callNumber(number);
+         print('the number was called $res');
+                }
+       catch (e){
+         print(e.toString());
+                }
+                //dialer opened
+
+              },
+              child: Text('Müşteri hizmetleri',    style: TextStyle(
+              color: appColor,
+              fontWeight: FontWeight.bold,
+            ),),) ,
             secondLabel: '+905541524403',
             station: station,
           ),
           stationTabBarWidget(
             isItThreeWidgets: false,
             iconUrl: 'assets/icons/distanceIcon.png',
-            label: 'çalışma saatleri',
+            label: Text('çalışma saatleri',  style: TextStyle(
+              color: appColor,
+              fontWeight: FontWeight.bold,
+            ),),
             secondLabel: '09:00/ 21:30',
             station: station,
           ),
@@ -807,7 +841,7 @@ class stationTabBarWidget extends StatelessWidget {
   final ElectricStation station;
   final bool isItThreeWidgets;
   final String iconUrl;
-  final String label;
+  final Widget label;
   final String secondLabel;
 
   const stationTabBarWidget({
@@ -855,13 +889,10 @@ class stationTabBarWidget extends StatelessWidget {
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.only(left: 8.0),
-                          child: Text(
+                          child:
                             label,
-                            style: TextStyle(
-                              color: appColor,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+
+
                         ),
                       ),
                       isItThreeWidgets

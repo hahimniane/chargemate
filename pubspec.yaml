@@ -60,6 +60,8 @@ dependencies:
   textfield_search: ^0.10.0
   searchfield: ^0.8.4
   syncfusion_flutter_pdfviewer: ^20.4.54
+  url_launcher: ^6.1.14
+  flutter_phone_direct_caller: ^2.1.1
 
 
 dev_dependencies:
