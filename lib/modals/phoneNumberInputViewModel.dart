@@ -23,7 +23,8 @@ class PhoneNumberInputViewModel {
           );
         },
         verificationFailed: (FirebaseAuthException authException) {
-          print('in here');
+          print(authException.message);
+          print('entered inside of the verification failed');
         },
         codeSent: (String verificationId, int? forceResendingToken) {
           Navigator.pushReplacement(

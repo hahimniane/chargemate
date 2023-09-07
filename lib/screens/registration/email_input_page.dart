@@ -170,7 +170,7 @@ class _EmailInputPageState extends State<EmailInputPage> {
                               padding:
                                   const EdgeInsets.only(bottom: 8.0, left: 3),
                               child: Text(
-                                'Eposta *',
+                                'Eposta ',
                                 style: TextStyle(
                                     fontSize: 16, color: Colors.grey.shade600),
                               ),
@@ -190,12 +190,12 @@ class _EmailInputPageState extends State<EmailInputPage> {
                                       borderRadius: BorderRadius.circular(7.0),
                                     ),
                                   ),
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Lütfen epostanızı  giriniz';
-                                    }
-                                    return null;
-                                  },
+                                  // validator: (value) {
+                                  //   if (value!.isEmpty) {
+                                  //     return 'Lütfen epostanızı  giriniz';
+                                  //   }
+                                  //   return null;
+                                  // },
                                   onSaved: (value) {
                                     _email = value!;
                                   },
@@ -207,60 +207,60 @@ class _EmailInputPageState extends State<EmailInputPage> {
                       ),
                       SizedBox(height: 20),
                       // SizedBox(height: 20),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(bottom: 8.0, left: 3),
-                              child: Text(
-                                'Şifre *',
-                                style: TextStyle(
-                                    fontSize: 16, color: Colors.grey.shade600),
-                              ),
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.60,
-                              height: 45,
-                              child: Material(
-                                borderRadius: BorderRadius.circular(7.0),
-                                child: TextFormField(
-                                  obscureText: true,
-                                  textInputAction: TextInputAction.done,
-                                  style: TextStyle(),
-                                  decoration: InputDecoration(
-                                    contentPadding: const EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 10),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7.0),
-                                    ),
-                                  ),
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Lütfen şifrenizi giriniz';
-                                    }
-                                    return null;
-                                  },
-                                  onSaved: (value) {
-                                    _password = value!;
-                                  },
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 4,
-                            ),
-                            Text(
-                              'Şifre En az:\n 6 karakter.\n 1 Noktalama işareti içermelidir',
-                              style: GoogleFonts.montserrat(
-                                color: appColor,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
+                      // Align(
+                      //   alignment: Alignment.topLeft,
+                      //   child: Column(
+                      //     crossAxisAlignment: CrossAxisAlignment.start,
+                      //     children: [
+                      //       Padding(
+                      //         padding:
+                      //             const EdgeInsets.only(bottom: 8.0, left: 3),
+                      //         child: Text(
+                      //           'Şifre *',
+                      //           style: TextStyle(
+                      //               fontSize: 16, color: Colors.grey.shade600),
+                      //         ),
+                      //       ),
+                      //       Container(
+                      //         width: MediaQuery.of(context).size.width * 0.60,
+                      //         height: 45,
+                      //         child: Material(
+                      //           borderRadius: BorderRadius.circular(7.0),
+                      //           child: TextFormField(
+                      //             obscureText: true,
+                      //             textInputAction: TextInputAction.done,
+                      //             style: TextStyle(),
+                      //             decoration: InputDecoration(
+                      //               contentPadding: const EdgeInsets.symmetric(
+                      //                   horizontal: 20, vertical: 10),
+                      //               border: OutlineInputBorder(
+                      //                 borderRadius: BorderRadius.circular(7.0),
+                      //               ),
+                      //             ),
+                      //             validator: (value) {
+                      //               if (value!.isEmpty) {
+                      //                 return 'Lütfen şifrenizi giriniz';
+                      //               }
+                      //               return null;
+                      //             },
+                      //             onSaved: (value) {
+                      //               _password = value!;
+                      //             },
+                      //           ),
+                      //         ),
+                      //       ),
+                      //       SizedBox(
+                      //         height: 4,
+                      //       ),
+                      //       Text(
+                      //         'Şifre En az:\n 6 karakter.\n 1 Noktalama işareti içermelidir',
+                      //         style: GoogleFonts.montserrat(
+                      //           color: appColor,
+                      //         ),
+                      //       )
+                      //     ],
+                      //   ),
+                      // ),
 
                       Expanded(
                         child: Align(
@@ -285,43 +285,45 @@ class _EmailInputPageState extends State<EmailInputPage> {
                                     print(_name);
                                     print(_lastName);
                                     print(_email);
-                                    print(_password);
 
                                     FirebaseAuth auth = FirebaseAuth.instance;
                                     print(
                                         'the current user id is ${auth.currentUser!.uid}');
-                                    FirebaseFirestore firestore =
-                                        FirebaseFirestore.instance;
-                                    User? user = auth.currentUser;
-                                    user!.delete();
+                                    // FirebaseFirestore firestore =
+                                    //     FirebaseFirestore.instance;
+                                    // User? user = auth.currentUser;
+                                    // user!.delete();
 
                                     final CollectionReference usersCollection =
                                         firestore.collection('Users');
-                                    auth
-                                        .createUserWithEmailAndPassword(
-                                            email: _email, password: _password)
-                                        .then((UserCredential value) async {
-                                      await usersCollection
-                                          .doc(value.user!.uid)
-                                          .set({
-                                        'uid': value.user!.uid,
-                                        'email': _email,
-                                        'first_name': _name,
-                                        "last_name": _lastName,
-                                        "phone_number": widget.phoneNumber
-                                      }).then((value) async {
-                                        Stations station = Stations();
-                                        List<ElectricStation>? myData =
-                                            await station.getStations(headers);
-                                        print(myData);
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    HomeScreen(
-                                                      allStations: myData,
-                                                    )));
-                                      });
+                                    usersCollection
+                                        .doc(auth.currentUser!.uid)
+                                        .set({
+                                      'uid': auth.currentUser!.uid,
+                                      'email': _email,
+                                      'first_name': _name,
+                                      "last_name": _lastName,
+                                      "phone_number": widget.phoneNumber
+                                    }, SetOptions(merge: true)).then(
+                                            (value) async {
+                                      Stations station = Stations();
+                                      List<ElectricStation>? myData =
+                                          await station.getStations(headers);
+                                      print(myData);
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => HomeScreen(
+                                                    allStations: myData,
+                                                  )));
+                                      // await usersCollection
+                                      //     .doc(value.user!.uid)
+                                      //     .set({
+                                      //   'uid': value.user!.uid,
+                                      //   'email': _email,
+                                      //   'first_name': _name,
+                                      //   "last_name": _lastName,
+                                      //   "phone_number": widget.phoneNumber
                                     }).onError((error, stackTrace) {
                                       print('the error is ${error.toString()}');
                                     });

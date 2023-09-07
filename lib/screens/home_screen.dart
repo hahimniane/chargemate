@@ -162,245 +162,249 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     // print('the device padding is ${MediaQuery.of(context).viewPadding.bottom}');
     // print('Device has notch ${Device.get().hasNotch}');
     Completer<GoogleMapController> _controller = Completer();
-    return WillPopScope(
-      onWillPop: () async {
-        return false;
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
       },
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        key: _key,
-        // drawer: drawer(),
-        body: SafeArea(
-          top: false,
-          bottom: false,
-          // bottom:
-          //     MediaQuery.of(context).viewPadding.bottom == 0.0 ? false : true,
-          // Device.get().hasNotch ? true : false,
-          child: Stack(alignment: Alignment.center, children: [
-            activeView == screenViewTypes.mapView
-                ? initialCameraPosition != null
-                    ? GoogleMap(
-                        mapType: mapType,
-                        initialCameraPosition:
-                            initialCameraPosition!, // Use the calculated position
-                        markers: markers,
-                        myLocationEnabled: true,
-                        myLocationButtonEnabled: false,
-                        onMapCreated: (GoogleMapController controller) {
-                          googleMapController = controller;
-                          _controller.complete(controller);
-                          _manager.setMapId(controller.mapId);
-                        },
-                        onCameraMove: _manager.onCameraMove,
-                        onCameraIdle: _manager.updateMap,
-                      )
-                    : Center(
-                        child: Container(
-                          child: CircularProgressIndicator(
-                            color: appColor,
+      child: WillPopScope(
+        onWillPop: () async {
+          return false;
+        },
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          key: _key,
+          // drawer: drawer(),
+          body: SafeArea(
+            top: false,
+            bottom: false,
+            // bottom:
+            //     MediaQuery.of(context).viewPadding.bottom == 0.0 ? false : true,
+            // Device.get().hasNotch ? true : false,
+            child: Stack(alignment: Alignment.center, children: [
+              activeView == screenViewTypes.mapView
+                  ? initialCameraPosition != null
+                      ? GoogleMap(
+                          mapType: mapType,
+                          initialCameraPosition:
+                              initialCameraPosition!, // Use the calculated position
+                          markers: markers,
+                          myLocationEnabled: true,
+                          myLocationButtonEnabled: false,
+                          onMapCreated: (GoogleMapController controller) {
+                            googleMapController = controller;
+                            _controller.complete(controller);
+                            _manager.setMapId(controller.mapId);
+                          },
+                          onCameraMove: _manager.onCameraMove,
+                          onCameraIdle: _manager.updateMap,
+                        )
+                      : Center(
+                          child: Container(
+                            child: CircularProgressIndicator(
+                              color: appColor,
+                            ),
                           ),
-                        ),
-                      )
-                : stationsListViewWidget(
-                    stations: widget.allStations,
-                  ),
-            Positioned(
-              top: 50,
-              left: 0,
-              right: 0,
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Padding(
-                      //   padding: const EdgeInsets.all(8.0),
-                      //   child: Card(
-                      //     elevation: 3,
-                      //     child: Container(
-                      //       height: 40,
-                      //       width: 40,
-                      //       decoration: BoxDecoration(
-                      //           color: Colors.white,
-                      //           borderRadius: BorderRadius.circular(12)),
-                      //       child: IconButton(
-                      //         icon: Icon(
-                      //           Icons.menu,
-                      //           color: Colors.black,
-                      //           size: 25,
-                      //         ),
-                      //         onPressed: () {
-                      //           _key.currentState!.openDrawer();
-                      //         },
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Material(
-                            // color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                            elevation: 2,
-                            child:
-                                // TextField(
-                                //
-                                //   style: TextStyle(
-                                //     color:
-                                //         Colors.black, // Set the color of the text
-                                //   ),
-                                //   decoration: InputDecoration(
-                                //     prefixIcon: InkWell(
-                                //       onTap: () {
-                                //         _key.currentState!.openDrawer();
-                                //       },
-                                //       child: Icon(
-                                //         Icons.menu,
-                                //         color: appColor,
-                                //       ),
-                                //     ),
-                                //     hintText: 'Search stations',
-                                //     border: InputBorder.none,
-                                //     contentPadding: EdgeInsets.all(16),
-                                //     suffixIcon: IconButton(
-                                //       color: appColor,
-                                //       icon: Icon(
-                                //         FontAwesomeIcons.sliders,
-                                //       ),
-                                //       onPressed: () {
-                                //         Navigator.push(
-                                //           context,
-                                //           PageRouteBuilder(
-                                //             transitionDuration:
-                                //                 Duration(milliseconds: 500),
-                                //             pageBuilder: (BuildContext context,
-                                //                 Animation<double> animation,
-                                //                 Animation<double>
-                                //                     secondaryAnimation) {
-                                //               return FadeTransition(
-                                //                 opacity: animation,
-                                //                 child: FilterPage(),
-                                //               );
-                                //             },
-                                //           ),
-                                //         );
-                                //       },
-                                //     ),
-                                //   ),
-                                //   onChanged:
-                                // ),
+                        )
+                  : stationsListViewWidget(
+                      stations: widget.allStations,
+                    ),
+              Positioned(
+                top: 50,
+                left: 0,
+                right: 0,
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Padding(
+                        //   padding: const EdgeInsets.all(8.0),
+                        //   child: Card(
+                        //     elevation: 3,
+                        //     child: Container(
+                        //       height: 40,
+                        //       width: 40,
+                        //       decoration: BoxDecoration(
+                        //           color: Colors.white,
+                        //           borderRadius: BorderRadius.circular(12)),
+                        //       child: IconButton(
+                        //         icon: Icon(
+                        //           Icons.menu,
+                        //           color: Colors.black,
+                        //           size: 25,
+                        //         ),
+                        //         onPressed: () {
+                        //           _key.currentState!.openDrawer();
+                        //         },
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Material(
+                              // color: Colors.white,
+                              borderRadius: BorderRadius.circular(5),
+                              elevation: 2,
+                              child:
+                                  // TextField(
+                                  //
+                                  //   style: TextStyle(
+                                  //     color:
+                                  //         Colors.black, // Set the color of the text
+                                  //   ),
+                                  //   decoration: InputDecoration(
+                                  //     prefixIcon: InkWell(
+                                  //       onTap: () {
+                                  //         _key.currentState!.openDrawer();
+                                  //       },
+                                  //       child: Icon(
+                                  //         Icons.menu,
+                                  //         color: appColor,
+                                  //       ),
+                                  //     ),
+                                  //     hintText: 'Search stations',
+                                  //     border: InputBorder.none,
+                                  //     contentPadding: EdgeInsets.all(16),
+                                  //     suffixIcon: IconButton(
+                                  //       color: appColor,
+                                  //       icon: Icon(
+                                  //         FontAwesomeIcons.sliders,
+                                  //       ),
+                                  //       onPressed: () {
+                                  //         Navigator.push(
+                                  //           context,
+                                  //           PageRouteBuilder(
+                                  //             transitionDuration:
+                                  //                 Duration(milliseconds: 500),
+                                  //             pageBuilder: (BuildContext context,
+                                  //                 Animation<double> animation,
+                                  //                 Animation<double>
+                                  //                     secondaryAnimation) {
+                                  //               return FadeTransition(
+                                  //                 opacity: animation,
+                                  //                 child: FilterPage(),
+                                  //               );
+                                  //             },
+                                  //           ),
+                                  //         );
+                                  //       },
+                                  //     ),
+                                  //   ),
+                                  //   onChanged:
+                                  // ),
 //actual search field.
-                                SearchField<ElectricStation>(
-                              suggestionsDecoration: SuggestionDecoration(),
-                              onSubmit: (value) {
-                                // print('the chosen value is $value ');
-                              },
-                              onSuggestionTap: (station) {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            StationDetailedPage(
-                                                station: station.item! ,)));
-
-                                // print(
-                                //     'the clicked station is ${station.item!.id}');
-                              },
-                              searchInputDecoration: InputDecoration(
-                                prefixIcon: InkWell(
-                                  onTap: () {
-                                    Navigator.push(
+                                  SearchField<ElectricStation>(
+                                suggestionsDecoration: SuggestionDecoration(),
+                                onSubmit: (value) {
+                                  // print('the chosen value is $value ');
+                                },
+                                onSuggestionTap: (station) {
+                                  Navigator.push(
                                       context,
-                                      PageRouteBuilder(
-                                        transitionDuration:
-                                        Duration(milliseconds: 500),
-                                        pageBuilder: (BuildContext context,
-                                            Animation<double> animation,
-                                            Animation<double>
-                                            secondaryAnimation) {
-                                          return FadeTransition(
-                                            opacity: animation,
-                                            child: ProfileCard(),
-                                          );
-                                        },
-                                      ),
-                                    );
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              StationDetailedPage(
+                                                  station: station.item! ,)));
+
+                                  // print(
+                                  //     'the clicked station is ${station.item!.id}');
+                                },
+                                searchInputDecoration: InputDecoration(
+                                  prefixIcon: InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        PageRouteBuilder(
+                                          transitionDuration:
+                                          Duration(milliseconds: 500),
+                                          pageBuilder: (BuildContext context,
+                                              Animation<double> animation,
+                                              Animation<double>
+                                              secondaryAnimation) {
+                                            return FadeTransition(
+                                              opacity: animation,
+                                              child: ProfileCard(),
+                                            );
+                                          },
+                                        ),
+                                      );
 
 
 
-                                    // _key.currentState!.openDrawer();
-                                    //ProfileCard
-                                  },
-                                  child: Icon(
-                                    Icons.person,
+                                      // _key.currentState!.openDrawer();
+                                      //ProfileCard
+                                    },
+                                    child: Icon(
+                                      Icons.person,
+                                      color: appColor,
+                                    ),
+                                  ),
+                                  hintText: 'Yakın istasyonu bul',
+                                  hintStyle: GoogleFonts.montserrat(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w400),
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.all(16),
+                                  suffixIcon: IconButton(
                                     color: appColor,
+                                    icon: Icon(
+                                      FontAwesomeIcons.sliders,
+                                    ),
+                                    onPressed: () {
+                                      Provider.of<FavoriteStation>(context, listen: false).shouldSetCalculatedDistanceBeCleared=true;
+                                      // Navigator.push(
+                                      //   context,
+                                      //   PageRouteBuilder(
+                                      //     transitionDuration:
+                                      //         Duration(milliseconds: 500),
+                                      //     pageBuilder: (BuildContext context,
+                                      //         Animation<double> animation,
+                                      //         Animation<double>
+                                      //             secondaryAnimation) {
+                                      //       return FadeTransition(
+                                      //         opacity: animation,
+                                      //         child: FilterPage(),
+                                      //       );
+                                      //     },
+                                      //   ),
+                                      // );
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>FilterPage()));
+                                    },
                                   ),
                                 ),
-                                hintText: 'Yakın istasyonu bul',
-                                hintStyle: GoogleFonts.montserrat(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w400),
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.all(16),
-                                suffixIcon: IconButton(
-                                  color: appColor,
-                                  icon: Icon(
-                                    FontAwesomeIcons.sliders,
-                                  ),
-                                  onPressed: () {
-                                    Provider.of<FavoriteStation>(context, listen: false).shouldSetCalculatedDistanceBeCleared=true;
-                                    // Navigator.push(
-                                    //   context,
-                                    //   PageRouteBuilder(
-                                    //     transitionDuration:
-                                    //         Duration(milliseconds: 500),
-                                    //     pageBuilder: (BuildContext context,
-                                    //         Animation<double> animation,
-                                    //         Animation<double>
-                                    //             secondaryAnimation) {
-                                    //       return FadeTransition(
-                                    //         opacity: animation,
-                                    //         child: FilterPage(),
-                                    //       );
-                                    //     },
-                                    //   ),
-                                    // );
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>FilterPage()));
-                                  },
-                                ),
-                              ),
-                              suggestions: widget.allStations
-                                  .map(
-                                    (station) =>
-                                        SearchFieldListItem<ElectricStation>(
-                                      station.store['name'],
-                                      item: station,
-                                      // Use child to show Custom Widgets in the suggestions
-                                      // defaults to Text widget
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Row(
-                                          children: [
-                                            // CircleAvatar(
-                                            //   backgroundImage:
-                                            //       NetworkImage(e),
-                                            // ),
-                                            // SizedBox(
-                                            //   width: 10,
-                                            // ),
-                                            Text(
-                                              station.store['name'],
-                                              style: GoogleFonts.montserrat(
-                                                  color: appColor),
-                                            ),
-                                          ],
+                                suggestions: widget.allStations
+                                    .map(
+                                      (station) =>
+                                          SearchFieldListItem<ElectricStation>(
+                                        station.store['name'],
+                                        item: station,
+                                        // Use child to show Custom Widgets in the suggestions
+                                        // defaults to Text widget
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            children: [
+                                              // CircleAvatar(
+                                              //   backgroundImage:
+                                              //       NetworkImage(e),
+                                              // ),
+                                              // SizedBox(
+                                              //   width: 10,
+                                              // ),
+                                              Text(
+                                                station.store['name'],
+                                                style: GoogleFonts.montserrat(
+                                                    color: appColor),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
+                                    )
+                                    .toList(),
+                              ),
 //                                   TextFieldSearch(
 //                                 // getSelectedValue: (value) {
 //                                 //   print('the selected value is $value');
@@ -454,917 +458,918 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 //                                 label: 'item 1',
 //                                 controller: myController,
 //                               )),
-                            //ends here
+                              //ends here
+                            ),
                           ),
-                        ),
-                      )
-                    ],
-                  ),
-                  // Container(
-                  //   // height: 159,
-                  //   decoration: BoxDecoration(
-                  //     color: Colors.white,
-                  //     borderRadius: BorderRadius.only(
-                  //       bottomLeft: Radius.circular(15),
-                  //       bottomRight: Radius.circular(15),
-                  //     ),
-                  //   ),
-                  //
-                  //   // Column(
-                  //   //   crossAxisAlignment: CrossAxisAlignment.center,
-                  //   //   children: [
-                  //   //     // Padding(
-                  //   //     //   padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  //   //     //   child: Container(
-                  //   //     //     color: Colors.white70,
-                  //   //     //     height: 36.43,
-                  //   //     //     width: double.infinity,
-                  //   //     //     child: Image(
-                  //   //     //       width: 200,
-                  //   //     //       // color: Colors.black,
-                  //   //     //       image: AssetImage(
-                  //   //     //         'assets/images/logos/img.png',
-                  //   //     //       ),
-                  //   //     //     ),
-                  //   //     //   ),
-                  //   //     // ),
-                  //   //
-                  //   //     // Row(
-                  //   //     //   children: [
-                  //   //     //     Padding(
-                  //   //     //       padding: const EdgeInsets.all(8.0),
-                  //   //     //       child: Card(
-                  //   //     //         elevation: 3,
-                  //   //     //         child: Container(
-                  //   //     //           height: 48,
-                  //   //     //           width: 48,
-                  //   //     //           decoration: BoxDecoration(
-                  //   //     //               color: Colors.white,
-                  //   //     //               borderRadius: BorderRadius.circular(12)),
-                  //   //     //           child: IconButton(
-                  //   //     //             icon: Icon(
-                  //   //     //               Icons.menu,
-                  //   //     //               color: Colors.black,
-                  //   //     //               size: 25,
-                  //   //     //             ),
-                  //   //     //             onPressed: () {
-                  //   //     //               _key.currentState!.openDrawer();
-                  //   //     //             },
-                  //   //     //           ),
-                  //   //     //         ),
-                  //   //     //       ),
-                  //   //     //     ),
-                  //   //     //     Expanded(
-                  //   //     //       child: Padding(
-                  //   //     //         padding: const EdgeInsets.only(right: 16.0),
-                  //   //     //         child: Material(
-                  //   //     //           borderRadius: BorderRadius.circular(12),
-                  //   //     //           elevation: 4,
-                  //   //     //           child: TextField(
-                  //   //     //             style: TextStyle(
-                  //   //     //               color: Colors
-                  //   //     //                   .black, // Set the color of the text
-                  //   //     //             ),
-                  //   //     //             decoration: InputDecoration(
-                  //   //     //               hintText: 'Search stations',
-                  //   //     //               border: InputBorder.none,
-                  //   //     //               contentPadding: EdgeInsets.all(16),
-                  //   //     //               suffixIcon: IconButton(
-                  //   //     //                 color: Colors.black,
-                  //   //     //                 icon: Icon(
-                  //   //     //                   FontAwesomeIcons.sliders,
-                  //   //     //                 ),
-                  //   //     //                 onPressed: () {
-                  //   //     //                   Navigator.push(
-                  //   //     //                     context,
-                  //   //     //                     PageRouteBuilder(
-                  //   //     //                       transitionDuration:
-                  //   //     //                           Duration(milliseconds: 500),
-                  //   //     //                       pageBuilder: (BuildContext
-                  //   //     //                               context,
-                  //   //     //                           Animation<double> animation,
-                  //   //     //                           Animation<double>
-                  //   //     //                               secondaryAnimation) {
-                  //   //     //                         return FadeTransition(
-                  //   //     //                           opacity: animation,
-                  //   //     //                           child: FilterPage(),
-                  //   //     //                         );
-                  //   //     //                       },
-                  //   //     //                     ),
-                  //   //     //                   );
-                  //   //     //                 },
-                  //   //     //               ),
-                  //   //     //             ),
-                  //   //     //             onChanged: (value) {
-                  //   //     //               // Handle search bar changes
-                  //   //     //             },
-                  //   //     //           ),
-                  //   //     //         ),
-                  //   //     //       ),
-                  //   //     //     ),
-                  //   //     //   ],
-                  //   //     // ),
-                  //   //   ],
-                  //   // ),
-                  // ),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.center,
-                  //   children: [
-                  //     // Padding(
-                  //     //   padding: const EdgeInsets.all(8.0),
-                  //     //   child: Card(
-                  //     //     elevation: 3,
-                  //     //     child: Container(
-                  //     //       height: 40,
-                  //     //       width: 40,
-                  //     //       decoration: BoxDecoration(
-                  //     //           color: Colors.white,
-                  //     //           borderRadius: BorderRadius.circular(12)),
-                  //     //       child: IconButton(
-                  //     //         icon: Icon(
-                  //     //           Icons.menu,
-                  //     //           color: Colors.black,
-                  //     //           size: 25,
-                  //     //         ),
-                  //     //         onPressed: () {
-                  //     //           _key.currentState!.openDrawer();
-                  //     //         },
-                  //     //       ),
-                  //     //     ),
-                  //     //   ),
-                  //     // ),
-                  //     Expanded(
-                  //       child: Padding(
-                  //         padding: const EdgeInsets.only(right: 16.0),
-                  //         child: Material(
-                  //           borderRadius: BorderRadius.circular(12),
-                  //           elevation: 2,
-                  //           child: TextField(
-                  //             style: TextStyle(
-                  //               color:
-                  //                   Colors.black, // Set the color of the text
-                  //             ),
-                  //             decoration: InputDecoration(
-                  //               prefixIcon: InkWell(
-                  //                 onTap: () {
-                  //                   _key.currentState!.openDrawer();
-                  //                 },
-                  //                 child: Icon(
-                  //                   Icons.menu,
-                  //                 ),
-                  //               ),
-                  //               hintText: 'Search stations',
-                  //               border: InputBorder.none,
-                  //               contentPadding: EdgeInsets.all(16),
-                  //               suffixIcon: IconButton(
-                  //                 color: Colors.black,
-                  //                 icon: Icon(
-                  //                   FontAwesomeIcons.sliders,
-                  //                 ),
-                  //                 onPressed: () {
-                  //                   Navigator.push(
-                  //                     context,
-                  //                     PageRouteBuilder(
-                  //                       transitionDuration:
-                  //                           Duration(milliseconds: 500),
-                  //                       pageBuilder: (BuildContext context,
-                  //                           Animation<double> animation,
-                  //                           Animation<double>
-                  //                               secondaryAnimation) {
-                  //                         return FadeTransition(
-                  //                           opacity: animation,
-                  //                           child: FilterPage(),
-                  //                         );
-                  //                       },
-                  //                     ),
-                  //                   );
-                  //                 },
-                  //               ),
-                  //             ),
-                  //             onChanged: (value) {
-                  //               // Handle search bar changes
-                  //             },
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
-                ],
+                        )
+                      ],
+                    ),
+                    // Container(
+                    //   // height: 159,
+                    //   decoration: BoxDecoration(
+                    //     color: Colors.white,
+                    //     borderRadius: BorderRadius.only(
+                    //       bottomLeft: Radius.circular(15),
+                    //       bottomRight: Radius.circular(15),
+                    //     ),
+                    //   ),
+                    //
+                    //   // Column(
+                    //   //   crossAxisAlignment: CrossAxisAlignment.center,
+                    //   //   children: [
+                    //   //     // Padding(
+                    //   //     //   padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    //   //     //   child: Container(
+                    //   //     //     color: Colors.white70,
+                    //   //     //     height: 36.43,
+                    //   //     //     width: double.infinity,
+                    //   //     //     child: Image(
+                    //   //     //       width: 200,
+                    //   //     //       // color: Colors.black,
+                    //   //     //       image: AssetImage(
+                    //   //     //         'assets/images/logos/img.png',
+                    //   //     //       ),
+                    //   //     //     ),
+                    //   //     //   ),
+                    //   //     // ),
+                    //   //
+                    //   //     // Row(
+                    //   //     //   children: [
+                    //   //     //     Padding(
+                    //   //     //       padding: const EdgeInsets.all(8.0),
+                    //   //     //       child: Card(
+                    //   //     //         elevation: 3,
+                    //   //     //         child: Container(
+                    //   //     //           height: 48,
+                    //   //     //           width: 48,
+                    //   //     //           decoration: BoxDecoration(
+                    //   //     //               color: Colors.white,
+                    //   //     //               borderRadius: BorderRadius.circular(12)),
+                    //   //     //           child: IconButton(
+                    //   //     //             icon: Icon(
+                    //   //     //               Icons.menu,
+                    //   //     //               color: Colors.black,
+                    //   //     //               size: 25,
+                    //   //     //             ),
+                    //   //     //             onPressed: () {
+                    //   //     //               _key.currentState!.openDrawer();
+                    //   //     //             },
+                    //   //     //           ),
+                    //   //     //         ),
+                    //   //     //       ),
+                    //   //     //     ),
+                    //   //     //     Expanded(
+                    //   //     //       child: Padding(
+                    //   //     //         padding: const EdgeInsets.only(right: 16.0),
+                    //   //     //         child: Material(
+                    //   //     //           borderRadius: BorderRadius.circular(12),
+                    //   //     //           elevation: 4,
+                    //   //     //           child: TextField(
+                    //   //     //             style: TextStyle(
+                    //   //     //               color: Colors
+                    //   //     //                   .black, // Set the color of the text
+                    //   //     //             ),
+                    //   //     //             decoration: InputDecoration(
+                    //   //     //               hintText: 'Search stations',
+                    //   //     //               border: InputBorder.none,
+                    //   //     //               contentPadding: EdgeInsets.all(16),
+                    //   //     //               suffixIcon: IconButton(
+                    //   //     //                 color: Colors.black,
+                    //   //     //                 icon: Icon(
+                    //   //     //                   FontAwesomeIcons.sliders,
+                    //   //     //                 ),
+                    //   //     //                 onPressed: () {
+                    //   //     //                   Navigator.push(
+                    //   //     //                     context,
+                    //   //     //                     PageRouteBuilder(
+                    //   //     //                       transitionDuration:
+                    //   //     //                           Duration(milliseconds: 500),
+                    //   //     //                       pageBuilder: (BuildContext
+                    //   //     //                               context,
+                    //   //     //                           Animation<double> animation,
+                    //   //     //                           Animation<double>
+                    //   //     //                               secondaryAnimation) {
+                    //   //     //                         return FadeTransition(
+                    //   //     //                           opacity: animation,
+                    //   //     //                           child: FilterPage(),
+                    //   //     //                         );
+                    //   //     //                       },
+                    //   //     //                     ),
+                    //   //     //                   );
+                    //   //     //                 },
+                    //   //     //               ),
+                    //   //     //             ),
+                    //   //     //             onChanged: (value) {
+                    //   //     //               // Handle search bar changes
+                    //   //     //             },
+                    //   //     //           ),
+                    //   //     //         ),
+                    //   //     //       ),
+                    //   //     //     ),
+                    //   //     //   ],
+                    //   //     // ),
+                    //   //   ],
+                    //   // ),
+                    // ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   children: [
+                    //     // Padding(
+                    //     //   padding: const EdgeInsets.all(8.0),
+                    //     //   child: Card(
+                    //     //     elevation: 3,
+                    //     //     child: Container(
+                    //     //       height: 40,
+                    //     //       width: 40,
+                    //     //       decoration: BoxDecoration(
+                    //     //           color: Colors.white,
+                    //     //           borderRadius: BorderRadius.circular(12)),
+                    //     //       child: IconButton(
+                    //     //         icon: Icon(
+                    //     //           Icons.menu,
+                    //     //           color: Colors.black,
+                    //     //           size: 25,
+                    //     //         ),
+                    //     //         onPressed: () {
+                    //     //           _key.currentState!.openDrawer();
+                    //     //         },
+                    //     //       ),
+                    //     //     ),
+                    //     //   ),
+                    //     // ),
+                    //     Expanded(
+                    //       child: Padding(
+                    //         padding: const EdgeInsets.only(right: 16.0),
+                    //         child: Material(
+                    //           borderRadius: BorderRadius.circular(12),
+                    //           elevation: 2,
+                    //           child: TextField(
+                    //             style: TextStyle(
+                    //               color:
+                    //                   Colors.black, // Set the color of the text
+                    //             ),
+                    //             decoration: InputDecoration(
+                    //               prefixIcon: InkWell(
+                    //                 onTap: () {
+                    //                   _key.currentState!.openDrawer();
+                    //                 },
+                    //                 child: Icon(
+                    //                   Icons.menu,
+                    //                 ),
+                    //               ),
+                    //               hintText: 'Search stations',
+                    //               border: InputBorder.none,
+                    //               contentPadding: EdgeInsets.all(16),
+                    //               suffixIcon: IconButton(
+                    //                 color: Colors.black,
+                    //                 icon: Icon(
+                    //                   FontAwesomeIcons.sliders,
+                    //                 ),
+                    //                 onPressed: () {
+                    //                   Navigator.push(
+                    //                     context,
+                    //                     PageRouteBuilder(
+                    //                       transitionDuration:
+                    //                           Duration(milliseconds: 500),
+                    //                       pageBuilder: (BuildContext context,
+                    //                           Animation<double> animation,
+                    //                           Animation<double>
+                    //                               secondaryAnimation) {
+                    //                         return FadeTransition(
+                    //                           opacity: animation,
+                    //                           child: FilterPage(),
+                    //                         );
+                    //                       },
+                    //                     ),
+                    //                   );
+                    //                 },
+                    //               ),
+                    //             ),
+                    //             onChanged: (value) {
+                    //               // Handle search bar changes
+                    //             },
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
+                  ],
+                ),
+                // Container(
+                //   height: 159,
+                //   decoration: BoxDecoration(
+                //     color: Colors.white,
+                //     borderRadius: BorderRadius.only(
+                //       bottomLeft: Radius.circular(15),
+                //       bottomRight: Radius.circular(15),
+                //     ),
+                //   ),
+                //   child: Column(
+                //     children: [
+                //       Padding(
+                //         padding: const EdgeInsets.symmetric(vertical: 8.0),
+                //         child: Container(
+                //           color: Colors.white,
+                //           height: 36.43,
+                //           width: 200,
+                //           child: Image(
+                //             image: AssetImage('assets/images/logos/img.png'),
+                //           ),
+                //         ),
+                //       ),
+                //       Row(
+                //         children: [
+                //           Padding(
+                //             padding: const EdgeInsets.all(8.0),
+                //             child: Card(
+                //               elevation: 3,
+                //               child: Container(
+                //                 height: 48,
+                //                 width: 48,
+                //                 decoration: BoxDecoration(
+                //                     color: Colors.white,
+                //                     borderRadius: BorderRadius.circular(12)),
+                //                 child: IconButton(
+                //                   icon: Icon(
+                //                     Icons.menu,
+                //                     color: Colors.black,
+                //                     size: 25,
+                //                   ),
+                //                   onPressed: () {
+                //                     _key.currentState!.openDrawer();
+                //                   },
+                //                 ),
+                //               ),
+                //             ),
+                //           ),
+                //           Expanded(
+                //             child: Padding(
+                //               padding: const EdgeInsets.only(right: 16.0),
+                //               child: Material(
+                //                 borderRadius: BorderRadius.circular(12),
+                //                 elevation: 4,
+                //                 child: TextField(
+                //                   style: TextStyle(
+                //                     color:
+                //                         Colors.black, // Set the color of the text
+                //                   ),
+                //                   decoration: InputDecoration(
+                //                     hintText: 'Search stations',
+                //                     border: InputBorder.none,
+                //                     contentPadding: EdgeInsets.all(16),
+                //                     suffixIcon: IconButton(
+                //                       color: Colors.black,
+                //                       icon: Icon(
+                //                         FontAwesomeIcons.sliders,
+                //                       ),
+                //                       onPressed: () {
+                //                         Navigator.push(
+                //                           context,
+                //                           PageRouteBuilder(
+                //                             transitionDuration:
+                //                                 Duration(milliseconds: 500),
+                //                             pageBuilder: (BuildContext context,
+                //                                 Animation<double> animation,
+                //                                 Animation<double>
+                //                                     secondaryAnimation) {
+                //                               return FadeTransition(
+                //                                 opacity: animation,
+                //                                 child: FilterPage(),
+                //                               );
+                //                             },
+                //                           ),
+                //                         );
+                //                       },
+                //                     ),
+                //                   ),
+                //                   onChanged: (value) {
+                //                     // Handle search bar changes
+                //                   },
+                //                 ),
+                //               ),
+                //             ),
+                //           ),
+                //         ],
+                //       ),
+                //     ],
+                //   ),
+                // ),
               ),
-              // Container(
-              //   height: 159,
-              //   decoration: BoxDecoration(
-              //     color: Colors.white,
-              //     borderRadius: BorderRadius.only(
-              //       bottomLeft: Radius.circular(15),
-              //       bottomRight: Radius.circular(15),
+              // Positioned(
+              //   top: 175,
+              //
+              //   // left: 20,
+              //   // width: MediaQuery.of(context).size.width * 0.95,
+              //   // right: 0,
+              //   child: Container(
+              //     decoration: BoxDecoration(
+              //       color: Colors.white,
+              //       borderRadius: BorderRadius.circular(8),
               //     ),
-              //   ),
-              //   child: Column(
-              //     children: [
-              //       Padding(
-              //         padding: const EdgeInsets.symmetric(vertical: 8.0),
-              //         child: Container(
-              //           color: Colors.white,
-              //           height: 36.43,
-              //           width: 200,
-              //           child: Image(
-              //             image: AssetImage('assets/images/logos/img.png'),
+              //     width: 365,
+              //     height: 58,
+              //     child: Row(
+              //       children: [
+              //         Expanded(
+              //           child: GestureDetector(
+              //             onTap: () {
+              //               changeActiveButton(screenViewTypes.mapView);
+              //             },
+              //             child: Padding(
+              //               padding: const EdgeInsets.all(8.0),
+              //               child: Material(
+              //                 elevation:
+              //                     activeView != screenViewTypes.mapView ? 5 : 0.5,
+              //                 child: Container(
+              //                   width: 175,
+              //                   height: 45,
+              //                   child: Row(
+              //                     mainAxisAlignment: MainAxisAlignment.center,
+              //                     children: [
+              //                       Expanded(
+              //                         child: Icon(
+              //                           Icons.map_outlined,
+              //                           color: appColor,
+              //                         ),
+              //                       ),
+              //                       Expanded(
+              //                         flex: 3,
+              //                         child: Text(
+              //                           'Map View',
+              //                           style: TextStyle(
+              //                             fontWeight: FontWeight.bold,
+              //                             fontSize: 16,
+              //                             color: appColor,
+              //                           ),
+              //                         ),
+              //                       ),
+              //                     ],
+              //                   ),
+              //                   decoration: BoxDecoration(
+              //                     color: Colors.white,
+              //                     borderRadius: BorderRadius.circular(20),
+              //                   ),
+              //                 ),
+              //               ),
+              //             ),
               //           ),
               //         ),
-              //       ),
-              //       Row(
-              //         children: [
-              //           Padding(
-              //             padding: const EdgeInsets.all(8.0),
-              //             child: Card(
-              //               elevation: 3,
-              //               child: Container(
-              //                 height: 48,
-              //                 width: 48,
-              //                 decoration: BoxDecoration(
-              //                     color: Colors.white,
-              //                     borderRadius: BorderRadius.circular(12)),
-              //                 child: IconButton(
-              //                   icon: Icon(
-              //                     Icons.menu,
-              //                     color: Colors.black,
-              //                     size: 25,
-              //                   ),
-              //                   onPressed: () {
-              //                     _key.currentState!.openDrawer();
-              //                   },
-              //                 ),
-              //               ),
-              //             ),
-              //           ),
-              //           Expanded(
+              //         Expanded(
+              //           child: GestureDetector(
+              //             onTap: () {
+              //               changeActiveButton(screenViewTypes.listView);
+              //             },
               //             child: Padding(
-              //               padding: const EdgeInsets.only(right: 16.0),
+              //               padding: const EdgeInsets.all(8.0),
               //               child: Material(
-              //                 borderRadius: BorderRadius.circular(12),
-              //                 elevation: 4,
-              //                 child: TextField(
-              //                   style: TextStyle(
-              //                     color:
-              //                         Colors.black, // Set the color of the text
-              //                   ),
-              //                   decoration: InputDecoration(
-              //                     hintText: 'Search stations',
-              //                     border: InputBorder.none,
-              //                     contentPadding: EdgeInsets.all(16),
-              //                     suffixIcon: IconButton(
-              //                       color: Colors.black,
-              //                       icon: Icon(
-              //                         FontAwesomeIcons.sliders,
+              //                 elevation: activeView != screenViewTypes.listView
+              //                     ? 5
+              //                     : 0.5,
+              //                 child: Container(
+              //                   width: 175,
+              //                   height: 45,
+              //                   child: Row(
+              //                     mainAxisAlignment: MainAxisAlignment.center,
+              //                     children: [
+              //                       Expanded(
+              //                         child: Icon(
+              //                           Icons.menu_sharp,
+              //                           color: appColor,
+              //                         ),
               //                       ),
-              //                       onPressed: () {
-              //                         Navigator.push(
-              //                           context,
-              //                           PageRouteBuilder(
-              //                             transitionDuration:
-              //                                 Duration(milliseconds: 500),
-              //                             pageBuilder: (BuildContext context,
-              //                                 Animation<double> animation,
-              //                                 Animation<double>
-              //                                     secondaryAnimation) {
-              //                               return FadeTransition(
-              //                                 opacity: animation,
-              //                                 child: FilterPage(),
-              //                               );
-              //                             },
+              //                       Expanded(
+              //                         flex: 3,
+              //                         child: Text(
+              //                           'List View',
+              //                           style: TextStyle(
+              //                             fontWeight: FontWeight.bold,
+              //                             fontSize: 16,
+              //                             color: appColor,
               //                           ),
-              //                         );
-              //                       },
-              //                     ),
+              //                         ),
+              //                       ),
+              //                     ],
               //                   ),
-              //                   onChanged: (value) {
-              //                     // Handle search bar changes
-              //                   },
+              //                   decoration: BoxDecoration(
+              //                     color: Colors.white,
+              //                     borderRadius: BorderRadius.circular(20),
+              //                   ),
               //                 ),
               //               ),
               //             ),
               //           ),
-              //         ],
-              //       ),
-              //     ],
+              //         ),
+              //       ],
+              //     ),
               //   ),
               // ),
-            ),
-            // Positioned(
-            //   top: 175,
-            //
-            //   // left: 20,
-            //   // width: MediaQuery.of(context).size.width * 0.95,
-            //   // right: 0,
-            //   child: Container(
-            //     decoration: BoxDecoration(
-            //       color: Colors.white,
-            //       borderRadius: BorderRadius.circular(8),
-            //     ),
-            //     width: 365,
-            //     height: 58,
-            //     child: Row(
-            //       children: [
-            //         Expanded(
-            //           child: GestureDetector(
-            //             onTap: () {
-            //               changeActiveButton(screenViewTypes.mapView);
-            //             },
-            //             child: Padding(
-            //               padding: const EdgeInsets.all(8.0),
-            //               child: Material(
-            //                 elevation:
-            //                     activeView != screenViewTypes.mapView ? 5 : 0.5,
-            //                 child: Container(
-            //                   width: 175,
-            //                   height: 45,
-            //                   child: Row(
-            //                     mainAxisAlignment: MainAxisAlignment.center,
-            //                     children: [
-            //                       Expanded(
-            //                         child: Icon(
-            //                           Icons.map_outlined,
-            //                           color: appColor,
-            //                         ),
-            //                       ),
-            //                       Expanded(
-            //                         flex: 3,
-            //                         child: Text(
-            //                           'Map View',
-            //                           style: TextStyle(
-            //                             fontWeight: FontWeight.bold,
-            //                             fontSize: 16,
-            //                             color: appColor,
-            //                           ),
-            //                         ),
-            //                       ),
-            //                     ],
-            //                   ),
-            //                   decoration: BoxDecoration(
-            //                     color: Colors.white,
-            //                     borderRadius: BorderRadius.circular(20),
-            //                   ),
-            //                 ),
-            //               ),
-            //             ),
-            //           ),
-            //         ),
-            //         Expanded(
-            //           child: GestureDetector(
-            //             onTap: () {
-            //               changeActiveButton(screenViewTypes.listView);
-            //             },
-            //             child: Padding(
-            //               padding: const EdgeInsets.all(8.0),
-            //               child: Material(
-            //                 elevation: activeView != screenViewTypes.listView
-            //                     ? 5
-            //                     : 0.5,
-            //                 child: Container(
-            //                   width: 175,
-            //                   height: 45,
-            //                   child: Row(
-            //                     mainAxisAlignment: MainAxisAlignment.center,
-            //                     children: [
-            //                       Expanded(
-            //                         child: Icon(
-            //                           Icons.menu_sharp,
-            //                           color: appColor,
-            //                         ),
-            //                       ),
-            //                       Expanded(
-            //                         flex: 3,
-            //                         child: Text(
-            //                           'List View',
-            //                           style: TextStyle(
-            //                             fontWeight: FontWeight.bold,
-            //                             fontSize: 16,
-            //                             color: appColor,
-            //                           ),
-            //                         ),
-            //                       ),
-            //                     ],
-            //                   ),
-            //                   decoration: BoxDecoration(
-            //                     color: Colors.white,
-            //                     borderRadius: BorderRadius.circular(20),
-            //                   ),
-            //                 ),
-            //               ),
-            //             ),
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
-            activeView == screenViewTypes.mapView
-                ? Positioned(
-                    bottom: 20,
-                    left: 0,
-                    right: 0,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12)),
-                      height: 150, // Adjust the height as needed
-                      child: userLocation != null
-                          ? FutureBuilder<List<ElectricStation>>(
-                              future: station.getNearByStations(
-                                  headers: headers,
-                                  latitude: userLocation!.latitude,
-                                  longitude: userLocation!.longitude),
-                              builder: (context, firstSnapshot) {
-                                // print('FutureBuilder is being called');
-                                if(firstSnapshot.hasError){
-                                  return Text('there was an error'
-                                  );
-                                }
+              activeView == screenViewTypes.mapView
+                  ? Positioned(
+                      bottom: 20,
+                      left: 0,
+                      right: 0,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12)),
+                        height: 150, // Adjust the height as needed
+                        child: userLocation != null
+                            ? FutureBuilder<List<ElectricStation>>(
+                                future: station.getNearByStations(
+                                    headers: headers,
+                                    latitude: userLocation!.latitude,
+                                    longitude: userLocation!.longitude),
+                                builder: (context, firstSnapshot) {
+                                  // print('FutureBuilder is being called');
+                                  if(firstSnapshot.hasError){
+                                    return Text('there was an error'
+                                    );
+                                  }
 
 
-                                if (firstSnapshot.hasData) {
-                                  print('from the FutureBuilder');
+                                  if (firstSnapshot.hasData) {
+                                    print('from the FutureBuilder');
 
-                                  return ListView(
-                                    scrollDirection: Axis.horizontal,
-                                    children: List.generate(
-                                      firstSnapshot.data!.length < 5
-                                          ? firstSnapshot.data!.length
-                                          : 5,
-                                          (index) {
-                                            print(firstSnapshot.data?[index].id);
-                                        ElectricStore store = ElectricStore.fromElectricStation(
-                                            firstSnapshot.data![index]);
+                                    return ListView(
+                                      scrollDirection: Axis.horizontal,
+                                      children: List.generate(
+                                        firstSnapshot.data!.length < 5
+                                            ? firstSnapshot.data!.length
+                                            : 5,
+                                            (index) {
+                                              print(firstSnapshot.data?[index].id);
+                                          ElectricStore store = ElectricStore.fromElectricStation(
+                                              firstSnapshot.data![index]);
 
 
 
-                                        return GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    StationDetailedPage(station: firstSnapshot.data![index]),
-                                              ),
-                                            );
-                                          },
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(12)),
-                                              width: MediaQuery.of(context).size.width * 0.60,
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(top: 4.0),
-                                                    child: Text(
-                                                      textAlign: TextAlign.center,
-                                                      '${widget.allStations[index].tenant['name']}- ${store.name}',
-                                                      style: GoogleFonts.montserrat(
-                                                          fontWeight: FontWeight.bold,
-                                                          color: appColor),
+                                          return GestureDetector(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      StationDetailedPage(station: firstSnapshot.data![index]),
+                                                ),
+                                              );
+                                            },
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius: BorderRadius.circular(12)),
+                                                width: MediaQuery.of(context).size.width * 0.60,
+                                                child: Column(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children: [
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(top: 4.0),
+                                                      child: Text(
+                                                        textAlign: TextAlign.center,
+                                                        '${widget.allStations[index].tenant['name']}- ${store.name}',
+                                                        style: GoogleFonts.montserrat(
+                                                            fontWeight: FontWeight.bold,
+                                                            color: appColor),
+                                                      ),
                                                     ),
-                                                  ),
-                                                  SizedBox(height: 5),
-                                                  Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                    children: [
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(
-                                                            right: 8.0, left: 8),
-                                                        child: Column(
-                                                          children: [
-                                                            Icon(
-                                                              Icons.directions,
+                                                    SizedBox(height: 5),
+                                                    Row(
+                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                      children: [
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(
+                                                              right: 8.0, left: 8),
+                                                          child: Column(
+                                                            children: [
+                                                              Icon(
+                                                                Icons.directions,
+                                                                color: appColor,
+                                                              ),
+                                                              Text(
+                                                                'Yol',
+                                                                style: GoogleFonts.montserrat(
+                                                                    color: appColor,
+                                                                    fontWeight: FontWeight.bold),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        SizedBox(width: 10),
+                                                        Expanded(
+                                                          child: Provider.of<FavoriteStation>(context, listen: true).calculatedDistance.isNotEmpty? Text(
+                                                            textAlign: TextAlign.center,
+                                                            '${ Provider.of<FavoriteStation>(context, listen: true).calculatedDistance[index].text} ${store.address}',
+                                                            style: GoogleFonts.montserrat(
+                                                              fontSize: 12,
+                                                            ),
+                                                          ):
+                                                             Container(
+                                                               height: 20,
+                                                               width: 20,
+                                                               child: Center(
+                                                                 child: CircularProgressIndicator(),
+                                                               ),
+                                                             )
+                                                          // FutureBuilder<DistanceData?>(
+                                                          //   future:
+                                                          //   Stations.getDistanceBetweenTwoPoints(
+                                                          //     origin: LatLng(userLocation!.latitude,
+                                                          //         userLocation!.longitude),
+                                                          //     destination: LatLng(
+                                                          //       widget.allStations[index].location.latitude,
+                                                          //       widget.allStations[index].location.longitude,
+                                                          //     ),
+                                                          //   ),
+                                                          //   builder: (context, snapshot,) {
+                                                          //     print('inside future builder called $numberCalled');
+                                                          //     // print('it means it doesnt contain it');
+                                                          //     ++numberCalled;
+                                                          //     // print('called it $numberCalled');
+                                                          //     if (snapshot.hasData) {
+                                                          //       if (!distanceCache.containsKey(index)) {
+                                                          //         distanceCache[index] =
+                                                          //         (snapshot.data!.rows.isNotEmpty
+                                                          //             ? snapshot.data!.rows[0].elements.isNotEmpty
+                                                          //             ? snapshot.data!.rows[0].elements[0]
+                                                          //             .distance
+                                                          //             : null
+                                                          //             : null)!;
+                                                          //
+                                                          //       }
+                                                          //
+                                                          //       DistanceMatrix.Distance? distance =
+                                                          //       distanceCache[index];
+                                                          //
+                                                          //
+                                                          //       return Text(
+                                                          //         textAlign: TextAlign.center,
+                                                          //         '${distance?.text} ${store.address}',
+                                                          //         style: GoogleFonts.montserrat(
+                                                          //           fontSize: 12,
+                                                          //         ),
+                                                          //       );
+                                                          //     } else if (snapshot.hasError) {
+                                                          //       // Handle error case
+                                                          //       return Text('Error fetching distance');
+                                                          //     } else {
+                                                          //       return CircularProgressIndicator();
+                                                          //     }
+                                                          //   },
+                                                          // ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                    SingleChildScrollView(
+                                                      scrollDirection: Axis.horizontal,
+                                                      child: Row(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: placeIcons.keys.map((placeName) {
+                                                          final iconData = placeIcons[placeName];
+                                                          return Padding(
+                                                            padding: const EdgeInsets.all(8.0),
+                                                            child: Icon(
+                                                              iconData,
+                                                              size: 15,
                                                               color: appColor,
                                                             ),
-                                                            Text(
-                                                              'Yol',
-                                                              style: GoogleFonts.montserrat(
-                                                                  color: appColor,
-                                                                  fontWeight: FontWeight.bold),
-                                                            )
-                                                          ],
-                                                        ),
+                                                          );
+                                                        }).toList(),
                                                       ),
-                                                      SizedBox(width: 10),
-                                                      Expanded(
-                                                        child: Provider.of<FavoriteStation>(context, listen: true).calculatedDistance.isNotEmpty? Text(
-                                                          textAlign: TextAlign.center,
-                                                          '${ Provider.of<FavoriteStation>(context, listen: true).calculatedDistance[index].text} ${store.address}',
-                                                          style: GoogleFonts.montserrat(
-                                                            fontSize: 12,
-                                                          ),
-                                                        ):
-                                                           Container(
-                                                             height: 20,
-                                                             width: 20,
-                                                             child: Center(
-                                                               child: CircularProgressIndicator(),
-                                                             ),
-                                                           )
-                                                        // FutureBuilder<DistanceData?>(
-                                                        //   future:
-                                                        //   Stations.getDistanceBetweenTwoPoints(
-                                                        //     origin: LatLng(userLocation!.latitude,
-                                                        //         userLocation!.longitude),
-                                                        //     destination: LatLng(
-                                                        //       widget.allStations[index].location.latitude,
-                                                        //       widget.allStations[index].location.longitude,
-                                                        //     ),
-                                                        //   ),
-                                                        //   builder: (context, snapshot,) {
-                                                        //     print('inside future builder called $numberCalled');
-                                                        //     // print('it means it doesnt contain it');
-                                                        //     ++numberCalled;
-                                                        //     // print('called it $numberCalled');
-                                                        //     if (snapshot.hasData) {
-                                                        //       if (!distanceCache.containsKey(index)) {
-                                                        //         distanceCache[index] =
-                                                        //         (snapshot.data!.rows.isNotEmpty
-                                                        //             ? snapshot.data!.rows[0].elements.isNotEmpty
-                                                        //             ? snapshot.data!.rows[0].elements[0]
-                                                        //             .distance
-                                                        //             : null
-                                                        //             : null)!;
-                                                        //
-                                                        //       }
-                                                        //
-                                                        //       DistanceMatrix.Distance? distance =
-                                                        //       distanceCache[index];
-                                                        //
-                                                        //
-                                                        //       return Text(
-                                                        //         textAlign: TextAlign.center,
-                                                        //         '${distance?.text} ${store.address}',
-                                                        //         style: GoogleFonts.montserrat(
-                                                        //           fontSize: 12,
-                                                        //         ),
-                                                        //       );
-                                                        //     } else if (snapshot.hasError) {
-                                                        //       // Handle error case
-                                                        //       return Text('Error fetching distance');
-                                                        //     } else {
-                                                        //       return CircularProgressIndicator();
-                                                        //     }
-                                                        //   },
-                                                        // ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                  SingleChildScrollView(
-                                                    scrollDirection: Axis.horizontal,
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                      children: placeIcons.keys.map((placeName) {
-                                                        final iconData = placeIcons[placeName];
-                                                        return Padding(
-                                                          padding: const EdgeInsets.all(8.0),
-                                                          child: Icon(
-                                                            iconData,
-                                                            size: 15,
-                                                            color: appColor,
-                                                          ),
-                                                        );
-                                                      }).toList(),
                                                     ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  );
-                                } else if (firstSnapshot.hasError) {
-                                  return Text('There was an error');
-                                } else {
-                                  return Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                }
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  } else if (firstSnapshot.hasError) {
+                                    return Text('There was an error');
+                                  } else {
+                                    return Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  }
 
 
-                                // if (firstSnapshot.hasData) {
-                                //   return ListView.builder(
-                                //     shrinkWrap: true,
-                                //     scrollDirection: Axis.horizontal,
-                                //     itemCount: firstSnapshot.data!.length < 5
-                                //         ? firstSnapshot.data!.length
-                                //         : 5,
-                                //     // itemCount: snapshot.data
-                                //     //     ?.length, // Replace with your actual data count
-                                //     itemBuilder: (context, index) {
-                                //       // Future<DistanceMatrix.DistanceData?>
-                                //       //     distanceData =
-                                //       //     Stations.getDistanceBetweenTwoPoints(
-                                //       //   origin: LatLng(userLocation!.latitude,
-                                //       //       userLocation!.longitude),
-                                //       //   destination: LatLng(
-                                //       //     widget.allStations[index].location
-                                //       //         .latitude,
-                                //       //     widget.allStations[index].location
-                                //       //         .latitude,
-                                //       //   ),
-                                //       // );
-                                //       // print(
-                                //       //     'this is the distance result ${distanceData.toString()}');
-                                //       // DistanceMatrix.Distance? distance;
-                                //       // if (distanceData!.rows.isNotEmpty) {
-                                //       //   DistanceMatrix.RowElements row = distanceData.rows[0];
-                                //       //   if (row.elements.isNotEmpty) {
-                                //       //     DistanceMatrix.Element element = row.elements[0];
-                                //       //     if (element.status == 'OK') {
-                                //       //       distance = element.distance;
-                                //       //       print('Duration: ${distance.text}');
-                                //       //       print('Value: ${distance.value}  meters');
-                                //       //     } else {
-                                //       //       print('Element status is not OK');
-                                //       //     }
-                                //       //   } else {
-                                //       //     print('No elements in the row');
-                                //       //   }
-                                //       // } else {
-                                //       //   print('No rows in the distance data');
-                                //       // }
-                                //
-                                //       ElectricStore store =
-                                //           ElectricStore.fromElectricStation(
-                                //               firstSnapshot.data![index]);
-                                //       print(store.amenities.length);
-                                //       // Replace with your Card widget implementation
-                                //       return GestureDetector(
-                                //         onTap: () {
-                                //           Navigator.push(
-                                //               context,
-                                //               MaterialPageRoute(
-                                //                   builder: (context) =>
-                                //                       StationDetailedPage(
-                                //                           station: firstSnapshot
-                                //                               .data![index])));
-                                //         },
-                                //         child: Padding(
-                                //           padding: const EdgeInsets.all(8.0),
-                                //           child: Container(
-                                //             decoration: BoxDecoration(
-                                //                 color: Colors.white,
-                                //                 borderRadius:
-                                //                     BorderRadius.circular(12)),
-                                //             width: MediaQuery.of(context)
-                                //                     .size
-                                //                     .width *
-                                //                 0.60,
-                                //             child: Column(
-                                //               mainAxisSize: MainAxisSize.min,
-                                //               children: [
-                                //                 Padding(
-                                //                   padding:
-                                //                       const EdgeInsets.only(
-                                //                           top: 4.0),
-                                //                   child: Text(
-                                //                     textAlign: TextAlign.center,
-                                //                     '${widget.allStations[index].tenant['name']}- ${store.name}',
-                                //                     style:
-                                //                         GoogleFonts.montserrat(
-                                //                             fontWeight:
-                                //                                 FontWeight.bold,
-                                //                             color: appColor),
-                                //                   ),
-                                //                 ),
-                                //                 SizedBox(
-                                //                   height: 5,
-                                //                 ),
-                                //                 Row(
-                                //                   mainAxisAlignment:
-                                //                       MainAxisAlignment
-                                //                           .spaceBetween,
-                                //                   children: [
-                                //                     Padding(
-                                //                       padding:
-                                //                           const EdgeInsets.only(
-                                //                               right: 8.0,
-                                //                               left: 8),
-                                //                       child: Column(
-                                //                         children: [
-                                //                           Icon(
-                                //                             Icons.directions,
-                                //                             color: appColor,
-                                //                           ),
-                                //                           Text(
-                                //                             'Yol',
-                                //                             style: GoogleFonts
-                                //                                 .montserrat(
-                                //                                     color:
-                                //                                         appColor,
-                                //                                     fontWeight:
-                                //                                         FontWeight
-                                //                                             .bold),
-                                //                           )
-                                //                         ],
-                                //                       ),
-                                //                     ),
-                                //                     SizedBox(
-                                //                       width: 10,
-                                //                     ),
-                                //                     Expanded(
-                                //                       child: FutureBuilder<
-                                //                               DistanceData?>(
-                                //                           future: Stations
-                                //                               .getDistanceBetweenTwoPoints(
-                                //                             origin: LatLng(
-                                //                                 userLocation!
-                                //                                     .latitude,
-                                //                                 userLocation!
-                                //                                     .longitude),
-                                //                             destination: LatLng(
-                                //                               widget
-                                //                                   .allStations[
-                                //                                       index]
-                                //                                   .location
-                                //                                   .latitude,
-                                //                               widget
-                                //                                   .allStations[
-                                //                                       index]
-                                //                                   .location
-                                //                                   .latitude,
-                                //                             ),
-                                //                           ),
-                                //                           builder: (context,
-                                //                               snapshot) {
-                                //                             numberCalled++;
-                                //                             print('the amount of times it was called is $numberCalled');
-                                //                             print('was just called this time');
-                                //
-                                //                             if (!snapshot
-                                //                                 .hasData) {
-                                //                               return CircularProgressIndicator();
-                                //                             }
-                                //                             else{
-                                //                               DistanceMatrix
-                                //                                   .Distance?
-                                //                               distance;
-                                //                               if (snapshot
-                                //                                   .data!
-                                //                                   .rows
-                                //                                   .isNotEmpty) {
-                                //                                 DistanceMatrix
-                                //                                     .RowElements
-                                //                                 row = snapshot
-                                //                                     .data!
-                                //                                     .rows[0];
-                                //                                 if (row.elements
-                                //                                     .isNotEmpty) {
-                                //                                   DistanceMatrix
-                                //                                       .Element
-                                //                                   element =
-                                //                                   row.elements[
-                                //                                   0];
-                                //                                   if (element
-                                //                                       .status ==
-                                //                                       'OK') {
-                                //                                     distance = element
-                                //                                         .distance;
-                                //                                   } else {}
-                                //                                 } else {}
-                                //                               } else {}
-                                //                               return
-                                //
-                                //                                 Text(
-                                //                                   textAlign:
-                                //                                   TextAlign
-                                //                                       .center,
-                                //                                   '${distance?.text} ${store.address}',
-                                //                                   style: GoogleFonts
-                                //                                       .montserrat(
-                                //                                     fontSize: 12,
-                                //                                   ),
-                                //                                 );
-                                //
-                                //                             }
-                                //                           }),
-                                //                     )
-                                //                   ],
-                                //                 ),
-                                //                 SizedBox(
-                                //                   height: 5,
-                                //                 ),
-                                //                 SingleChildScrollView(
-                                //                   scrollDirection:
-                                //                       Axis.horizontal,
-                                //                   child: Row(
-                                //                     mainAxisAlignment:
-                                //                         MainAxisAlignment
-                                //                             .center,
-                                //                     children: placeIcons.keys
-                                //                         .map((placeName) {
-                                //                       final iconData =
-                                //                           placeIcons[placeName];
-                                //                       return Padding(
-                                //                         padding:
-                                //                             const EdgeInsets
-                                //                                 .all(8.0),
-                                //                         child: Icon(
-                                //                           iconData,
-                                //                           size: 15,
-                                //                           color: appColor,
-                                //                         ),
-                                //                       );
-                                //                     }).toList(),
-                                //                   ),
-                                //                 ),
-                                //               ],
-                                //             ),
-                                //           ),
-                                //         ),
-                                //       );
-                                //     },
-                                //   );
-                                // } else {
-                                //   return Center(
-                                //     child: Container(
-                                //       height: 30,
-                                //       width: 30,
-                                //       child: CircularProgressIndicator(),
-                                //     ),
-                                //   );
-                                // }
-                              })
-                          : CircularProgressIndicator(),
-                    ),
-                  )
-                : Container(),
-            activeView == screenViewTypes.mapView
-                ? Positioned(
-                    bottom: 168.0,
-                    right: 8.0,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: Colors.white,
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.layers,
-                              color: appColor,
-                            ),
-                            onPressed: () {
-                              activateTerrain();
-                              // Handle changing terrain
-                            },
-                          ),
-                        ),
-                        SizedBox(height: 8.0),
-                        InkWell(
-                          child: CircleAvatar(
+                                  // if (firstSnapshot.hasData) {
+                                  //   return ListView.builder(
+                                  //     shrinkWrap: true,
+                                  //     scrollDirection: Axis.horizontal,
+                                  //     itemCount: firstSnapshot.data!.length < 5
+                                  //         ? firstSnapshot.data!.length
+                                  //         : 5,
+                                  //     // itemCount: snapshot.data
+                                  //     //     ?.length, // Replace with your actual data count
+                                  //     itemBuilder: (context, index) {
+                                  //       // Future<DistanceMatrix.DistanceData?>
+                                  //       //     distanceData =
+                                  //       //     Stations.getDistanceBetweenTwoPoints(
+                                  //       //   origin: LatLng(userLocation!.latitude,
+                                  //       //       userLocation!.longitude),
+                                  //       //   destination: LatLng(
+                                  //       //     widget.allStations[index].location
+                                  //       //         .latitude,
+                                  //       //     widget.allStations[index].location
+                                  //       //         .latitude,
+                                  //       //   ),
+                                  //       // );
+                                  //       // print(
+                                  //       //     'this is the distance result ${distanceData.toString()}');
+                                  //       // DistanceMatrix.Distance? distance;
+                                  //       // if (distanceData!.rows.isNotEmpty) {
+                                  //       //   DistanceMatrix.RowElements row = distanceData.rows[0];
+                                  //       //   if (row.elements.isNotEmpty) {
+                                  //       //     DistanceMatrix.Element element = row.elements[0];
+                                  //       //     if (element.status == 'OK') {
+                                  //       //       distance = element.distance;
+                                  //       //       print('Duration: ${distance.text}');
+                                  //       //       print('Value: ${distance.value}  meters');
+                                  //       //     } else {
+                                  //       //       print('Element status is not OK');
+                                  //       //     }
+                                  //       //   } else {
+                                  //       //     print('No elements in the row');
+                                  //       //   }
+                                  //       // } else {
+                                  //       //   print('No rows in the distance data');
+                                  //       // }
+                                  //
+                                  //       ElectricStore store =
+                                  //           ElectricStore.fromElectricStation(
+                                  //               firstSnapshot.data![index]);
+                                  //       print(store.amenities.length);
+                                  //       // Replace with your Card widget implementation
+                                  //       return GestureDetector(
+                                  //         onTap: () {
+                                  //           Navigator.push(
+                                  //               context,
+                                  //               MaterialPageRoute(
+                                  //                   builder: (context) =>
+                                  //                       StationDetailedPage(
+                                  //                           station: firstSnapshot
+                                  //                               .data![index])));
+                                  //         },
+                                  //         child: Padding(
+                                  //           padding: const EdgeInsets.all(8.0),
+                                  //           child: Container(
+                                  //             decoration: BoxDecoration(
+                                  //                 color: Colors.white,
+                                  //                 borderRadius:
+                                  //                     BorderRadius.circular(12)),
+                                  //             width: MediaQuery.of(context)
+                                  //                     .size
+                                  //                     .width *
+                                  //                 0.60,
+                                  //             child: Column(
+                                  //               mainAxisSize: MainAxisSize.min,
+                                  //               children: [
+                                  //                 Padding(
+                                  //                   padding:
+                                  //                       const EdgeInsets.only(
+                                  //                           top: 4.0),
+                                  //                   child: Text(
+                                  //                     textAlign: TextAlign.center,
+                                  //                     '${widget.allStations[index].tenant['name']}- ${store.name}',
+                                  //                     style:
+                                  //                         GoogleFonts.montserrat(
+                                  //                             fontWeight:
+                                  //                                 FontWeight.bold,
+                                  //                             color: appColor),
+                                  //                   ),
+                                  //                 ),
+                                  //                 SizedBox(
+                                  //                   height: 5,
+                                  //                 ),
+                                  //                 Row(
+                                  //                   mainAxisAlignment:
+                                  //                       MainAxisAlignment
+                                  //                           .spaceBetween,
+                                  //                   children: [
+                                  //                     Padding(
+                                  //                       padding:
+                                  //                           const EdgeInsets.only(
+                                  //                               right: 8.0,
+                                  //                               left: 8),
+                                  //                       child: Column(
+                                  //                         children: [
+                                  //                           Icon(
+                                  //                             Icons.directions,
+                                  //                             color: appColor,
+                                  //                           ),
+                                  //                           Text(
+                                  //                             'Yol',
+                                  //                             style: GoogleFonts
+                                  //                                 .montserrat(
+                                  //                                     color:
+                                  //                                         appColor,
+                                  //                                     fontWeight:
+                                  //                                         FontWeight
+                                  //                                             .bold),
+                                  //                           )
+                                  //                         ],
+                                  //                       ),
+                                  //                     ),
+                                  //                     SizedBox(
+                                  //                       width: 10,
+                                  //                     ),
+                                  //                     Expanded(
+                                  //                       child: FutureBuilder<
+                                  //                               DistanceData?>(
+                                  //                           future: Stations
+                                  //                               .getDistanceBetweenTwoPoints(
+                                  //                             origin: LatLng(
+                                  //                                 userLocation!
+                                  //                                     .latitude,
+                                  //                                 userLocation!
+                                  //                                     .longitude),
+                                  //                             destination: LatLng(
+                                  //                               widget
+                                  //                                   .allStations[
+                                  //                                       index]
+                                  //                                   .location
+                                  //                                   .latitude,
+                                  //                               widget
+                                  //                                   .allStations[
+                                  //                                       index]
+                                  //                                   .location
+                                  //                                   .latitude,
+                                  //                             ),
+                                  //                           ),
+                                  //                           builder: (context,
+                                  //                               snapshot) {
+                                  //                             numberCalled++;
+                                  //                             print('the amount of times it was called is $numberCalled');
+                                  //                             print('was just called this time');
+                                  //
+                                  //                             if (!snapshot
+                                  //                                 .hasData) {
+                                  //                               return CircularProgressIndicator();
+                                  //                             }
+                                  //                             else{
+                                  //                               DistanceMatrix
+                                  //                                   .Distance?
+                                  //                               distance;
+                                  //                               if (snapshot
+                                  //                                   .data!
+                                  //                                   .rows
+                                  //                                   .isNotEmpty) {
+                                  //                                 DistanceMatrix
+                                  //                                     .RowElements
+                                  //                                 row = snapshot
+                                  //                                     .data!
+                                  //                                     .rows[0];
+                                  //                                 if (row.elements
+                                  //                                     .isNotEmpty) {
+                                  //                                   DistanceMatrix
+                                  //                                       .Element
+                                  //                                   element =
+                                  //                                   row.elements[
+                                  //                                   0];
+                                  //                                   if (element
+                                  //                                       .status ==
+                                  //                                       'OK') {
+                                  //                                     distance = element
+                                  //                                         .distance;
+                                  //                                   } else {}
+                                  //                                 } else {}
+                                  //                               } else {}
+                                  //                               return
+                                  //
+                                  //                                 Text(
+                                  //                                   textAlign:
+                                  //                                   TextAlign
+                                  //                                       .center,
+                                  //                                   '${distance?.text} ${store.address}',
+                                  //                                   style: GoogleFonts
+                                  //                                       .montserrat(
+                                  //                                     fontSize: 12,
+                                  //                                   ),
+                                  //                                 );
+                                  //
+                                  //                             }
+                                  //                           }),
+                                  //                     )
+                                  //                   ],
+                                  //                 ),
+                                  //                 SizedBox(
+                                  //                   height: 5,
+                                  //                 ),
+                                  //                 SingleChildScrollView(
+                                  //                   scrollDirection:
+                                  //                       Axis.horizontal,
+                                  //                   child: Row(
+                                  //                     mainAxisAlignment:
+                                  //                         MainAxisAlignment
+                                  //                             .center,
+                                  //                     children: placeIcons.keys
+                                  //                         .map((placeName) {
+                                  //                       final iconData =
+                                  //                           placeIcons[placeName];
+                                  //                       return Padding(
+                                  //                         padding:
+                                  //                             const EdgeInsets
+                                  //                                 .all(8.0),
+                                  //                         child: Icon(
+                                  //                           iconData,
+                                  //                           size: 15,
+                                  //                           color: appColor,
+                                  //                         ),
+                                  //                       );
+                                  //                     }).toList(),
+                                  //                   ),
+                                  //                 ),
+                                  //               ],
+                                  //             ),
+                                  //           ),
+                                  //         ),
+                                  //       );
+                                  //     },
+                                  //   );
+                                  // } else {
+                                  //   return Center(
+                                  //     child: Container(
+                                  //       height: 30,
+                                  //       width: 30,
+                                  //       child: CircularProgressIndicator(),
+                                  //     ),
+                                  //   );
+                                  // }
+                                })
+                            : CircularProgressIndicator(),
+                      ),
+                    )
+                  : Container(),
+              activeView == screenViewTypes.mapView
+                  ? Positioned(
+                      bottom: 168.0,
+                      right: 8.0,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
                             backgroundColor: Colors.white,
                             child: IconButton(
                               icon: Icon(
-                                Icons.location_searching_outlined,
+                                Icons.layers,
                                 color: appColor,
                               ),
                               onPressed: () {
-                                moveToUserLocation();
+                                activateTerrain();
                                 // Handle changing terrain
                               },
                             ),
                           ),
-                        ),
-                        // IconButton(
-                        //   icon: Image(
-                        //     image: AssetImage('assets/icons/locationImage.png'),
-                        //   ),
-                        //   onPressed: () {
-                        //     moveToUserLocation();
-                        //     // Handle redirecting the camera to the user's location
-                        //   },
-                        // ),
-                        // SizedBox(height: 8.0),
-                        // CircleAvatar(
-                        //   backgroundColor: Colors.white,
-                        //   child: IconButton(
-                        //     icon: Icon(
-                        //       Icons.info,
-                        //       color: appColor,
-                        //     ),
-                        //     onPressed: () {
-                        //       // Stations.getDistanceBetweenTwoPoints(
-                        //       //     origin: LatLng(41.018900, 29.011810),
-                        //       //     destination: LatLng(41.013000, 28.974800));
-                        //       showInformationPopup(context);
-                        //     },
-                        //   ),
-                        // ),
-                      ],
-                    ),
-                  )
-                : Container(),
-          ]),
+                          SizedBox(height: 8.0),
+                          InkWell(
+                            child: CircleAvatar(
+                              backgroundColor: Colors.white,
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.location_searching_outlined,
+                                  color: appColor,
+                                ),
+                                onPressed: () {
+                                  moveToUserLocation();
+                                  // Handle changing terrain
+                                },
+                              ),
+                            ),
+                          ),
+                          // IconButton(
+                          //   icon: Image(
+                          //     image: AssetImage('assets/icons/locationImage.png'),
+                          //   ),
+                          //   onPressed: () {
+                          //     moveToUserLocation();
+                          //     // Handle redirecting the camera to the user's location
+                          //   },
+                          // ),
+                          // SizedBox(height: 8.0),
+                          // CircleAvatar(
+                          //   backgroundColor: Colors.white,
+                          //   child: IconButton(
+                          //     icon: Icon(
+                          //       Icons.info,
+                          //       color: appColor,
+                          //     ),
+                          //     onPressed: () {
+                          //       // Stations.getDistanceBetweenTwoPoints(
+                          //       //     origin: LatLng(41.018900, 29.011810),
+                          //       //     destination: LatLng(41.013000, 28.974800));
+                          //       showInformationPopup(context);
+                          //     },
+                          //   ),
+                          // ),
+                        ],
+                      ),
+                    )
+                  : Container(),
+            ]),
+          ),
         ),
       ),
     );

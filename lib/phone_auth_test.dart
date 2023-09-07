@@ -393,9 +393,11 @@
 // }
 import 'dart:async';
 
+import 'package:chargemate/screens/home_screen.dart';
 import 'package:chargemate/screens/registration/email_input_page.dart';
 import 'package:chargemate/service/api_service.dart';
 import 'package:chargemate/modals/model_stations.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -621,15 +623,46 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                                   auth
                                       .signInWithCredential(_credential)
                                       .then((result) async {
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                EmailInputPage(
-                                                  phoneNumber:
-                                                      widget.phoneNumber!,
-                                                  // allStations: allStations,
-                                                )));
+
+                                    DocumentSnapshot result=  await firestore.collection('Users').doc(auth.currentUser!.uid).get();
+                                   if(result.exists){
+                                     Stations station = Stations();
+                                     List<ElectricStation>? myData =
+                                     await station.getStations(headers);
+                                     print(myData);
+                                     Navigator.pushAndRemoveUntil(
+                                       context,
+                                       MaterialPageRoute(
+                                         builder: (context) => HomeScreen(
+                                           allStations: myData,
+                                         ),
+                                         //     HomeScreen(
+                                         //   allStations: myData,
+                                         // ),
+                                       ),
+                                           (route) => false,
+                                     );
+
+                                    }
+                                   else{
+                                     print('registration page');
+                                     Navigator.pushReplacement(
+                                         context,
+                                         MaterialPageRoute(
+                                             builder: (context) =>
+                                                 EmailInputPage(
+                                                   phoneNumber:
+                                                       widget.phoneNumber!,
+                                                   // allStations: allStations,
+                                                 )));
+
+
+                                    }
+                                    verifyLoadingButtonController.error();
+
+                                    verifyLoadingButtonController.reset();
+
+
                                   }).catchError((e) {
                                     print('in here');
                                     Fluttertoast.showToast(

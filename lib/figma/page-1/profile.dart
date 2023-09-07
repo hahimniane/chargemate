@@ -183,7 +183,7 @@ class ProfileCard extends StatelessWidget {
                                   backgroundColor: appColor,
                                   // borderRadius: BorderRadius.circular(85*fem),
                                   child: Text(
-                                    Initials,
+                                    Initials.toUpperCase(),
                                     style: SafeGoogleFont(
                                       'Montserrat',
                                       fontSize: 20 * ffem,
