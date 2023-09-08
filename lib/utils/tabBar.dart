@@ -3,6 +3,7 @@
 import 'package:chargemate/constants/constants.dart';
 import 'package:chargemate/modals/comment_model.dart';
 import 'package:chargemate/modals/model_stations.dart';
+import 'package:chargemate/screens/add_comment.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
@@ -13,6 +14,7 @@ import 'package:intl/intl.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../figma/utils.dart';
 import '../modals/electric_store.dart';
 import '../screens/home_screen.dart';
 import '../service/api_service.dart';
@@ -114,6 +116,7 @@ class commentWidget extends StatelessWidget {
                 backgroundColor: appColor,
               ),
               onPressed: () async {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCommentPage()));
                 // UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
                 //   email: 'user@example.com',
                 //   password: 'password',
@@ -123,15 +126,15 @@ class commentWidget extends StatelessWidget {
                 // String idToken = await userCredential.user!.getIdToken();
                 print('ID Token: ${await auth.currentUser?.getIdToken()}');
                 String? token = await auth.currentUser?.getIdToken();
-                Stations.addComment(
-                    comment:
-                        'in the after math everything was good. we need to be here to update all of our beloved stations for a better charging.',
-                    headers: headers,
-                    userId: auth.currentUser!.uid,
-                    userFullName: 'Hassimiou Diallo',
-                    stationId: station.id,
-                    score: 5,
-                    idToken: token!);
+                // Stations.addComment(
+                //     comment:
+                //         'in the after math everything was good. we need to be here to update all of our beloved stations for a better charging.',
+                //     headers: headers,
+                //     userId: auth.currentUser!.uid,
+                //     userFullName: 'Hassimiou Diallo',
+                //     stationId: station.id,
+                //     score: 5,
+                //     idToken: token!);
                 // List<Comments> comments = await Stations.getComments(
                 //     headers: headers, stationId: station.id);
                 // for (var comment in comments) {
@@ -171,6 +174,15 @@ class commentWidget extends StatelessWidget {
                       child: CircularProgressIndicator(),
                     ),
                   );
+                }
+                else if(snapshot.data!.isEmpty){
+                  return Center(child: Text('Ilk Yorumu Sen At!',style:SafeGoogleFont(
+                    'Montserrat',
+                    fontSize: 16 ,
+                    fontWeight: FontWeight.w700,
+                    height: 1.2175 ,
+                    color: appColor,
+                  ),));
                 }
                 return Container(
                   // color: Colors.blue,

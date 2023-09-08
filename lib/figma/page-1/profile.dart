@@ -132,7 +132,7 @@ class ProfileCard extends StatelessWidget {
                             onPressed: () {
                               showLogoutConfirmationDialog(context);
                             },
-                            icon: Icon(Icons.logout),
+                            icon: Icon(Icons.logout,color: Colors.red,),
                           )),
                     ),
                   ],
@@ -198,7 +198,7 @@ class ProfileCard extends StatelessWidget {
                               margin: EdgeInsets.fromLTRB(
                                   1 * fem, 0 * fem, 0 * fem, 20 * fem),
                               child: Text(
-                                '${firstName} ${lastName}',
+                                '${firstName[0].toUpperCase()+firstName.substring(1)} ${lastName[0].toUpperCase()+lastName.substring(1)}',
                                 style: SafeGoogleFont(
                                   'Montserrat',
                                   fontSize: 16 * ffem,
