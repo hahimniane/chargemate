@@ -6,7 +6,7 @@ class ElectricStore {
   final String address;
   final String zipCode;
   final String city;
-  final String amenities;
+  final List<dynamic> amenities;
 
   ElectricStore({
     required this.code,
@@ -26,7 +26,8 @@ class ElectricStore {
       address: storeData['address'] as String? ?? '',
       zipCode: storeData['zipCode'] as String? ?? '',
       city: storeData['city'] as String? ?? '',
-      amenities: storeData['amenities'] as String ?? '',
+      amenities:
+      List<dynamic>.from(storeData['amenities'] as List<dynamic>? ?? []),
       // List<String>.from(
       //   storeData['amenities'] as List<String>? ?? [],
     );

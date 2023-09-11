@@ -1,8 +1,10 @@
+import 'package:chargemate/providers/calculate_distance_provider.dart';
+import 'package:chargemate/providers/filter.dart';
 import 'package:chargemate/screens/home_screen.dart';
 import 'package:chargemate/screens/registration/login_page.dart';
 import 'package:chargemate/screens/splash_screen.dart';
 import 'package:chargemate/service/api_service.dart';
-import 'package:chargemate/service/favorite_station.dart';
+import 'package:chargemate/providers/favorite_station.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -68,8 +70,22 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (BuildContext context) => FavoriteStation(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<FavoriteStation>(
+          create: (context) => FavoriteStation(),
+        ),
+        ChangeNotifierProvider<calculateDistanceProvider>(
+          create: (context) => calculateDistanceProvider(),
+        ),
+        ChangeNotifierProvider<calculateDistanceProvider>(
+          create: (context) => calculateDistanceProvider(),
+        ),
+        ChangeNotifierProvider<Filter>(
+          create: (context) => Filter(),
+        ),
+      ],
+      // create: (BuildContext context) => FavoriteStation(),
       child: MaterialApp(
         theme: ThemeData(primarySwatch: myMaterialAppColor),
         debugShowCheckedModeBanner: false,

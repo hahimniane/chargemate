@@ -1,4 +1,5 @@
 import 'package:chargemate/constants/constants.dart';
+import 'package:chargemate/providers/filter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'dart:ui';
@@ -14,56 +15,7 @@ class FilterPage extends StatefulWidget {
 }
 
 class _FilterPageState extends State<FilterPage> {
-  List<String> listOfBrands = [
-    'Tesla',
-    'Trugo',
-    'Zes',
-    'Eşarj',
-    'OnCharge',
-    'Sharz',
-    'GioEv',
-    'Beefull',
-    'Pleco',
-    'Astor şarj',
-    'Power şarj',
-    'Epsis',
-    'En Yakıt',
-    'Neva şarj',
-    'Voltrum',
-    'InCharge',
-    'Meis Charge',
-    'Aksa Şarj',
-    'Aramtec',
-    'CV Charging',
-    'RHG Enertürk',
-    'ERC Charge',
-    'Şarjon'
-  ];
-  List<bool> listOfCheckBoxValues = [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false
-  ];
+
   @override
   void initState() {
     // List.generate(
@@ -73,6 +25,7 @@ class _FilterPageState extends State<FilterPage> {
 
   @override
   Widget build(context) {
+    var filterProvider=Provider.of<Filter>(context,listen: false);
     double baseWidth = 375;
     double fem = MediaQuery.of(context).size.width / baseWidth;
     double ffem = fem * 0.97;
@@ -114,11 +67,7 @@ class _FilterPageState extends State<FilterPage> {
               ),
               GestureDetector(
                 onTap: () {
-                  for (bool data in listOfCheckBoxValues) {
-                    setState(() {
-                      data = false;
-                    });
-                  }
+              filterProvider.clearAllFilters();
                 },
                 child: Container(
                   // clearselectiontUF (202:1163)
@@ -191,7 +140,7 @@ class _FilterPageState extends State<FilterPage> {
                                     margin: EdgeInsets.fromLTRB(
                                         0 * fem, 1 * fem, 0 * fem, 0 * fem),
                                     child: Text(
-                                      listOfBrands[0],
+                                     filterProvider.listOfBrands[0],
                                       style: SafeGoogleFont(
                                         'Montserrat',
                                         fontSize: 14 * ffem,
@@ -206,14 +155,22 @@ class _FilterPageState extends State<FilterPage> {
                                       // frame311m9 (202:1174)
                                       width: 20 * fem,
                                       height: 20 * fem,
-                                      child: Checkbox(
-                                        activeColor: appColor,
-                                        value: listOfCheckBoxValues[0],
-                                        onChanged: (bool? value) {
-                                          setState(() {
-                                            listOfCheckBoxValues[0] = value!;
-                                          });
+                                      child: Consumer(
+                                        builder: (BuildContext context, value, Widget? child) {
+                                          return   Checkbox(
+                                          activeColor: appColor,
+                                          value:filterProvider. listOfCheckBoxValues[0],
+                                          onChanged: (bool? value) {
+
+                                          filterProvider.toggleCheckBox(0, value!) ;
+                                         // listOfCheckBoxValues[0] = value!;
+
+
+
+                                          },
+                                          );
                                         },
+
                                       )),
                                 ],
                               ),
@@ -231,7 +188,7 @@ class _FilterPageState extends State<FilterPage> {
                                     margin: EdgeInsets.fromLTRB(
                                         0 * fem, 1 * fem, 0 * fem, 0 * fem),
                                     child: Text(
-                                      listOfBrands[1],
+                                     filterProvider. listOfBrands[1],
                                       style: SafeGoogleFont(
                                         'Montserrat',
                                         fontSize: 14 * ffem,
@@ -250,10 +207,10 @@ class _FilterPageState extends State<FilterPage> {
                                     height: 20 * fem,
                                     child: Checkbox(
                                       activeColor: appColor,
-                                      value: listOfCheckBoxValues[1],
+                                      value:filterProvider. listOfCheckBoxValues[1],
                                       onChanged: (bool? value) {
                                         setState(() {
-                                          listOfCheckBoxValues[1] = value!;
+                                          filterProvider. listOfCheckBoxValues[1] = value!;
                                         });
                                       },
                                     ),
@@ -280,7 +237,7 @@ class _FilterPageState extends State<FilterPage> {
                                     margin: EdgeInsets.fromLTRB(
                                         0 * fem, 1 * fem, 0 * fem, 0 * fem),
                                     child: Text(
-                                      listOfBrands[2],
+                                      filterProvider. listOfBrands[2],
                                       style: SafeGoogleFont(
                                         'Montserrat',
                                         fontSize: 14 * ffem,
@@ -297,10 +254,10 @@ class _FilterPageState extends State<FilterPage> {
                                       height: 20 * fem,
                                       child: Checkbox(
                                         activeColor: appColor,
-                                        value: listOfCheckBoxValues[2],
+                                        value: filterProvider.listOfCheckBoxValues[2],
                                         onChanged: (bool? value) {
                                           setState(() {
-                                            listOfCheckBoxValues[2] = value!;
+                                            filterProvider.  listOfCheckBoxValues[2] = value!;
                                           });
                                         },
                                       )),
@@ -320,7 +277,7 @@ class _FilterPageState extends State<FilterPage> {
                                     margin: EdgeInsets.fromLTRB(
                                         0 * fem, 1 * fem, 0 * fem, 0 * fem),
                                     child: Text(
-                                      listOfBrands[3],
+                                      filterProvider.listOfBrands[3],
                                       style: SafeGoogleFont(
                                         'Montserrat',
                                         fontSize: 14 * ffem,
@@ -339,10 +296,10 @@ class _FilterPageState extends State<FilterPage> {
                                     height: 20 * fem,
                                     child: Checkbox(
                                       activeColor: appColor,
-                                      value: listOfCheckBoxValues[3],
+                                      value:filterProvider. listOfCheckBoxValues[3],
                                       onChanged: (bool? value) {
                                         setState(() {
-                                          listOfCheckBoxValues[3] = value!;
+                                          filterProvider. listOfCheckBoxValues[3] = value!;
                                         });
                                       },
                                     ),
@@ -369,7 +326,7 @@ class _FilterPageState extends State<FilterPage> {
                                     margin: EdgeInsets.fromLTRB(
                                         0 * fem, 1 * fem, 0 * fem, 0 * fem),
                                     child: Text(
-                                      listOfBrands[4],
+                                      filterProvider. listOfBrands[4],
                                       style: SafeGoogleFont(
                                         'Montserrat',
                                         fontSize: 14 * ffem,
@@ -386,12 +343,12 @@ class _FilterPageState extends State<FilterPage> {
                                       height: 20 * fem,
                                       child: Checkbox(
                                         activeColor: appColor,
-                                        value: listOfCheckBoxValues[4],
+                                        value: filterProvider.listOfCheckBoxValues[4],
                                         onChanged: (bool? value) {
                                           // Provider.of<Filter>(context)
                                           //     .toggleCheckListItem(4, value!);
                                           setState(() {
-                                            listOfCheckBoxValues[4] = value!;
+                                            filterProvider.listOfCheckBoxValues[4] = value!;
                                           });
                                         },
                                       )),
@@ -411,7 +368,7 @@ class _FilterPageState extends State<FilterPage> {
                                     margin: EdgeInsets.fromLTRB(
                                         0 * fem, 1 * fem, 0 * fem, 0 * fem),
                                     child: Text(
-                                      listOfBrands[5],
+                                      filterProvider.listOfBrands[5],
                                       style: SafeGoogleFont(
                                         'Montserrat',
                                         fontSize: 14 * ffem,
@@ -430,12 +387,12 @@ class _FilterPageState extends State<FilterPage> {
                                     height: 20 * fem,
                                     child: Checkbox(
                                       activeColor: appColor,
-                                      value: listOfCheckBoxValues[5],
+                                      value: filterProvider.listOfCheckBoxValues[5],
                                       onChanged: (bool? value) {
                                         // Provider.of<Filter>(context)
                                         //     .toggleCheckListItem(5, value!);
                                         setState(() {
-                                          listOfCheckBoxValues[5] = value!;
+                                          filterProvider.  listOfCheckBoxValues[5] = value!;
                                         });
                                       },
                                     ),
@@ -474,9 +431,11 @@ class _FilterPageState extends State<FilterPage> {
   }
 
   void _showPopup() {
+
     double baseWidth = 375;
     double fem = MediaQuery.of(context).size.width / baseWidth;
     double ffem = fem * 0.97;
+    var filterProvider=Provider.of<Filter>(context,listen: false);
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -485,6 +444,7 @@ class _FilterPageState extends State<FilterPage> {
         return StatefulBuilder(
           builder:
               (BuildContext context, void Function(void Function()) setState) {
+                var filterProvider=Provider.of<Filter>(context,listen: false);
             return AlertDialog(
               title: Text(
                 "Marka Seç",
@@ -500,25 +460,30 @@ class _FilterPageState extends State<FilterPage> {
               content: Container(
                 width: double.minPositive,
                 child: ListView.builder(
-                  itemCount: listOfBrands.length,
+                  itemCount: filterProvider.listOfBrands.length,
                   itemBuilder: (BuildContext context, int index) {
                     return CheckboxListTile(
-                      title: Text(
-                        listOfBrands[index],
-                        style: SafeGoogleFont(
-                          'Montserrat',
-                          fontSize: 14 * ffem,
-                          fontWeight: FontWeight.w700,
-                          height: 1.2175 * ffem / fem,
-                          letterSpacing: 0.200000003 * fem,
-                          color: Color(0xff143463),
-                        ),
+                      title:Consumer<Filter>(
+                        builder: (context, filterProvider, child) {
+                          return Text(
+                            filterProvider.listOfBrands[index],
+                            style: SafeGoogleFont(
+                              'Montserrat',
+                              fontSize: 14 * ffem,
+                              fontWeight: FontWeight.w700,
+                              height: 1.2175 * ffem / fem,
+                              letterSpacing: 0.200000003 * fem,
+                              color: Color(0xff143463),
+                            ),
+                          );
+                        },
                       ),
-                      value: listOfCheckBoxValues[index],
+                      value:filterProvider. listOfCheckBoxValues[index],
                       onChanged: (bool? value) {
-                        setState(() {
-                          listOfCheckBoxValues[index] = value!;
-                        });
+
+                          filterProvider.toggleCheckBox(index,value! );
+                          // listOfCheckBoxValues[index] = value!;
+
                       },
                     );
                   },

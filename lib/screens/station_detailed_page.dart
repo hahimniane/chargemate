@@ -12,7 +12,7 @@ import '../constants/constants.dart';
 import '../modals/distance_matrix_model.dart';
 import '../modals/electric_store.dart';
 import '../service/api_service.dart';
-import '../service/favorite_station.dart';
+import '../providers/favorite_station.dart';
 import '../utils/tabBar.dart';
 import 'filter_page.dart';
 

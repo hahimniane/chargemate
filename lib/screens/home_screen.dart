@@ -4,7 +4,7 @@ import 'package:chargemate/screens/drawer_pages/account/profile_page.dart';
 import 'package:chargemate/screens/station_detailed_page.dart';
 import 'package:chargemate/service/api_service.dart';
 import 'package:chargemate/modals/model_stations.dart';
-import 'package:chargemate/service/favorite_station.dart';
+import 'package:chargemate/providers/favorite_station.dart';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -31,6 +31,7 @@ import '../figma/page-1/profile.dart';
 import '../main.dart';
 import '../modals/distance_matrix_model.dart';
 import '../modals/electric_store.dart';
+import '../providers/calculate_distance_provider.dart';
 import '../service/user_location_service.dart';
 import '../utils/convert_image_to_icon.dart';
 import '../widgets/drawer.dart';
@@ -121,11 +122,11 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     getLocationAndInitialize().then((value) {
 
 
-      Provider.of<FavoriteStation>(context, listen: false).calculateDistance(userLocation!);
+      Provider.of<calculateDistanceProvider>(context, listen: false).calculateDistance(userLocation!);
 
 
     }).then((value){
-      List<Distance?> distanceData= Provider.of<FavoriteStation>(context, listen: false).calculatedDistance;
+      List<Distance?> distanceData= Provider.of<calculateDistanceProvider>(context, listen: false).calculatedDistance;
       print('printing out from the init State');
       for(Distance? distanceDat in distanceData){
         print(
@@ -353,7 +354,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       FontAwesomeIcons.sliders,
                                     ),
                                     onPressed: () {
-                                      Provider.of<FavoriteStation>(context, listen: false).shouldSetCalculatedDistanceBeCleared=true;
+                                      Provider.of<calculateDistanceProvider>(context, listen: false).shouldSetCalculatedDistanceBeCleared=true;
                                       // Navigator.push(
                                       //   context,
                                       //   PageRouteBuilder(
@@ -957,9 +958,9 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                         ),
                                                         SizedBox(width: 10),
                                                         Expanded(
-                                                          child: Provider.of<FavoriteStation>(context, listen: true).calculatedDistance.isNotEmpty? Text(
+                                                          child: Provider.of<calculateDistanceProvider>(context, listen: true).calculatedDistance.isNotEmpty? Text(
                                                             textAlign: TextAlign.center,
-                                                            '${ Provider.of<FavoriteStation>(context, listen: true).calculatedDistance[index].text} ${store.address}',
+                                                            '${ Provider.of<calculateDistanceProvider>(context, listen: true).calculatedDistance[index].text} ${store.address}',
                                                             style: GoogleFonts.montserrat(
                                                               fontSize: 12,
                                                             ),
