@@ -5,6 +5,7 @@ import 'package:chargemate/screens/station_detailed_page.dart';
 import 'package:chargemate/service/api_service.dart';
 import 'package:chargemate/modals/model_stations.dart';
 import 'package:chargemate/providers/favorite_station.dart';
+import 'package:chargemate/service/comment_api_services.dart';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -26,22 +27,21 @@ import 'package:searchfield/searchfield.dart';
 import 'package:text_scroll/text_scroll.dart';
 import 'package:textfield_search/textfield_search.dart';
 
+import '../enums.dart';
 import '../figma/page-1/filter.dart';
 import '../figma/page-1/profile.dart';
 import '../main.dart';
 import '../modals/distance_matrix_model.dart';
 import '../modals/electric_store.dart';
 import '../providers/calculate_distance_provider.dart';
+import '../service/favorite_station_api_service.dart';
 import '../service/user_location_service.dart';
 import '../utils/convert_image_to_icon.dart';
 import '../widgets/drawer.dart';
 
 import 'filter_page.dart';
 
-enum screenViewTypes {
-  mapView,
-  listView,
-}
+
 
 class HomeScreen extends StatefulWidget {
   final List<ElectricStation> allStations;
@@ -108,10 +108,33 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   _printLatestValue() {
     // print("Textfield value: ${myController.text}");
   }
+  List<String> getDistinctAmenities(List<ElectricStation> stations) {
+    Set<String> distinctAmenities = Set<String>();
+
+    for (var station in stations) {
+      ElectricStore store = ElectricStore.fromElectricStation(station);
+
+      // Iterate through the store's amenities
+      for (var amenity in store.amenities) {
+        // Standardize the amenity name by converting to lowercase and removing extra spaces
+        var standardizedAmenity = amenity.trim().toLowerCase();
+
+        // Add the standardized amenity to the set
+        distinctAmenities.add(standardizedAmenity);
+      }
+    }
+
+    print('The list of amenities are:');
+    for (var amenity in distinctAmenities) {
+      print(amenity);
+    }
+
+    return distinctAmenities.toList();
+  }
 
   @override
   void initState() {
-
+// getDistinctAmenities(widget.allStations);
     myController.addListener(_printLatestValue);
     for (ElectricStation chargingStation in widget.allStations) {
       ElectricStore store = ElectricStore.fromElectricStation(chargingStation);
@@ -1562,7 +1585,7 @@ class stationListViewCardWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () async {
         try {
-          bool isFavorite = await Stations.isStationFavorite(
+          bool isFavorite = await FavoriteStationServiceClass.isStationFavorite(
             stationId: station.id,
             userId: auth.currentUser!.uid,
           );

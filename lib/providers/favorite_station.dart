@@ -1,3 +1,4 @@
+import 'package:chargemate/service/favorite_station_api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -17,7 +18,7 @@ class FavoriteStation extends ChangeNotifier {
   Future<void> checkFavoriteStatus(
       {required String stationId, required String userId}) async {
     bool result =
-        await Stations.isStationFavorite(stationId: stationId, userId: userId);
+        await FavoriteStationServiceClass.isStationFavorite(stationId: stationId, userId: userId);
     // Here, you can call your logic to check if the station is a favorite or not.
     // For example, you might query a database or perform some other operation.
     // For now, let's simulate the logic with a simple toggle.
@@ -31,12 +32,12 @@ class FavoriteStation extends ChangeNotifier {
 
   toggleFavorite({required String stationId, required String userId}) async {
     bool isFavorite =
-        await Stations.isStationFavorite(stationId: stationId, userId: userId);
+        await FavoriteStationServiceClass.isStationFavorite(stationId: stationId, userId: userId);
 
     if (!isFavorite) {
       try {
         HapticFeedback.heavyImpact();
-        Stations.addFavoriteStation(
+        FavoriteStationServiceClass.addFavoriteStation(
           stationId: stationId,
           userId: userId,
           headers: headers,
@@ -47,7 +48,7 @@ class FavoriteStation extends ChangeNotifier {
       }
     } else if (isFavorite) {
       try {
-        Stations.deleteFavoriteStation(
+        FavoriteStationServiceClass.deleteFavoriteStation(
           stationId: stationId,
           userId: userId,
           headers: headers,

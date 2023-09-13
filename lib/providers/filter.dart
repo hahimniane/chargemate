@@ -2,6 +2,7 @@ import 'package:chargemate/service/firebase_servies.dart';
 import 'package:flutter/cupertino.dart';
 
 class Filter extends ChangeNotifier{
+  List<String> sockets=['DC'];
   List<String> listOfBrands = [
     'Tesla',
     'Trugo',
@@ -52,16 +53,19 @@ class Filter extends ChangeNotifier{
     false,
     false
   ];
+// bool temVariable=false;
 
-
-  void toggleCheckBox(int index, bool value){
+   toggleCheckBox(int index, bool value){
       listOfCheckBoxValues[index]=value;
-      print('toggling ');
+      // temVariable=!temVariable;
+
     notifyListeners();
+
   }
   void clearAllFilters() {
     for (int i = 0; i < listOfCheckBoxValues.length; i++) {
       listOfCheckBoxValues[i] = false;
+
     }
     notifyListeners();
   }

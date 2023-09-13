@@ -4,6 +4,7 @@ import 'package:chargemate/constants/constants.dart';
 import 'package:chargemate/modals/comment_model.dart';
 import 'package:chargemate/modals/model_stations.dart';
 import 'package:chargemate/screens/add_comment.dart';
+import 'package:chargemate/service/comment_api_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
@@ -15,6 +16,7 @@ import 'package:map_launcher/map_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../figma/utils.dart';
+import '../modals/amnities_icon_mapping.dart';
 import '../modals/electric_store.dart';
 import '../screens/home_screen.dart';
 import '../service/api_service.dart';
@@ -87,7 +89,7 @@ class _TabViewUtilState extends State<TabViewUtil>
           station: widget.station,
         );
       case LocationType.facility:
-        return facilityWidget();
+        return facilityWidget(store: ElectricStore.fromElectricStation(widget.station),);
       case LocationType.explanation:
         return commentWidget(
           station: widget.station,
@@ -164,7 +166,7 @@ class commentWidget extends StatelessWidget {
           flex: 2,
           child: FutureBuilder<List<Comments>>(
               future:
-                  Stations.getComments(headers: headers, stationId: station.id),
+                  CommentClass.getComments(headers: headers, stationId: station.id),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return Center(
@@ -420,6 +422,8 @@ class commentWidget extends StatelessWidget {
 // }
 
 class facilityWidget extends StatelessWidget {
+  final ElectricStore store;
+   facilityWidget({required this.store});
   // Data model for facility items
   final List<FacilityItem> items = [
     FacilityItem('Kafe', Icons.local_cafe),
@@ -436,11 +440,24 @@ class facilityWidget extends StatelessWidget {
     FacilityItem('Oto Yıkama', Icons.local_car_wash),
   ];
 
+  final List<MapEntry<String,IconData>> itemsler=[
+
+  ];
+
   @override
   Widget build(BuildContext context) {
+
+    print('the number of aminties are ${store.amenities.length} and the first one is ${store.amenities.first}///////////////////////////////');
+    for(int i=0;i<items.length;++i){
+      itemsler.add(amenityIcons.entries.elementAt(i));
+      print(amenityIcons.entries.elementAt(i));
+    }
+
+
     return ListView.builder(
       itemCount: (items.length / 2).ceil(), // Calculate the number of rows
       itemBuilder: (context, index) {
+
         // Build each row with two items side by side
         return Padding(
           padding: const EdgeInsets.all(8.0),
@@ -448,12 +465,12 @@ class facilityWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Expanded(
-                child: buildFacilityTile(items[index * 2]),
+                child: buildFacilityTile(itemsler[index * 2]),
               ),
               SizedBox(width: 8), // Add some spacing between items
               Expanded(
                 child: (index * 2 + 1 < items.length)
-                    ? buildFacilityTile(items[index * 2 + 1])
+                    ? buildFacilityTile(itemsler[index * 2 + 1])
                     : Container(), // Display an empty container if no more items in the list
               ),
             ],
@@ -464,7 +481,7 @@ class facilityWidget extends StatelessWidget {
   }
 
   // Helper method to build each facility item tile
-  Widget buildFacilityTile(FacilityItem item) {
+  Widget buildFacilityTile(MapEntry item) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
@@ -486,12 +503,12 @@ class facilityWidget extends StatelessWidget {
                 color: Colors.white,
               ),
               child: Icon(
-                item.icon,
+                item.value,
                 color: appColor,
               )),
           SizedBox(width: 6),
           Text(
-            item.name,
+            item.key,
             style: TextStyle(
               color: appColor,
               fontWeight: FontWeight.bold,
