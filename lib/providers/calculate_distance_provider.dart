@@ -6,16 +6,15 @@ import '../modals/distance_matrix_model.dart';
 import '../modals/model_stations.dart';
 import '../service/api_service.dart';
 
-class calculateDistanceProvider extends ChangeNotifier{
+class calculateDistanceProvider extends ChangeNotifier {
   int a = 0;
   int i = 0;
   Stations stations = Stations();
-  List <Distance>calculatedDistance = [];
+  List<Distance> calculatedDistance = [];
   bool shouldSetCalculatedDistanceBeCleared = false;
   Future<List<Distance>> calculateDistance(
-
-      LatLng userLocation,
-      ) async {
+    LatLng userLocation,
+  ) async {
     ++a;
     print('number function has been called $a');
 
@@ -23,8 +22,6 @@ class calculateDistanceProvider extends ChangeNotifier{
         headers: headers,
         latitude: userLocation.latitude,
         longitude: userLocation.longitude);
-
-
 
     // shouldSetCalculatedDistanceBeCleared? calculatedDistance=[]:calculatedDistance;
     print('the nearby stations that is selected are');
@@ -41,7 +38,6 @@ class calculateDistanceProvider extends ChangeNotifier{
       print(
           'the computed distnace ${distance?.rows[0].elements[0].distance.text}');
       calculatedDistance.add(theDistance!);
-
     }
 
     print('going into the loop');
@@ -53,7 +49,5 @@ class calculateDistanceProvider extends ChangeNotifier{
     // }
     notifyListeners();
     return calculatedDistance;
-
   }
-
 }

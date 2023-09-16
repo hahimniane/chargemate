@@ -609,6 +609,13 @@ class ProfileCard extends StatelessWidget {
                                       .doc(auth.currentUser!.uid)
                                       .snapshots(),
                                   builder: (context, snapshot) {
+                                    if(!snapshot.hasData){
+                                      return Container(
+                                        height: 30,
+                                        width: 30,
+                                        child: Center(child: CircularProgressIndicator()),
+                                      );
+                                    }
                                     return Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,

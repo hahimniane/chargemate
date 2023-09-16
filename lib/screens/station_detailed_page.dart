@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:chargemate/modals/model_stations.dart';
 import 'package:chargemate/utils/Carousel.dart';
 import 'package:flutter/material.dart';
@@ -98,7 +100,7 @@ class _StationDetailedPageState extends State<StationDetailedPage> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          '4.5',
+                 '5.0',
                           style: TextStyle(fontSize: 15, color: appColor),
                         ),
                         Padding(
@@ -117,6 +119,11 @@ class _StationDetailedPageState extends State<StationDetailedPage> {
                         CircleAvatar(
                           backgroundColor: Colors.white,
                           child: GestureDetector(
+                            // AC and DC
+                            // in each station we have two type either AC and DC
+                            // AC is the slow one while dc is the fast charging.
+                            //
+                            //Ac ccs
                               //     onTap: () async {
                               //   // print(
                               //   //     'is the  station favorite ${widget.isFavorite} coming from homepage');

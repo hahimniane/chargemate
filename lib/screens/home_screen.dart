@@ -1,5 +1,7 @@
 import 'package:chargemate/constants/constants.dart';
+import 'package:chargemate/modals/amnities_icon_mapping.dart';
 import 'package:chargemate/modals/distance_matrix_model.dart' as DistanceMatrix;
+import 'package:chargemate/modals/plug_model.dart';
 import 'package:chargemate/screens/drawer_pages/account/profile_page.dart';
 import 'package:chargemate/screens/station_detailed_page.dart';
 import 'package:chargemate/service/api_service.dart';
@@ -41,8 +43,6 @@ import '../widgets/drawer.dart';
 
 import 'filter_page.dart';
 
-
-
 class HomeScreen extends StatefulWidget {
   final List<ElectricStation> allStations;
 
@@ -77,7 +77,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   var dummyList = ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5'];
   TextEditingController myController = TextEditingController();
 
-  int numberCalled=0;
+  int numberCalled = 0;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -108,54 +108,54 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   _printLatestValue() {
     // print("Textfield value: ${myController.text}");
   }
-  List<String> getDistinctAmenities(List<ElectricStation> stations) {
-    Set<String> distinctAmenities = Set<String>();
-
-    for (var station in stations) {
-      ElectricStore store = ElectricStore.fromElectricStation(station);
-
-      // Iterate through the store's amenities
-      for (var amenity in store.amenities) {
-        // Standardize the amenity name by converting to lowercase and removing extra spaces
-        var standardizedAmenity = amenity.trim().toLowerCase();
-
-        // Add the standardized amenity to the set
-        distinctAmenities.add(standardizedAmenity);
-      }
-    }
-
-    print('The list of amenities are:');
-    for (var amenity in distinctAmenities) {
-      print(amenity);
-    }
-
-    return distinctAmenities.toList();
-  }
+  // List<String> getDistinctAmenities(List<ElectricStation> stations) {
+  //   Set<String> distinctAmenities = Set<String>();
+  //
+  //   for (var station in stations) {
+  //     ElectricStore store = ElectricStore.fromElectricStation(station);
+  //
+  //     // Iterate through the store's amenities
+  //     for (var amenity in store.amenities) {
+  //       // Standardize the amenity name by converting to lowercase and removing extra spaces
+  //       var standardizedAmenity = amenity.trim().toLowerCase();
+  //
+  //       // Add the standardized amenity to the set
+  //       distinctAmenities.add(standardizedAmenity);
+  //     }
+  //   }
+  //
+  //   print('The list of amenities are:');
+  //   for (var amenity in distinctAmenities) {
+  //     print(amenity);
+  //   }
+  //
+  //   return distinctAmenities.toList();
+  // }
 
   @override
   void initState() {
-// getDistinctAmenities(widget.allStations);
+    ElectricStore firstAmnities =
+        ElectricStore.fromElectricStation(widget.allStations.first);
+    print(
+        'this is the store of the first amnities from home ${firstAmnities.amenities.length}');
     myController.addListener(_printLatestValue);
-    for (ElectricStation chargingStation in widget.allStations) {
-      ElectricStore store = ElectricStore.fromElectricStation(chargingStation);
-      // print(chargingStation.plug);
-      // print('//////////////////////////////////');
-    }
+    // for (ElectricStation chargingStation in widget.allStations) {
+    //   ElectricStore store = ElectricStore.fromElectricStation(chargingStation);
+    //   // print(chargingStation.plug);
+    //   // print('//////////////////////////////////');
+    // }
     super.initState();
     getLocationAndInitialize().then((value) {
-
-
-      Provider.of<calculateDistanceProvider>(context, listen: false).calculateDistance(userLocation!);
-
-
-    }).then((value){
-      List<Distance?> distanceData= Provider.of<calculateDistanceProvider>(context, listen: false).calculatedDistance;
+      Provider.of<calculateDistanceProvider>(context, listen: false)
+          .calculateDistance(userLocation!);
+    }).then((value) {
+      List<Distance?> distanceData =
+          Provider.of<calculateDistanceProvider>(context, listen: false)
+              .calculatedDistance;
       print('printing out from the init State');
-      for(Distance? distanceDat in distanceData){
-        print(
-            'the computed distnace ${distanceDat!.text}');
+      for (Distance? distanceDat in distanceData) {
+        print('the computed distnace ${distanceDat!.text}');
       }
-
     });
     // Provider.of<FavoriteStation>(context, listen: false).calculateDistance(userLocation!);
     _tabController = TabController(
@@ -163,8 +163,6 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       length: 4,
       vsync: this,
     );
-
-
   }
 
   ClusterManager<ElectricStation> _initClusterManager() {
@@ -181,8 +179,6 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-
-
     // print('the device padding is ${MediaQuery.of(context).viewPadding.bottom}');
     // print('Device has notch ${Device.get().hasNotch}');
     Completer<GoogleMapController> _controller = Completer();
@@ -266,7 +262,8 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         // ),
                         Expanded(
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Material(
                               // color: Colors.white,
                               borderRadius: BorderRadius.circular(5),
@@ -330,7 +327,8 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       MaterialPageRoute(
                                           builder: (context) =>
                                               StationDetailedPage(
-                                                  station: station.item! ,)));
+                                                station: station.item!,
+                                              )));
 
                                   // print(
                                   //     'the clicked station is ${station.item!.id}');
@@ -342,11 +340,11 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         context,
                                         PageRouteBuilder(
                                           transitionDuration:
-                                          Duration(milliseconds: 500),
+                                              Duration(milliseconds: 500),
                                           pageBuilder: (BuildContext context,
                                               Animation<double> animation,
                                               Animation<double>
-                                              secondaryAnimation) {
+                                                  secondaryAnimation) {
                                             return FadeTransition(
                                               opacity: animation,
                                               child: ProfileCard(),
@@ -354,8 +352,6 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                           },
                                         ),
                                       );
-
-
 
                                       // _key.currentState!.openDrawer();
                                       //ProfileCard
@@ -377,7 +373,11 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       FontAwesomeIcons.sliders,
                                     ),
                                     onPressed: () {
-                                      Provider.of<calculateDistanceProvider>(context, listen: false).shouldSetCalculatedDistanceBeCleared=true;
+                                      Provider.of<calculateDistanceProvider>(
+                                                  context,
+                                                  listen: false)
+                                              .shouldSetCalculatedDistanceBeCleared =
+                                          true;
                                       // Navigator.push(
                                       //   context,
                                       //   PageRouteBuilder(
@@ -394,7 +394,11 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       //     },
                                       //   ),
                                       // );
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>FilterPage()));
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  FilterPage()));
                                     },
                                   ),
                                 ),
@@ -780,6 +784,74 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 //   ),
                 // ),
               ),
+              Positioned(
+                top: 110,
+                left: 0,
+                right: 5,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: 20,
+                      backgroundColor: Colors.white,
+                      child: Center(
+                        child: IconButton(
+                          icon: Icon(
+                            FontAwesomeIcons.solidHeart,
+                            color: appColor,
+                          ),
+                          onPressed: () {
+                            // activateTerrain();
+                            // Handle changing terrain
+                          },
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 8.0),
+                    // InkWell(
+                    //   child: CircleAvatar(
+                    //     backgroundColor: Colors.white,
+                    //     child: IconButton(
+                    //       icon: Icon(
+                    //         Icons.location_searching_outlined,
+                    //         color: appColor,
+                    //       ),
+                    //       onPressed: () {
+                    //         moveToUserLocation();
+                    //         // Handle changing terrain
+                    //       },
+                    //     ),
+                    //   ),
+                    // ),
+                    // IconButton(
+                    //   icon: Image(
+                    //     image: AssetImage('assets/icons/locationImage.png'),
+                    //   ),
+                    //   onPressed: () {
+                    //     moveToUserLocation();
+                    //     // Handle redirecting the camera to the user's location
+                    //   },
+                    // ),
+                    // SizedBox(height: 8.0),
+                    // CircleAvatar(
+                    //   backgroundColor: Colors.white,
+                    //   child: IconButton(
+                    //     icon: Icon(
+                    //       Icons.info,
+                    //       color: appColor,
+                    //     ),
+                    //     onPressed: () {
+                    //       // Stations.getDistanceBetweenTwoPoints(
+                    //       //     origin: LatLng(41.018900, 29.011810),
+                    //       //     destination: LatLng(41.013000, 28.974800));
+                    //       showInformationPopup(context);
+                    //     },
+                    //   ),
+                    // ),
+                  ],
+                ),
+              ),
               // Positioned(
               //   top: 175,
               //
@@ -890,13 +962,13 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               // ),
               activeView == screenViewTypes.mapView
                   ? Positioned(
-                      bottom: 20,
+                      bottom: 15,
                       left: 0,
                       right: 0,
                       child: Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12)),
-                        height: 150, // Adjust the height as needed
+                        height: 160, // Adjust the height as needed
                         child: userLocation != null
                             ? FutureBuilder<List<ElectricStation>>(
                                 future: station.getNearByStations(
@@ -905,11 +977,9 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     longitude: userLocation!.longitude),
                                 builder: (context, firstSnapshot) {
                                   // print('FutureBuilder is being called');
-                                  if(firstSnapshot.hasError){
-                                    return Text('there was an error'
-                                    );
+                                  if (firstSnapshot.hasError) {
+                                    return Text('there was an error');
                                   }
-
 
                                   if (firstSnapshot.hasData) {
                                     print('from the FutureBuilder');
@@ -920,151 +990,273 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         firstSnapshot.data!.length < 5
                                             ? firstSnapshot.data!.length
                                             : 5,
-                                            (index) {
-                                              print(firstSnapshot.data?[index].id);
-                                          ElectricStore store = ElectricStore.fromElectricStation(
-                                              firstSnapshot.data![index]);
+                                        (index) {
+                                          // print(firstSnapshot.data?[index].id);
+                                          ElectricStore store =
+                                              ElectricStore.fromElectricStation(
+                                                  firstSnapshot.data![index]);
+                                          Plug plug =
+                                          Plug.fromElectricStation((
+                                              firstSnapshot.data![index]));
 
-
-
+                                          bool dcIsZero=plug.hasDC==0?true:false;
                                           return GestureDetector(
                                             onTap: () {
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
-                                                      StationDetailedPage(station: firstSnapshot.data![index]),
+                                                      StationDetailedPage(
+                                                          station: firstSnapshot
+                                                              .data![index]),
                                                 ),
                                               );
                                             },
                                             child: Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius: BorderRadius.circular(12)),
-                                                width: MediaQuery.of(context).size.width * 0.60,
-                                                child: Column(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  children: [
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(top: 4.0),
-                                                      child: Text(
-                                                        textAlign: TextAlign.center,
-                                                        '${widget.allStations[index].tenant['name']}- ${store.name}',
-                                                        style: GoogleFonts.montserrat(
-                                                            fontWeight: FontWeight.bold,
-                                                            color: appColor),
-                                                      ),
-                                                    ),
-                                                    SizedBox(height: 5),
-                                                    Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                      children: [
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(
-                                                              right: 8.0, left: 8),
-                                                          child: Column(
-                                                            children: [
-                                                              Icon(
-                                                                Icons.directions,
-                                                                color: appColor,
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.70,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            12),
+                                                  ),
+                                                  child: Stack(
+                                                    clipBehavior: Clip.none,
+                                                    children: [
+                                                      Positioned.fill(
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: Container(
+                                                            decoration: BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10),
+                                                                border: Border.all(
+                                                                    color:
+                                                                        appColor)),
+                                                            // clipBehavior: Clip.hardEdge,
+                                                            // decoration: const ShapeDecoration(
+                                                            //   shape: BeveledRectangleBorder(),
+                                                            // ),
+                                                            child: Container(
+                                                              decoration: BoxDecoration(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              12,),),
+                                                              width: MediaQuery.of(context).size.width * 0.60,
+                                                              child: Column(
+                                                                mainAxisSize: MainAxisSize.min,
+                                                                children: [
+                                                                  Expanded(
+                                                                    child:
+                                                                        Padding(
+                                                                      padding: const EdgeInsets
+                                                                              .only(
+                                                                          top:
+                                                                              8.0),
+                                                                      child:
+                                                                          Text(
+                                                                        textAlign:
+                                                                            TextAlign.center,
+                                                                        '${widget.allStations[index].tenant['name']}- ${store.name}',
+                                                                        style: GoogleFonts.montserrat(
+                                                                            fontWeight: FontWeight.bold,
+                                                                            color: appColor),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+
+                                                                  Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceBetween,
+                                                                    children: [
+                                                                      SizedBox(width: 10),
+                                                                      Expanded(
+                                                                          flex:
+                                                                              2,
+                                                                          child: Provider.of<calculateDistanceProvider>(context, listen: true).calculatedDistance.isNotEmpty
+                                                                              ? RichText(
+                                                                                  textAlign: TextAlign.start,
+                                                                                  text: TextSpan(
+                                                                                    style: GoogleFonts.montserrat(
+                                                                                      fontSize: 12,
+                                                                                      color: appColor, // Default text color
+                                                                                    ),
+                                                                                    children: [
+                                                                                      TextSpan(
+                                                                                        text: Provider.of<calculateDistanceProvider>(context, listen: true).calculatedDistance[index].text,
+                                                                                        style: TextStyle(
+                                                                                          fontWeight: FontWeight.bold,
+                                                                                          color: appColor, // Change this color to the desired color for the portion
+                                                                                          // You can also apply other text styles as needed (e.g., fontWeight, fontSize)
+                                                                                        ),
+                                                                                      ),
+                                                                                      TextSpan(
+                                                                                        text: '/ 10 dk ',
+                                                                                        style: TextStyle(
+                                                                                          fontWeight: FontWeight.bold,
+                                                                                          color: appColor, // Change this color to the desired color for the portion
+                                                                                          // You can also apply other text styles as needed (e.g., fontWeight, fontSize)
+                                                                                        ),
+                                                                                      ),
+                                                                                      TextSpan(text: '${store.address} ', style: TextStyle(color: Colors.black) // Remaining text with the default color
+                                                                                          ),
+                                                                                    ],
+                                                                                  ),
+                                                                                )
+                                                                              : Container(
+                                                                                  height: 20,
+                                                                                  width: 20,
+                                                                                  child: Center(
+                                                                                    child: CircularProgressIndicator(),
+                                                                                  ),
+                                                                                )),
+                                                                      Container(
+                                                                        height:40,
+                                                                        child: Row(
+                                                                          children: [
+                                                                            Expanded(
+                                                                              child: Column(
+                                                                                children: [
+                                                                                Text('AC',style: TextStyle(
+                                                                                  fontWeight: FontWeight.bold,
+                                                                                  color: appColor
+                                                                              ),
+
+
+                                                                                ),
+                                                                                  Text((plug.total-plug.hasDC).toString(),style: GoogleFonts.montserrat(
+                                                                                    fontWeight: FontWeight.w400
+                                                                                  ),), ],
+                                                                              ),
+                                                                            ),
+                                                                           !dcIsZero? Expanded(
+                                                                              child: Column(
+                                                                                children: [
+                                                                                  Text('DC',style: GoogleFonts.montserrat(
+                                                                                    fontWeight: FontWeight.bold,
+                                                                                    color: appColor
+                                                                                  ),),
+                                                                                  Text(plug.hasDC.toString(),style: GoogleFonts.montserrat( fontWeight: FontWeight.w400),),
+
+                                                                                ],
+                                                                              ),
+                                                                            ):Container(),
+
+                                                                          ],
+                                                                        ),
+
+                                                                       width: 70,
+                                                                          decoration: BoxDecoration(
+                                                                      //  color: Colors.blue,
+                                                                        //border: Border.all()
+                                                                          ),
+                                                                        )
+                                                                    ],
+                                                                  ),
+                                                                  SingleChildScrollView(
+                                                                    scrollDirection:
+                                                                        Axis.horizontal,
+                                                                    child: Card(
+                                                                      color:
+                                                                          appColor,
+                                                                      elevation:
+                                                                          0,
+                                                                      child:
+                                                                          Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.center,
+                                                                        children: store
+                                                                            .amenities
+                                                                            .map((placeName) {
+                                                                          // print(firstSnapshot.data!.first.id);
+                                                                          // print('the first element emnities lenggh is ${store.amenities.length}');
+                                                                          final bool
+                                                                              contains =
+                                                                              amenityIcons.keys.contains(placeName.toString().trim().toLowerCase());
+                                                                          final iconData = contains
+                                                                              ? amenityIcons[placeName.toString().trim().toLowerCase()]
+                                                                              : Icons.not_interested; // Use a "not available" icon if not found
+                                                                          // print('checking if the $placeName is available in the list and the answer is $contains ');
+                                                                          return Padding(
+                                                                            padding:
+                                                                                const EdgeInsets.all(8.0),
+                                                                            child:
+                                                                                Icon(
+                                                                              iconData,
+                                                                              size: 15,
+                                                                              color: Colors.white,
+                                                                            ),
+                                                                          );
+                                                                        }).toList(),
+                                                                      ),
+                                                                    ),
+                                                                  )
+                                                                ],
                                                               ),
-                                                              Text(
-                                                                'Yol',
-                                                                style: GoogleFonts.montserrat(
-                                                                    color: appColor,
-                                                                    fontWeight: FontWeight.bold),
-                                                              )
-                                                            ],
+                                                            ),
                                                           ),
                                                         ),
-                                                        SizedBox(width: 10),
-                                                        Expanded(
-                                                          child: Provider.of<calculateDistanceProvider>(context, listen: true).calculatedDistance.isNotEmpty? Text(
-                                                            textAlign: TextAlign.center,
-                                                            '${ Provider.of<calculateDistanceProvider>(context, listen: true).calculatedDistance[index].text} ${store.address}',
-                                                            style: GoogleFonts.montserrat(
-                                                              fontSize: 12,
-                                                            ),
-                                                          ):
-                                                             Container(
-                                                               height: 20,
-                                                               width: 20,
-                                                               child: Center(
-                                                                 child: CircularProgressIndicator(),
-                                                               ),
-                                                             )
-                                                          // FutureBuilder<DistanceData?>(
-                                                          //   future:
-                                                          //   Stations.getDistanceBetweenTwoPoints(
-                                                          //     origin: LatLng(userLocation!.latitude,
-                                                          //         userLocation!.longitude),
-                                                          //     destination: LatLng(
-                                                          //       widget.allStations[index].location.latitude,
-                                                          //       widget.allStations[index].location.longitude,
-                                                          //     ),
-                                                          //   ),
-                                                          //   builder: (context, snapshot,) {
-                                                          //     print('inside future builder called $numberCalled');
-                                                          //     // print('it means it doesnt contain it');
-                                                          //     ++numberCalled;
-                                                          //     // print('called it $numberCalled');
-                                                          //     if (snapshot.hasData) {
-                                                          //       if (!distanceCache.containsKey(index)) {
-                                                          //         distanceCache[index] =
-                                                          //         (snapshot.data!.rows.isNotEmpty
-                                                          //             ? snapshot.data!.rows[0].elements.isNotEmpty
-                                                          //             ? snapshot.data!.rows[0].elements[0]
-                                                          //             .distance
-                                                          //             : null
-                                                          //             : null)!;
-                                                          //
-                                                          //       }
-                                                          //
-                                                          //       DistanceMatrix.Distance? distance =
-                                                          //       distanceCache[index];
-                                                          //
-                                                          //
-                                                          //       return Text(
-                                                          //         textAlign: TextAlign.center,
-                                                          //         '${distance?.text} ${store.address}',
-                                                          //         style: GoogleFonts.montserrat(
-                                                          //           fontSize: 12,
-                                                          //         ),
-                                                          //       );
-                                                          //     } else if (snapshot.hasError) {
-                                                          //       // Handle error case
-                                                          //       return Text('Error fetching distance');
-                                                          //     } else {
-                                                          //       return CircularProgressIndicator();
-                                                          //     }
-                                                          //   },
-                                                          // ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                    SingleChildScrollView(
-                                                      scrollDirection: Axis.horizontal,
-                                                      child: Row(
-                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                        children: placeIcons.keys.map((placeName) {
-                                                          final iconData = placeIcons[placeName];
-                                                          return Padding(
-                                                            padding: const EdgeInsets.all(8.0),
-                                                            child: Icon(
-                                                              iconData,
-                                                              size: 15,
-                                                              color: appColor,
-                                                            ),
-                                                          );
-                                                        }).toList(),
                                                       ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
+                                                      Positioned(
+                                                        top:
+                                                            -5, // half of icon size
+                                                        left: 0,
+                                                        right: 200,
+                                                        child: Container(
+                                                          decoration:
+                                                              ShapeDecoration(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  shape:
+                                                                      CircleBorder()),
+                                                          child: Icon(
+                                                            Icons.directions,
+                                                            color: appColor,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Positioned(
+                                                        top:
+                                                            -5, // half of icon size
+                                                        left: 200,
+                                                        right: 0,
+                                                        child: Container(
+                                                            height: 25,
+                                                            width: 25,
+                                                            decoration:
+                                                                ShapeDecoration(
+                                                                    color: Colors
+                                                                        .orange,
+                                                                    shape:
+                                                                        CircleBorder()),
+                                                            child: Center(
+                                                                child: Text(
+                                                              '4.5',
+                                                              style: GoogleFonts.montserrat(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 12),
+                                                            ))),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                )),
                                           );
                                         },
                                       ),
@@ -1076,7 +1268,6 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       child: CircularProgressIndicator(),
                                     );
                                   }
-
 
                                   // if (firstSnapshot.hasData) {
                                   //   return ListView.builder(
@@ -1531,10 +1722,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-
     super.dispose();
-
-
   }
 }
 

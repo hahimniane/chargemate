@@ -455,8 +455,21 @@ class facilityWidget extends StatelessWidget {
 
 
     return ListView.builder(
-      itemCount: (items.length / 2).ceil(), // Calculate the number of rows
+      itemCount: (store.amenities.length / 2).ceil(), // Calculate the number of rows
       itemBuilder: (context, index) {
+        // Calculate the indices for the two items in this row
+        final int firstIndex = index * 2;
+        final int secondIndex = index * 2 + 1;
+
+        // Get the current amenities (if available)
+        final String currentChild1 =
+        firstIndex < store.amenities.length ? store.amenities[firstIndex] : '';
+        final String currentChild2 =
+        secondIndex < store.amenities.length ? store.amenities[secondIndex] : '';
+
+        // Determine the icons using the checkIfIconExists function
+        final MapEntry<String, IconData> iconEntry1 = checkIfIconExists(currentChild1);
+        final MapEntry<String, IconData> iconEntry2 = checkIfIconExists(currentChild2);
 
         // Build each row with two items side by side
         return Padding(
@@ -464,20 +477,23 @@ class facilityWidget extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Expanded(
-                child: buildFacilityTile(itemsler[index * 2]),
-              ),
+              if (iconEntry1.value != Icons.not_interested) // Show icon only if it's not Icons.not_interested
+                Expanded(
+                  child: buildFacilityTile(iconEntry1),
+                ),
               SizedBox(width: 8), // Add some spacing between items
-              Expanded(
-                child: (index * 2 + 1 < items.length)
-                    ? buildFacilityTile(itemsler[index * 2 + 1])
-                    : Container(), // Display an empty container if no more items in the list
-              ),
+              if (iconEntry2.value != Icons.not_interested) // Show icon only if it's not Icons.not_interested
+                Expanded(
+                  child: buildFacilityTile(iconEntry2),
+                ),
             ],
           ),
         );
       },
     );
+    ;
+    ;
+
   }
 
   // Helper method to build each facility item tile
@@ -507,17 +523,34 @@ class facilityWidget extends StatelessWidget {
                 color: appColor,
               )),
           SizedBox(width: 6),
-          Text(
-            item.key,
-            style: TextStyle(
-              color: appColor,
-              fontWeight: FontWeight.bold,
+          Expanded(
+            child: Text(
+              item.key,
+              style: TextStyle(
+                color: appColor,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ],
       ),
     );
   }
+
+  MapEntry<String, IconData> checkIfIconExists(String currentChild) {
+    // Check if the currentChild exists in the amenityIcons map
+    final bool contains = amenityIcons.keys.contains(currentChild.trim().toLowerCase());
+
+    // If it exists, return a MapEntry with the currentChild and the corresponding IconData
+    if (contains) {
+      final IconData? iconData = amenityIcons[currentChild.trim().toLowerCase()];
+      return MapEntry(currentChild, iconData!);
+    } else {
+      // If it doesn't exist, return a MapEntry with the currentChild and a "not available" icon
+      return MapEntry(currentChild, Icons.not_interested); // You can use a different "not available" icon if preferred
+    }
+  }
+
 }
 
 // Data model for each facility item
@@ -792,66 +825,52 @@ class stationWidget extends StatelessWidget {
           stationTabBarWidget(
             isItThreeWidgets: true,
             iconUrl: 'assets/icons/stationIcon.png',
-            label: Text('Mesafe',  style: TextStyle(
-              color: appColor,
-              fontWeight: FontWeight.bold,
-            ),),
-            secondLabel: '',
+            label:'Mesafe',
+            secondLabel: Text(''),
             station: station,
           ),
           stationTabBarWidget(
             isItThreeWidgets: false,
             iconUrl: 'assets/icons/distanceIcon.png',
-            label: Text('Konum', style: TextStyle(
-              color: appColor,
-              fontWeight: FontWeight.bold,
-            )),
-            secondLabel: store.address,
+            label: 'Konum',
+            secondLabel: Text(store.address),
             station: station,
           ),
           stationTabBarWidget(
             isItThreeWidgets: false,
             iconUrl: 'assets/icons/distanceIcon.png',
-            label: Text('Açıklama' , style: TextStyle(
-              color: appColor,
-              fontWeight: FontWeight.bold,
-            ),),
-            secondLabel: '-',
+            label: 'Açıklama',
+            secondLabel: Text('-'),
             station: station,
           ),
           stationTabBarWidget(
             isItThreeWidgets: false,
             iconUrl: 'assets/icons/customerServiceIcon.png',
-            label:GestureDetector(
+            label:'Müşteri hizmetleri' ,
+            secondLabel: GestureDetector(
               onTap: () async {
                 print('clicked');
                 Uri phoneno = Uri.parse('www.google.com');
-       try{
-         const number = '+905541524403'; //set the number here
-         bool? res = await FlutterPhoneDirectCaller.callNumber(number);
-         print('the number was called $res');
+                try{
+                  const number = '+905541524403'; //set the number here
+                  bool? res = await FlutterPhoneDirectCaller.callNumber(number);
+                  print('the number was called $res');
                 }
-       catch (e){
-         print(e.toString());
+                catch (e){
+                  print(e.toString());
                 }
                 //dialer opened
-
               },
-              child: Text('Müşteri hizmetleri',    style: TextStyle(
-              color: appColor,
-              fontWeight: FontWeight.bold,
-            ),),) ,
-            secondLabel: '+905541524403',
+              child: Text('+905541524403', style: TextStyle(
+            color: appColor,
+            fontWeight: FontWeight.normal),),),
             station: station,
           ),
           stationTabBarWidget(
             isItThreeWidgets: false,
             iconUrl: 'assets/icons/distanceIcon.png',
-            label: Text('çalışma saatleri',  style: TextStyle(
-              color: appColor,
-              fontWeight: FontWeight.bold,
-            ),),
-            secondLabel: '09:00/ 21:30',
+            label: 'çalışma saatleri',
+            secondLabel: Text('09:00/ 21:30'),
             station: station,
           ),
           // stationTabBarWidget(
@@ -870,8 +889,8 @@ class stationTabBarWidget extends StatelessWidget {
   final ElectricStation station;
   final bool isItThreeWidgets;
   final String iconUrl;
-  final Widget label;
-  final String secondLabel;
+  final String label;
+  final Widget secondLabel;
 
   const stationTabBarWidget({
     super.key,
@@ -918,8 +937,11 @@ class stationTabBarWidget extends StatelessWidget {
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.only(left: 8.0),
-                          child:
-                            label,
+                          child:Text( label,  style: TextStyle(
+                            color: appColor,
+                            fontWeight: FontWeight.bold,
+                          ),)
+
 
 
                         ),
@@ -957,13 +979,10 @@ class stationTabBarWidget extends StatelessWidget {
                             )
                           : Expanded(
                               flex: 2,
-                              child: Text(
-                                textAlign: TextAlign.center,
+                              child:
                                 secondLabel,
-                                style: TextStyle(
-                                    color: appColor,
-                                    fontWeight: FontWeight.normal),
-                              ),
+
+
                             ),
                     ],
                   ),

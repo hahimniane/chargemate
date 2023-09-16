@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 Map<String, IconData> amenityIcons = {
+  'restoran':Icons.restaurant,
   'kafe': Icons.local_cafe,
   'büfe': Icons.fastfood,
-  'restoran': Icons.restaurant,
   'otopark': Icons.local_parking,
   'atm': Icons.local_atm,
   'üniversite': Icons.school,
@@ -94,7 +94,7 @@ Map<String, IconData> amenityIcons = {
   'emniyet amirliği': Icons.local_police,
   'tramvay': Icons.train,
   'kayak merkezi': Icons.downhill_skiing,
-  'retoran': Icons.restaurant,
+
   'sanayi ve ticaret odası': Icons.domain,
   'kafer': Icons.restaurant,
 };

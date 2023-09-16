@@ -46,13 +46,14 @@ class Stations {
             chargingStations = stationInfo
                 .map((station) => ElectricStation.fromJson(station))
                 .toList();
-            var numOfDc = 0;
-            for (var station in chargingStations) {
-              if (station.plug['hasDC'] == 1) {
-                numOfDc++;
-              }
-            }
-            print(numOfDc);
+            // var numOfDc = 0;
+            // for (var station in chargingStations) {
+            //   if (station.plug['hasDC'] == 1) {
+            //     numOfDc++;
+            //   }
+            // }
+            // print(numOfDc);
+            print('this is the list of amnities for the first station ${stationInfo.first}');
             return chargingStations;
           }
         }
