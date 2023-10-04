@@ -1,3 +1,4 @@
+import 'package:chargemate/screens/registration/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -200,15 +201,15 @@ class _PhoneNumberInputPageState extends State<PhoneNumberInputPage> {
                                     print('the phone number is $phoneNumber');
                                     final numberExists = await _viewModel
                                         .checkIfNumberExists(phoneNumber);
-                                    if (numberExists) {
-                                      showToast(
-                                          'Bu numara zaten kayıtlı. Lütfen oturum açın.');
-                                      _loadingButtonController.error();
-                                      _loadingButtonController.reset();
-                                    } else {
+                                    // if (numberExists) {
+                                    //   // showToast(
+                                    //   //     'Bu numara zaten kayıtlı. Lütfen oturum açın.');
+                                    //   // _loadingButtonController.error();
+                                    //   // _loadingButtonController.reset();
+                                    // }
                                       _viewModel.registerUser(
                                           context, phoneNumber);
-                                    }
+
                                   } else {
                                     _loadingButtonController.error();
                                     _loadingButtonController.reset();
@@ -223,6 +224,28 @@ class _PhoneNumberInputPageState extends State<PhoneNumberInputPage> {
                                   ),
                                 ),
                               ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Hesabınız var mi?',
+                                  style: TextStyle(color: appColor),
+                                ),
+                                TextButton(
+                                  onPressed: () async {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                LoginPage(isComingFromHomeScreen: false)));
+                                  },
+                                  child: Text(
+                                    'Giriş Yap',
+                                    style: TextStyle(color: appColor),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),

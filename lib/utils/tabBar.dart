@@ -5,6 +5,7 @@ import 'package:chargemate/modals/comment_model.dart';
 import 'package:chargemate/modals/model_stations.dart';
 import 'package:chargemate/screens/add_comment.dart';
 import 'package:chargemate/service/comment_api_services.dart';
+import 'package:chargemate/utils/show_available_maps_modal.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
@@ -118,7 +119,7 @@ class commentWidget extends StatelessWidget {
                 backgroundColor: appColor,
               ),
               onPressed: () async {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCommentPage()));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCommentPage(electricStore: ElectricStore.fromElectricStation(station))));
                 // UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
                 //   email: 'user@example.com',
                 //   password: 'password',
@@ -126,8 +127,8 @@ class commentWidget extends StatelessWidget {
                 // auth.currentUser?.getIdToken();
 
                 // String idToken = await userCredential.user!.getIdToken();
-                print('ID Token: ${await auth.currentUser?.getIdToken()}');
-                String? token = await auth.currentUser?.getIdToken();
+                // print('ID Token: ${await auth.currentUser?.getIdToken()}');
+                // String? token = await auth.currentUser?.getIdToken();
                 // Stations.addComment(
                 //     comment:
                 //         'in the after math everything was good. we need to be here to update all of our beloved stations for a better charging.',
@@ -998,7 +999,7 @@ class stationTabBarWidget extends StatelessWidget {
                       List<AvailableMap> availableMaps =
                           await MapLauncher.installedMaps;
                       if (availableMaps.isNotEmpty) {
-                        _showAvailableMapsModal(context, station);
+                        showAvailableMapsModal(context, station);
                       } else {
                         Fluttertoast.showToast(
                             backgroundColor: Colors.red,
@@ -1031,81 +1032,7 @@ class stationTabBarWidget extends StatelessWidget {
     );
   }
 
-  void _showAvailableMapsModal(
-      BuildContext context, ElectricStation station) async {
-    final availableMaps = await MapLauncher.installedMaps;
 
-    showModalBottomSheet(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          padding: EdgeInsets.symmetric(vertical: 16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Center(
-                child: Text(
-                  'Select a map application',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ),
-              SizedBox(height: 20),
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: availableMaps.length,
-                itemBuilder: (context, index) {
-                  final map = availableMaps[index];
-                  IconData iconData;
-                  if (map.mapType == MapType.apple) {
-                    iconData = FontAwesomeIcons.apple;
-                  } else if (map.mapType == MapType.google) {
-                    iconData = FontAwesomeIcons.google;
-                  } else if (map.mapType == MapType.yandexMaps) {
-                    iconData = FontAwesomeIcons.yandex;
-                  } else {
-                    // Default icon if not recognized
-                    iconData = Icons.map;
-                  }
-                  return ListTile(
-                    leading: Icon(
-                      iconData,
-                      color: appColor,
-                    ),
-                    title: Text(map.mapName),
-                    onTap: () async {
-                      final coords = Coords(
-                          station.location.latitude,
-                          station.location
-                              .longitude); // Replace with your coordinates
-                      final url = map.showDirections(
-                          destination: Coords(station.location.latitude,
-                              station.location.longitude));
-                      print(url);
-                      ElectricStore store =
-                          ElectricStore.fromElectricStation(station);
-                      await MapLauncher.showMarker(
-                        mapType: MapType.google,
-                        coords: coords,
-                        title: store.name,
-                      );
-
-                      // else {
-                      //   print("Could not launch map: $url");
-                      // }
-                      // Navigator.pop(context); // Close the modal sheet
-                    },
-                  );
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
   // void _showAvailableMapsModal(BuildContext context) async {
   //   List<MapType> mapType = [];
   //   final availableMaps = await MapLauncher.installedMaps;

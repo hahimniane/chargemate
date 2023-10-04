@@ -8,9 +8,11 @@ import 'package:chargemate/service/api_service.dart';
 import 'package:chargemate/modals/model_stations.dart';
 import 'package:chargemate/providers/favorite_station.dart';
 import 'package:chargemate/service/comment_api_services.dart';
+import 'package:chargemate/service/navigation_helper_service.dart';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
@@ -22,6 +24,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
 import 'package:intl_phone_field/countries.dart';
+import 'package:map_launcher/map_launcher.dart' as Luncher;
 import 'package:provider/provider.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:search_choices/search_choices.dart';
@@ -39,8 +42,10 @@ import '../providers/calculate_distance_provider.dart';
 import '../service/favorite_station_api_service.dart';
 import '../service/user_location_service.dart';
 import '../utils/convert_image_to_icon.dart';
+import '../utils/show_available_maps_modal.dart';
 import '../widgets/drawer.dart';
 
+import 'favorites_stations_page.dart';
 import 'filter_page.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -802,6 +807,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             color: appColor,
                           ),
                           onPressed: () {
+                            NavigationHelper.pushPage(context, FavoriteStationsPage());
                             // activateTerrain();
                             // Handle changing terrain
                           },
@@ -1069,7 +1075,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                           Text(
                                                                         textAlign:
                                                                             TextAlign.center,
-                                                                        '${widget.allStations[index].tenant['name']}- ${store.name}',
+                                                                        '${widget.allStations[index].tenant['name']} - ${store.name}',
                                                                         style: GoogleFonts.montserrat(
                                                                             fontWeight: FontWeight.bold,
                                                                             color: appColor),
@@ -1215,16 +1221,31 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                             -5, // half of icon size
                                                         left: 0,
                                                         right: 200,
-                                                        child: Container(
-                                                          decoration:
-                                                              ShapeDecoration(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  shape:
-                                                                      CircleBorder()),
-                                                          child: Icon(
-                                                            Icons.directions,
-                                                            color: appColor,
+                                                        child: GestureDetector(
+                                                          onTap: () async {
+                                                            List<Luncher.AvailableMap> availableMaps =
+                                                                await Luncher.MapLauncher.installedMaps;
+                                                            if (availableMaps.isNotEmpty) {
+                                                              showAvailableMapsModal(context,  firstSnapshot.data![index]);
+                                                            } else {
+                                                              Fluttertoast.showToast(
+                                                                  backgroundColor: Colors.red,
+                                                                  gravity: ToastGravity.CENTER,
+                                                                  msg: 'Harita uygulaması bulunamadı');
+                                                            }
+
+                                                          },
+                                                          child: Container(
+                                                            decoration:
+                                                                ShapeDecoration(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    shape:
+                                                                        CircleBorder()),
+                                                            child: Icon(
+                                                              Icons.directions,
+                                                              color: appColor,
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
@@ -1589,6 +1610,48 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       ),
     );
   }
+  // Future<Marker> Function(Cluster<ElectricStation>) get _markerBuilder =>
+  //         (cluster) async {
+  //       Future<Marker> buildMarker(Cluster<ElectricStation> currentCluster) async {
+  //         if (currentCluster.isMultiple) {
+  //           print('it is a multiple');
+  //           googleMapController.animateCamera(
+  //             CameraUpdate.newLatLngZoom(
+  //               currentCluster.items.first.latLng,
+  //               14,
+  //             ),
+  //           );
+  //           return buildMarker(currentCluster.items.first); // Recurse with the first item
+  //         } else {
+  //           // When not multiple, create and return the marker
+  //           return Marker(
+  //             infoWindow: InfoWindow(),
+  //             markerId: MarkerId(currentCluster.getId()),
+  //             position: currentCluster.location,
+  //             onTap: () async {
+  //               DistanceMatrix.DistanceData? distanceData =
+  //               await Stations.getDistanceBetweenTwoPoints(
+  //                 origin: LatLng(userLocation!.latitude, userLocation!.longitude),
+  //                 destination: LatLng(
+  //                   currentCluster.items.first.location.latitude,
+  //                   currentCluster.items.first.location.longitude,
+  //                 ),
+  //               );
+  //               showMarkerDetails(
+  //                 context: context,
+  //                 station: currentCluster.items.first,
+  //                 distanceData: distanceData!,
+  //               );
+  //             },
+  //             icon: BitmapDescriptor.fromBytes(
+  //               await getBytesFromAsset('assets/icons/blueIcon.png', 85),
+  //             ),
+  //           );
+  //         }
+  //       }
+  //
+  //       return buildMarker(cluster);
+  //     };
 
   Future<Marker> Function(Cluster<ElectricStation>) get _markerBuilder =>
       (cluster) async {
@@ -1597,7 +1660,13 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           markerId: MarkerId(cluster.getId()),
           position: cluster.location,
           onTap: () async {
+            // while(cluster.isMultiple){
+            //   print('is is multiple and is coming from the while loop the reamaining is ${cluster.count}');
+            // }
             if (!cluster.isMultiple) {
+
+              //TODO: check if this has ds or not
+              ElectricStore store=ElectricStore.fromElectricStation(cluster.items.first);
               DistanceMatrix.DistanceData? distanceData =
                   await Stations.getDistanceBetweenTwoPoints(
                 origin: LatLng(userLocation!.latitude, userLocation!.longitude),
@@ -1609,6 +1678,8 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   station: cluster.items.first,
                   distanceData: distanceData!);
             } else {
+
+              print('it is a multiple and the remaining clustered item is ${ cluster.items.length}');
               googleMapController.animateCamera(
                 CameraUpdate.newLatLngZoom(cluster.items.first.latLng, 14),
               );

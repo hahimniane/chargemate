@@ -151,7 +151,7 @@ class ProfileCard extends StatelessWidget {
                   child: StreamBuilder<DocumentSnapshot>(
                       stream: firestore
                           .collection('Users')
-                          .doc(auth.currentUser!.uid)
+                          .doc(auth.currentUser?.uid)
                           .snapshots(),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {

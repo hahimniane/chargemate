@@ -1,13 +1,16 @@
+import 'package:chargemate/modals/electric_store.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:marquee/marquee.dart';
 
 import '../constants/constants.dart';
 import '../figma/page-1/profile-D1h.dart';
 import '../figma/utils.dart';
 
 class AddCommentPage extends StatefulWidget {
-  const AddCommentPage({super.key});
+  final ElectricStore electricStore;
+   AddCommentPage({super.key,required this.electricStore});
 
   @override
   State<AddCommentPage> createState() => _AddCommentPageState();
@@ -29,6 +32,7 @@ class _AddCommentPageState extends State<AddCommentPage> {
       body: SafeArea(
         top: false,
         child: Container(
+          margin: EdgeInsets.only(top: 20),
           width: double.infinity,
           child: Container(
             width: double.infinity,
@@ -71,7 +75,7 @@ class _AddCommentPageState extends State<AddCommentPage> {
                         child: Container(
                           // group75913wzP (251:1276)
                           margin: EdgeInsets.fromLTRB(
-                              0 * fem, 56 * fem, 24 * fem, 0 * fem),
+                              0 * fem, 56 * fem, 20 * fem, 0 * fem),
                           width: 48 * fem,
                           height: 48 * fem,
                           child: Image.asset(
@@ -84,7 +88,7 @@ class _AddCommentPageState extends State<AddCommentPage> {
                       Container(
                         // autogrouphscfBtj (JGjuaaYYwUNYHZ3BXxHScf)
                         margin: EdgeInsets.fromLTRB(
-                            0 * fem, 0 * fem, 25 * fem, 12 * fem),
+                            0 * fem, 0 * fem, 20 * fem, 12 * fem),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -100,11 +104,13 @@ class _AddCommentPageState extends State<AddCommentPage> {
                               ),
                             ),
                             Container(
+                              width: MediaQuery.of(context).size.width*0.65,
+                              height: 50,
                               // profilehEo (251:1275)
                               margin: EdgeInsets.fromLTRB(
                                   2 * fem, 0 * fem, 0 * fem, 0 * fem),
-                              child: Text(
-                                'ZES-Radisson Hotel',
+                              child: Marquee(
+                               text: widget.electricStore.name,
                                 style: SafeGoogleFont(
                                   'Montserrat',
                                   fontSize: 18 * ffem,
@@ -557,7 +563,7 @@ class _AddCommentPageState extends State<AddCommentPage> {
                               backgroundColor: appColor,
                             ),
                             onPressed: () async {
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCommentPage()));
+                              // Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCommentPage()));
 
                             },
                             child: Row(
