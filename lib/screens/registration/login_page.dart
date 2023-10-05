@@ -59,13 +59,13 @@ class _LoginPageState extends State<LoginPage> {
             leading: widget.isComingFromHomeScreen
                 ? Container()
                 : IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: Icon(
-                  Icons.arrow_back_ios_new,
-                  color: appColor,
-                )),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: Icon(
+                      Icons.arrow_back_ios_new,
+                      color: appColor,
+                    )),
             elevation: 0,
             backgroundColor: Color(0xffDEEBE9),
             title: Container(
@@ -181,10 +181,10 @@ class _LoginPageState extends State<LoginPage> {
                                                 value.substring(0, 10);
                                             phoneNumberController.selection =
                                                 TextSelection.fromPosition(
-                                                  TextPosition(
-                                                      offset: phoneNumberController
-                                                          .text.length),
-                                                );
+                                              TextPosition(
+                                                  offset: phoneNumberController
+                                                      .text.length),
+                                            );
                                             print('Only 10 values allowed.');
                                           }
                                         },
@@ -196,13 +196,13 @@ class _LoginPageState extends State<LoginPage> {
                                         ],
                                         controller: phoneNumberController,
                                         keyboardType:
-                                        TextInputType.numberWithOptions(),
+                                            TextInputType.numberWithOptions(),
                                         decoration: InputDecoration(
                                           isCollapsed: false,
                                           contentPadding: EdgeInsets.all(10),
                                           border: OutlineInputBorder(
                                             borderRadius:
-                                            BorderRadius.circular(8),
+                                                BorderRadius.circular(8),
                                           ),
                                           labelText: 'Telefon Numarası',
                                         ),
@@ -215,7 +215,7 @@ class _LoginPageState extends State<LoginPage> {
                                           print('the value is $value');
 
                                           final phoneRegex =
-                                          RegExp(r'^\d{10}$');
+                                              RegExp(r'^\d{10}$');
                                           if (!phoneRegex.hasMatch(value)) {
                                             print(value);
                                             return 'Please enter a valid phone number without the country code';
@@ -288,14 +288,13 @@ class _LoginPageState extends State<LoginPage> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-
                               Padding(
                                 padding: const EdgeInsets.only(
                                     bottom: 0.0, right: 8, left: 8, top: 10),
                                 child: RoundedLoadingButton(
                                   borderRadius: 12,
                                   width:
-                                  MediaQuery.of(context).size.width * 0.90,
+                                      MediaQuery.of(context).size.width * 0.90,
                                   color: appColor,
                                   // style: ElevatedButton.styleFrom(
                                   //   backgroundColor: appColor,
@@ -311,31 +310,13 @@ class _LoginPageState extends State<LoginPage> {
                                       //     plainNumberWithCode);
                                       print('came all the way here');
                                       try {
-                                        PhoneNumberInputViewModel _viewModel=PhoneNumberInputViewModel();
-                                        // print(
-                                        //     'this is the email ${email.toString()}');
-                                        // await auth.signInWithEmailAndPassword(
-                                        //     email: email.toString(),
-                                        //     password: _password!);
-                                        print('this is the phone number $_phoneNumber');
-                                        await  _viewModel.registerUser(
+                                        PhoneNumberInputViewModel _viewModel =
+                                            PhoneNumberInputViewModel();
+
+                                        print(
+                                            'this is the phone number $_phoneNumber');
+                                        await _viewModel.registerUser(
                                             context, plainNumberWithCode);
-                                        // Stations station = Stations();
-                                        // List<ElectricStation>? myData =
-                                        // await station.getStations(headers);
-                                        // print(myData);
-                                        // Navigator.pushAndRemoveUntil(
-                                        //   context,
-                                        //   MaterialPageRoute(
-                                        //     builder: (context) => HomeScreen(
-                                        //       allStations: myData,
-                                        //     ),
-                                        //     //     HomeScreen(
-                                        //     //   allStations: myData,
-                                        //     // ),
-                                        //   ),
-                                        //       (route) => false,
-                                        // );
                                       } on Exception catch (e) {
                                         print(e.toString());
                                         Fluttertoast.showToast(
@@ -398,10 +379,6 @@ class _LoginPageState extends State<LoginPage> {
     ;
   }
 
-  String extractPlainNumber(String text) {
-    return text.replaceAll('-', '');
-  }
-
   getUserEmail(String plainNumberWithCode) async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     var data = await firestore
@@ -416,4 +393,8 @@ class _LoginPageState extends State<LoginPage> {
       return null;
     }
   }
+}
+
+String extractPlainNumber(String text) {
+  return text.replaceAll('-', '');
 }

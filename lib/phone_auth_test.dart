@@ -406,6 +406,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 import 'constants/constants.dart';
+import 'modals/phoneNumberInputViewModel.dart';
 
 // class PhoneSetupa extends StatelessWidget {
 //   const PhoneSetupa({Key? key}) : super(key: key);
@@ -435,7 +436,7 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
   //
   //   print(numberFormat.format(int.parse(phoneNumber)));
   //   return numberFormat.format(int.parse(phoneNumber));
-  // }
+  // }mb
 
   int _secondsRemaining = 120;
   Timer? _timer;
@@ -589,7 +590,15 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                                         fontWeight: FontWeight.w400),
                                   ),
                                   TextButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      PhoneNumberInputViewModel phone =
+                                          PhoneNumberInputViewModel();
+                                      phone.resendVerificationCode(
+                                          widget.phoneNumber!, context);
+                                      startTimer();
+
+                                      //TODO: configure to send another otp.
+                                    },
                                     child: Text(
                                       'Tekrar Gönder',
                                       style: TextStyle(
@@ -623,46 +632,42 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                                   auth
                                       .signInWithCredential(_credential)
                                       .then((result) async {
-
-                                    DocumentSnapshot result=  await firestore.collection('Users').doc(auth.currentUser!.uid).get();
-                                   if(result.exists){
-                                     Stations station = Stations();
-                                     List<ElectricStation>? myData =
-                                     await station.getStations(headers);
-                                     print(myData);
-                                     Navigator.pushAndRemoveUntil(
-                                       context,
-                                       MaterialPageRoute(
-                                         builder: (context) => HomeScreen(
-                                           allStations: myData,
-                                         ),
-                                         //     HomeScreen(
-                                         //   allStations: myData,
-                                         // ),
-                                       ),
-                                           (route) => false,
-                                     );
-
-                                    }
-                                   else{
-                                     print('registration page');
-                                     Navigator.pushReplacement(
-                                         context,
-                                         MaterialPageRoute(
-                                             builder: (context) =>
-                                                 EmailInputPage(
-                                                   phoneNumber:
-                                                       widget.phoneNumber!,
-                                                   // allStations: allStations,
-                                                 )));
-
-
+                                    DocumentSnapshot result = await firestore
+                                        .collection('Users')
+                                        .doc(auth.currentUser!.uid)
+                                        .get();
+                                    if (result.exists) {
+                                      Stations station = Stations();
+                                      List<ElectricStation>? myData =
+                                          await station.getStations(headers);
+                                      print(myData);
+                                      Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => HomeScreen(
+                                            allStations: myData,
+                                          ),
+                                          //     HomeScreen(
+                                          //   allStations: myData,
+                                          // ),
+                                        ),
+                                        (route) => false,
+                                      );
+                                    } else {
+                                      print('registration page');
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  EmailInputPage(
+                                                    phoneNumber:
+                                                        widget.phoneNumber!,
+                                                    // allStations: allStations,
+                                                  )));
                                     }
                                     verifyLoadingButtonController.error();
 
                                     verifyLoadingButtonController.reset();
-
-
                                   }).catchError((e) {
                                     print('in here');
                                     Fluttertoast.showToast(

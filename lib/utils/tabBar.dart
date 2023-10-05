@@ -1,5 +1,3 @@
-
-
 import 'package:chargemate/constants/constants.dart';
 import 'package:chargemate/modals/comment_model.dart';
 import 'package:chargemate/modals/model_stations.dart';
@@ -90,7 +88,9 @@ class _TabViewUtilState extends State<TabViewUtil>
           station: widget.station,
         );
       case LocationType.facility:
-        return facilityWidget(store: ElectricStore.fromElectricStation(widget.station),);
+        return facilityWidget(
+          store: ElectricStore.fromElectricStation(widget.station),
+        );
       case LocationType.explanation:
         return commentWidget(
           station: widget.station,
@@ -119,7 +119,12 @@ class commentWidget extends StatelessWidget {
                 backgroundColor: appColor,
               ),
               onPressed: () async {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCommentPage(electricStore: ElectricStore.fromElectricStation(station))));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AddCommentPage(
+                            electricStore:
+                                ElectricStore.fromElectricStation(station))));
                 // UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
                 //   email: 'user@example.com',
                 //   password: 'password',
@@ -166,8 +171,8 @@ class commentWidget extends StatelessWidget {
         Expanded(
           flex: 2,
           child: FutureBuilder<List<Comments>>(
-              future:
-                  CommentClass.getComments(headers: headers, stationId: station.id),
+              future: CommentClass.getComments(
+                  headers: headers, stationId: station.id),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return Center(
@@ -177,15 +182,18 @@ class commentWidget extends StatelessWidget {
                       child: CircularProgressIndicator(),
                     ),
                   );
-                }
-                else if(snapshot.data!.isEmpty){
-                  return Center(child: Text('Ilk Yorumu Sen At!',style:SafeGoogleFont(
-                    'Montserrat',
-                    fontSize: 16 ,
-                    fontWeight: FontWeight.w700,
-                    height: 1.2175 ,
-                    color: appColor,
-                  ),));
+                } else if (snapshot.data!.isEmpty) {
+                  return Center(
+                      child: Text(
+                    'Ilk Yorumu Sen At!',
+                    style: SafeGoogleFont(
+                      'Montserrat',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      height: 1.2175,
+                      color: appColor,
+                    ),
+                  ));
                 }
                 return Container(
                   // color: Colors.blue,
@@ -424,7 +432,7 @@ class commentWidget extends StatelessWidget {
 
 class facilityWidget extends StatelessWidget {
   final ElectricStore store;
-   facilityWidget({required this.store});
+  facilityWidget({required this.store});
   // Data model for facility items
   final List<FacilityItem> items = [
     FacilityItem('Kafe', Icons.local_cafe),
@@ -441,36 +449,38 @@ class facilityWidget extends StatelessWidget {
     FacilityItem('Oto Yıkama', Icons.local_car_wash),
   ];
 
-  final List<MapEntry<String,IconData>> itemsler=[
-
-  ];
+  final List<MapEntry<String, IconData>> itemsler = [];
 
   @override
   Widget build(BuildContext context) {
-
-    print('the number of aminties are ${store.amenities.length} and the first one is ${store.amenities.first}///////////////////////////////');
-    for(int i=0;i<items.length;++i){
+    print(
+        'the number of aminties are ${store.amenities.length} and the first one is ${store.amenities.first}///////////////////////////////');
+    for (int i = 0; i < items.length; ++i) {
       itemsler.add(amenityIcons.entries.elementAt(i));
       print(amenityIcons.entries.elementAt(i));
     }
 
-
     return ListView.builder(
-      itemCount: (store.amenities.length / 2).ceil(), // Calculate the number of rows
+      itemCount:
+          (store.amenities.length / 2).ceil(), // Calculate the number of rows
       itemBuilder: (context, index) {
         // Calculate the indices for the two items in this row
         final int firstIndex = index * 2;
         final int secondIndex = index * 2 + 1;
 
         // Get the current amenities (if available)
-        final String currentChild1 =
-        firstIndex < store.amenities.length ? store.amenities[firstIndex] : '';
-        final String currentChild2 =
-        secondIndex < store.amenities.length ? store.amenities[secondIndex] : '';
+        final String currentChild1 = firstIndex < store.amenities.length
+            ? store.amenities[firstIndex]
+            : '';
+        final String currentChild2 = secondIndex < store.amenities.length
+            ? store.amenities[secondIndex]
+            : '';
 
         // Determine the icons using the checkIfIconExists function
-        final MapEntry<String, IconData> iconEntry1 = checkIfIconExists(currentChild1);
-        final MapEntry<String, IconData> iconEntry2 = checkIfIconExists(currentChild2);
+        final MapEntry<String, IconData> iconEntry1 =
+            checkIfIconExists(currentChild1);
+        final MapEntry<String, IconData> iconEntry2 =
+            checkIfIconExists(currentChild2);
 
         // Build each row with two items side by side
         return Padding(
@@ -478,12 +488,16 @@ class facilityWidget extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              if (iconEntry1.value != Icons.not_interested) // Show icon only if it's not Icons.not_interested
+              if (iconEntry1.value !=
+                  Icons
+                      .not_interested) // Show icon only if it's not Icons.not_interested
                 Expanded(
                   child: buildFacilityTile(iconEntry1),
                 ),
               SizedBox(width: 8), // Add some spacing between items
-              if (iconEntry2.value != Icons.not_interested) // Show icon only if it's not Icons.not_interested
+              if (iconEntry2.value !=
+                  Icons
+                      .not_interested) // Show icon only if it's not Icons.not_interested
                 Expanded(
                   child: buildFacilityTile(iconEntry2),
                 ),
@@ -494,7 +508,6 @@ class facilityWidget extends StatelessWidget {
     );
     ;
     ;
-
   }
 
   // Helper method to build each facility item tile
@@ -540,18 +553,22 @@ class facilityWidget extends StatelessWidget {
 
   MapEntry<String, IconData> checkIfIconExists(String currentChild) {
     // Check if the currentChild exists in the amenityIcons map
-    final bool contains = amenityIcons.keys.contains(currentChild.trim().toLowerCase());
+    final bool contains =
+        amenityIcons.keys.contains(currentChild.trim().toLowerCase());
 
     // If it exists, return a MapEntry with the currentChild and the corresponding IconData
     if (contains) {
-      final IconData? iconData = amenityIcons[currentChild.trim().toLowerCase()];
+      final IconData? iconData =
+          amenityIcons[currentChild.trim().toLowerCase()];
       return MapEntry(currentChild, iconData!);
     } else {
       // If it doesn't exist, return a MapEntry with the currentChild and a "not available" icon
-      return MapEntry(currentChild, Icons.not_interested); // You can use a different "not available" icon if preferred
+      return MapEntry(
+          currentChild,
+          Icons
+              .not_interested); // You can use a different "not available" icon if preferred
     }
   }
-
 }
 
 // Data model for each facility item
@@ -597,77 +614,77 @@ class socketWidget extends StatelessWidget {
                         ),
                         Expanded(
                             child: ListTile(
-                              title: Text(
-                                'AC Type 2',
-                                style: TextStyle(
-                                  color: appColor,
-                                  fontWeight: FontWeight.bold,
+                          title: Text(
+                            'AC Type 2',
+                            style: TextStyle(
+                              color: appColor,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          subtitle: Text(textAlign: TextAlign.start, '22 kw'),
+                          trailing: Column(
+                            children: [
+                              Expanded(
+                                child: Image(
+                                  height: 30,
+                                  width: 30,
+                                  image:
+                                      AssetImage('assets/icons/moneyIcon.png'),
                                 ),
                               ),
-                              subtitle: Text(textAlign: TextAlign.start, '22 kw'),
-                              trailing: Column(
-                                children: [
-                                  Expanded(
-                                    child: Image(
-                                      height: 30,
-                                      width: 30,
-                                      image:
-                                      AssetImage('assets/icons/moneyIcon.png'),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  RichText(
-                                    textScaleFactor: 1,
-                                    text: TextSpan(
-                                      style: DefaultTextStyle.of(context)
-                                          .style
-                                          .copyWith(
+                              SizedBox(
+                                height: 10,
+                              ),
+                              RichText(
+                                textScaleFactor: 1,
+                                text: TextSpan(
+                                  style: DefaultTextStyle.of(context)
+                                      .style
+                                      .copyWith(
                                         fontSize: DefaultTextStyle.of(context)
                                             .style
                                             .fontSize,
                                         textBaseline:
-                                        DefaultTextStyle.of(context)
-                                            .style
-                                            .textBaseline,
+                                            DefaultTextStyle.of(context)
+                                                .style
+                                                .textBaseline,
 
                                         // Adjust this value to make the text closer
                                       ),
-                                      children: [
-                                        TextSpan(
-                                          text: '7.5',
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                            color: appColor,
-                                          ),
-                                        ),
-                                        TextSpan(
-                                          text: 'TL/Kw',
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.normal,
-                                            // color: Colors.black,
-                                          ),
-                                        ),
-                                      ],
+                                  children: [
+                                    TextSpan(
+                                      text: '7.5',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: appColor,
+                                      ),
                                     ),
-                                  )
-                                ],
-                              ),
-                              // bottomModalProperties(
-                              //   iconData: Image(
-                              //     height: 30,
-                              //     width: 30,
-                              //     image: AssetImage('assets/icons/moneyIcon.png'),
-                              //   ),
-                              //   isText: false,
-                              //   name: 'DC',
-                              //   numberOfAvailableNames: '7.5',
-                              //   detail: 'TL/Kw',
-                              // ),
-                            )),
+                                    TextSpan(
+                                      text: 'TL/Kw',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.normal,
+                                        // color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                          // bottomModalProperties(
+                          //   iconData: Image(
+                          //     height: 30,
+                          //     width: 30,
+                          //     image: AssetImage('assets/icons/moneyIcon.png'),
+                          //   ),
+                          //   isText: false,
+                          //   name: 'DC',
+                          //   numberOfAvailableNames: '7.5',
+                          //   detail: 'TL/Kw',
+                          // ),
+                        )),
                       ],
                     ),
                     Padding(
@@ -706,7 +723,7 @@ class socketWidget extends StatelessWidget {
                             flex: 2,
                             child: Padding(
                               padding:
-                              const EdgeInsets.symmetric(horizontal: 4.0),
+                                  const EdgeInsets.symmetric(horizontal: 4.0),
                               child: Container(
                                 decoration: BoxDecoration(
                                   border: Border.all(color: appColor),
@@ -753,7 +770,7 @@ class socketWidget extends StatelessWidget {
                                     child: Center(
                                       child: Padding(
                                         padding:
-                                        const EdgeInsets.only(right: 2.0),
+                                            const EdgeInsets.only(right: 2.0),
                                         child: Text(
                                           'Available',
                                           style: TextStyle(
@@ -826,7 +843,7 @@ class stationWidget extends StatelessWidget {
           stationTabBarWidget(
             isItThreeWidgets: true,
             iconUrl: 'assets/icons/stationIcon.png',
-            label:'Mesafe',
+            label: 'Mesafe',
             secondLabel: Text(''),
             station: station,
           ),
@@ -838,6 +855,7 @@ class stationWidget extends StatelessWidget {
             station: station,
           ),
           stationTabBarWidget(
+            isSendingIcon: true,
             isItThreeWidgets: false,
             iconUrl: 'assets/icons/distanceIcon.png',
             label: 'Açıklama',
@@ -847,24 +865,26 @@ class stationWidget extends StatelessWidget {
           stationTabBarWidget(
             isItThreeWidgets: false,
             iconUrl: 'assets/icons/customerServiceIcon.png',
-            label:'Müşteri hizmetleri' ,
+            label: 'Müşteri hizmetleri',
             secondLabel: GestureDetector(
               onTap: () async {
                 print('clicked');
                 Uri phoneno = Uri.parse('www.google.com');
-                try{
+                try {
                   const number = '+905541524403'; //set the number here
                   bool? res = await FlutterPhoneDirectCaller.callNumber(number);
                   print('the number was called $res');
-                }
-                catch (e){
+                } catch (e) {
                   print(e.toString());
                 }
                 //dialer opened
               },
-              child: Text('+905541524403', style: TextStyle(
-            color: appColor,
-            fontWeight: FontWeight.normal),),),
+              child: Text(
+                '+905541524403',
+                style:
+                    TextStyle(color: appColor, fontWeight: FontWeight.normal),
+              ),
+            ),
             station: station,
           ),
           stationTabBarWidget(
@@ -893,6 +913,8 @@ class stationTabBarWidget extends StatelessWidget {
   final String label;
   final Widget secondLabel;
 
+  final bool isSendingIcon;
+
   const stationTabBarWidget({
     super.key,
     this.isItThreeWidgets = false,
@@ -900,6 +922,7 @@ class stationTabBarWidget extends StatelessWidget {
     required this.label,
     required this.secondLabel,
     required this.station,
+    this.isSendingIcon = false,
   });
 
   @override
@@ -916,11 +939,17 @@ class stationTabBarWidget extends StatelessWidget {
                 elevation: 3,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: ImageIcon(
-                    AssetImage(iconUrl),
-                    color: appColor,
-                    size: 24,
-                  ),
+                  child: isSendingIcon
+                      ? Icon(
+                          Icons.near_me,
+                          color: appColor,
+                          size: 24,
+                        )
+                      : ImageIcon(
+                          AssetImage(iconUrl),
+                          color: appColor,
+                          size: 24,
+                        ),
                 ),
               ),
             ),
@@ -937,15 +966,14 @@ class stationTabBarWidget extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child:Text( label,  style: TextStyle(
-                            color: appColor,
-                            fontWeight: FontWeight.bold,
-                          ),)
-
-
-
-                        ),
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Text(
+                              label,
+                              style: TextStyle(
+                                color: appColor,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )),
                       ),
                       isItThreeWidgets
                           ? Expanded(
@@ -980,10 +1008,7 @@ class stationTabBarWidget extends StatelessWidget {
                             )
                           : Expanded(
                               flex: 2,
-                              child:
-                                secondLabel,
-
-
+                              child: secondLabel,
                             ),
                     ],
                   ),
@@ -1031,7 +1056,6 @@ class stationTabBarWidget extends StatelessWidget {
       ),
     );
   }
-
 
   // void _showAvailableMapsModal(BuildContext context) async {
   //   List<MapType> mapType = [];

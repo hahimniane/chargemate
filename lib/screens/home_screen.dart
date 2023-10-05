@@ -189,6 +189,11 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     Completer<GoogleMapController> _controller = Completer();
     return GestureDetector(
       onTap: () {
+        if (MediaQuery.of(context).viewInsets.bottom <= 0) {
+          print('the keyboard is not active *****');
+        } else {
+          print('the keyboard is active *********');
+        }
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: WillPopScope(
@@ -807,7 +812,8 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             color: appColor,
                           ),
                           onPressed: () {
-                            NavigationHelper.pushPage(context, FavoriteStationsPage());
+                            NavigationHelper.pushPage(
+                                context, FavoriteStationsPage());
                             // activateTerrain();
                             // Handle changing terrain
                           },
@@ -1001,11 +1007,11 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                           ElectricStore store =
                                               ElectricStore.fromElectricStation(
                                                   firstSnapshot.data![index]);
-                                          Plug plug =
-                                          Plug.fromElectricStation((
-                                              firstSnapshot.data![index]));
+                                          Plug plug = Plug.fromElectricStation(
+                                              (firstSnapshot.data![index]));
 
-                                          bool dcIsZero=plug.hasDC==0?true:false;
+                                          bool dcIsZero =
+                                              plug.hasDC == 0 ? true : false;
                                           return GestureDetector(
                                             onTap: () {
                                               Navigator.push(
@@ -1053,16 +1059,25 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                             //   shape: BeveledRectangleBorder(),
                                                             // ),
                                                             child: Container(
-                                                              decoration: BoxDecoration(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              12,),),
-                                                              width: MediaQuery.of(context).size.width * 0.60,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: Colors
+                                                                    .white,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                  12,
+                                                                ),
+                                                              ),
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width *
+                                                                  0.60,
                                                               child: Column(
-                                                                mainAxisSize: MainAxisSize.min,
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .min,
                                                                 children: [
                                                                   Expanded(
                                                                     child:
@@ -1077,18 +1092,20 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                             TextAlign.center,
                                                                         '${widget.allStations[index].tenant['name']} - ${store.name}',
                                                                         style: GoogleFonts.montserrat(
-                                                                            fontWeight: FontWeight.bold,
+                                                                            fontWeight:
+                                                                                FontWeight.bold,
                                                                             color: appColor),
                                                                       ),
                                                                     ),
                                                                   ),
-
                                                                   Row(
                                                                     mainAxisAlignment:
                                                                         MainAxisAlignment
                                                                             .spaceBetween,
                                                                     children: [
-                                                                      SizedBox(width: 10),
+                                                                      SizedBox(
+                                                                          width:
+                                                                              10),
                                                                       Expanded(
                                                                           flex:
                                                                               2,
@@ -1130,46 +1147,50 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                                   ),
                                                                                 )),
                                                                       Container(
-                                                                        height:40,
-                                                                        child: Row(
+                                                                        height:
+                                                                            40,
+                                                                        child:
+                                                                            Row(
                                                                           children: [
                                                                             Expanded(
                                                                               child: Column(
                                                                                 children: [
-                                                                                Text('AC',style: TextStyle(
-                                                                                  fontWeight: FontWeight.bold,
-                                                                                  color: appColor
-                                                                              ),
-
-
-                                                                                ),
-                                                                                  Text((plug.total-plug.hasDC).toString(),style: GoogleFonts.montserrat(
-                                                                                    fontWeight: FontWeight.w400
-                                                                                  ),), ],
-                                                                              ),
-                                                                            ),
-                                                                           !dcIsZero? Expanded(
-                                                                              child: Column(
-                                                                                children: [
-                                                                                  Text('DC',style: GoogleFonts.montserrat(
-                                                                                    fontWeight: FontWeight.bold,
-                                                                                    color: appColor
-                                                                                  ),),
-                                                                                  Text(plug.hasDC.toString(),style: GoogleFonts.montserrat( fontWeight: FontWeight.w400),),
-
+                                                                                  Text(
+                                                                                    'AC',
+                                                                                    style: TextStyle(fontWeight: FontWeight.bold, color: appColor),
+                                                                                  ),
+                                                                                  Text(
+                                                                                    (plug.total - plug.hasDC).toString(),
+                                                                                    style: GoogleFonts.montserrat(fontWeight: FontWeight.w400),
+                                                                                  ),
                                                                                 ],
                                                                               ),
-                                                                            ):Container(),
-
+                                                                            ),
+                                                                            !dcIsZero
+                                                                                ? Expanded(
+                                                                                    child: Column(
+                                                                                      children: [
+                                                                                        Text(
+                                                                                          'DC',
+                                                                                          style: GoogleFonts.montserrat(fontWeight: FontWeight.bold, color: appColor),
+                                                                                        ),
+                                                                                        Text(
+                                                                                          plug.hasDC.toString(),
+                                                                                          style: GoogleFonts.montserrat(fontWeight: FontWeight.w400),
+                                                                                        ),
+                                                                                      ],
+                                                                                    ),
+                                                                                  )
+                                                                                : Container(),
                                                                           ],
                                                                         ),
-
-                                                                       width: 70,
-                                                                          decoration: BoxDecoration(
-                                                                      //  color: Colors.blue,
-                                                                        //border: Border.all()
-                                                                          ),
-                                                                        )
+                                                                        width:
+                                                                            70,
+                                                                        decoration: BoxDecoration(
+                                                                            //  color: Colors.blue,
+                                                                            //border: Border.all()
+                                                                            ),
+                                                                      )
                                                                     ],
                                                                   ),
                                                                   SingleChildScrollView(
@@ -1223,17 +1244,29 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                         right: 200,
                                                         child: GestureDetector(
                                                           onTap: () async {
-                                                            List<Luncher.AvailableMap> availableMaps =
-                                                                await Luncher.MapLauncher.installedMaps;
-                                                            if (availableMaps.isNotEmpty) {
-                                                              showAvailableMapsModal(context,  firstSnapshot.data![index]);
+                                                            List<Luncher.AvailableMap>
+                                                                availableMaps =
+                                                                await Luncher
+                                                                    .MapLauncher
+                                                                    .installedMaps;
+                                                            if (availableMaps
+                                                                .isNotEmpty) {
+                                                              showAvailableMapsModal(
+                                                                  context,
+                                                                  firstSnapshot
+                                                                          .data![
+                                                                      index]);
                                                             } else {
                                                               Fluttertoast.showToast(
-                                                                  backgroundColor: Colors.red,
-                                                                  gravity: ToastGravity.CENTER,
-                                                                  msg: 'Harita uygulaması bulunamadı');
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .red,
+                                                                  gravity:
+                                                                      ToastGravity
+                                                                          .CENTER,
+                                                                  msg:
+                                                                      'Harita uygulaması bulunamadı');
                                                             }
-
                                                           },
                                                           child: Container(
                                                             decoration:
@@ -1664,9 +1697,9 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             //   print('is is multiple and is coming from the while loop the reamaining is ${cluster.count}');
             // }
             if (!cluster.isMultiple) {
-
               //TODO: check if this has ds or not
-              ElectricStore store=ElectricStore.fromElectricStation(cluster.items.first);
+              ElectricStore store =
+                  ElectricStore.fromElectricStation(cluster.items.first);
               DistanceMatrix.DistanceData? distanceData =
                   await Stations.getDistanceBetweenTwoPoints(
                 origin: LatLng(userLocation!.latitude, userLocation!.longitude),
@@ -1678,8 +1711,8 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   station: cluster.items.first,
                   distanceData: distanceData!);
             } else {
-
-              print('it is a multiple and the remaining clustered item is ${ cluster.items.length}');
+              print(
+                  'it is a multiple and the remaining clustered item is ${cluster.items.length}');
               googleMapController.animateCamera(
                 CameraUpdate.newLatLngZoom(cluster.items.first.latLng, 14),
               );

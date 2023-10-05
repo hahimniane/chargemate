@@ -10,7 +10,7 @@ import '../figma/utils.dart';
 
 class AddCommentPage extends StatefulWidget {
   final ElectricStore electricStore;
-   AddCommentPage({super.key,required this.electricStore});
+  AddCommentPage({super.key, required this.electricStore});
 
   @override
   State<AddCommentPage> createState() => _AddCommentPageState();
@@ -51,9 +51,10 @@ class _AddCommentPageState extends State<AddCommentPage> {
               children: [
                 Container(
                   // autogrouppwr1vJb (JGjuRVyM1TK8cZ17uePwR1)
-                  margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 1 * fem),
-                  padding:
-                      EdgeInsets.fromLTRB(15 * fem, 30 * fem, 15 * fem, 25 * fem),
+                  margin:
+                      EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 1 * fem),
+                  padding: EdgeInsets.fromLTRB(
+                      15 * fem, 30 * fem, 15 * fem, 25 * fem),
                   width: double.infinity,
                   decoration: BoxDecoration(
                     color: Color(0xffffffff),
@@ -104,13 +105,13 @@ class _AddCommentPageState extends State<AddCommentPage> {
                               ),
                             ),
                             Container(
-                              width: MediaQuery.of(context).size.width*0.65,
+                              width: MediaQuery.of(context).size.width * 0.65,
                               height: 50,
                               // profilehEo (251:1275)
                               margin: EdgeInsets.fromLTRB(
                                   2 * fem, 0 * fem, 0 * fem, 0 * fem),
                               child: Marquee(
-                               text: widget.electricStore.name,
+                                text: widget.electricStore.name,
                                 style: SafeGoogleFont(
                                   'Montserrat',
                                   fontSize: 18 * ffem,
@@ -161,8 +162,8 @@ class _AddCommentPageState extends State<AddCommentPage> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Image(
-                                        image:
-                                            AssetImage('assets/images/img_1.png'),
+                                        image: AssetImage(
+                                            'assets/images/img_1.png'),
                                         height: 30,
                                         color: _selectedChargeType == 'DC'
                                             ? Colors.white
@@ -211,8 +212,8 @@ class _AddCommentPageState extends State<AddCommentPage> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Image(
-                                        image:
-                                            AssetImage('assets/images/img_3.png'),
+                                        image: AssetImage(
+                                            'assets/images/img_3.png'),
                                         height: 30,
                                         color: _selectedChargeType == 'AC'
                                             ? Colors.white
@@ -364,7 +365,8 @@ class _AddCommentPageState extends State<AddCommentPage> {
                                     Container(
                                       height: 45,
                                       width: 117,
-                                      margin: EdgeInsets.fromLTRB(12, 15, 12, 15),
+                                      margin:
+                                          EdgeInsets.fromLTRB(12, 15, 12, 15),
                                       decoration: BoxDecoration(
                                         border: Border.all(color: appColor),
                                         borderRadius: BorderRadius.circular(4),
@@ -400,11 +402,13 @@ class _AddCommentPageState extends State<AddCommentPage> {
                                       ),
                                     ),
                                     SizedBox(
-                                        width: 20), // Add spacing between options
+                                        width:
+                                            20), // Add spacing between options
                                     Container(
                                       height: 45,
                                       width: 117,
-                                      margin: EdgeInsets.fromLTRB(12, 15, 12, 15),
+                                      margin:
+                                          EdgeInsets.fromLTRB(12, 15, 12, 15),
                                       decoration: BoxDecoration(
                                         border: Border.all(color: appColor),
                                         borderRadius: BorderRadius.circular(4),
@@ -447,7 +451,8 @@ class _AddCommentPageState extends State<AddCommentPage> {
                                     Container(
                                       height: 45,
                                       width: 117,
-                                      margin: EdgeInsets.fromLTRB(12, 15, 12, 15),
+                                      margin:
+                                          EdgeInsets.fromLTRB(12, 15, 12, 15),
                                       decoration: BoxDecoration(
                                         border: Border.all(color: appColor),
                                         borderRadius: BorderRadius.circular(4),
@@ -483,11 +488,13 @@ class _AddCommentPageState extends State<AddCommentPage> {
                                       ),
                                     ),
                                     SizedBox(
-                                        width: 20), // Add spacing between options
+                                        width:
+                                            20), // Add spacing between options
                                     Container(
                                       height: 45,
                                       width: 117,
-                                      margin: EdgeInsets.fromLTRB(12, 15, 12, 15),
+                                      margin:
+                                          EdgeInsets.fromLTRB(12, 15, 12, 15),
                                       decoration: BoxDecoration(
                                         border: Border.all(color: appColor),
                                         borderRadius: BorderRadius.circular(4),
@@ -540,31 +547,30 @@ class _AddCommentPageState extends State<AddCommentPage> {
                           ),
                         ),
                       ),
-                      RatingStars(initialRating: 0, onRatingChanged: (int rating) {
-                        print('New rating: $rating');
-                      },),
+                      RatingStars(
+                        initialRating: 0,
+                        onRatingChanged: (int rating) {
+                          print('New rating: $rating');
+                        },
+                      ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextField(
                           maxLines: 2,
                           decoration: InputDecoration(
-
-                            label: Text('Enter Comment'),
-                            border: OutlineInputBorder(
-
-                            )
-                          ),
+                              label: Text('Enter Comment'),
+                              border: OutlineInputBorder()),
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8.0, vertical: 5),
                         child: TextButton(
                             style: TextButton.styleFrom(
                               backgroundColor: appColor,
                             ),
                             onPressed: () async {
                               // Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCommentPage()));
-
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -576,12 +582,9 @@ class _AddCommentPageState extends State<AddCommentPage> {
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold),
                                 ),
-
                               ],
                             )),
                       ),
-
-
                     ],
                   ),
                 )
@@ -593,6 +596,7 @@ class _AddCommentPageState extends State<AddCommentPage> {
     );
   }
 }
+
 class RatingStars extends StatefulWidget {
   final int initialRating;
   final void Function(int rating) onRatingChanged;
