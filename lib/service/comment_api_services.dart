@@ -3,21 +3,22 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../modals/comment_model.dart';
-class CommentClass{
-  static addComment(
-      {required var headers,
-        required String userId,
-        required userFullName,
-        required String stationId,
-        comment = null,
-        required int score,
-        required String idToken}) async {
-    var headers = {
-      'Content-Type': 'application/json',
-      'x-api-key': 'ZXSDkAOYdz18y4As0Pfap4IMkJBJR5Rh5tTDso5q',
-      'Authorization':
-      'Bearer $idToken', // Include the ID token in the Authorization header
-    };
+
+class CommentClass {
+  static addComment({
+    required var headers,
+    required String userId,
+    required userFullName,
+    required String stationId,
+    comment = null,
+    required int score,
+  }) async {
+    // var headers = {
+    //   'Content-Type': 'application/json',
+    //   'x-api-key': 'ZXSDkAOYdz18y4As0Pfap4IMkJBJR5Rh5tTDso5q',
+    //   'Authorization':
+    //   'Bearer $idToken', // Include the ID token in the Authorization header
+    // };
     var request = http.Request(
         'POST',
         Uri.parse(
@@ -39,6 +40,7 @@ class CommentClass{
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
+      print(response.statusCode);
       print(await response.stream.bytesToString());
     } else {
       print(response.statusCode);
@@ -71,6 +73,4 @@ class CommentClass{
       throw Exception('Failed to load comments: ${response.reasonPhrase}');
     }
   }
-
-
 }

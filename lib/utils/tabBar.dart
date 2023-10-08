@@ -123,6 +123,7 @@ class commentWidget extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) => AddCommentPage(
+                            station: station,
                             electricStore:
                                 ElectricStore.fromElectricStation(station))));
                 // UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -215,7 +216,9 @@ class commentWidget extends StatelessWidget {
                               padding: const EdgeInsets.all(8.0),
                               child: Container(
                                 decoration: BoxDecoration(
-                                    color: Color(0xff57b78b),
+                                    color: comment.score >= 3
+                                        ? Color(0xff57b78b)
+                                        : Colors.red,
                                     borderRadius: BorderRadius.circular(10)),
                                 height: 82,
                                 width: 62,
@@ -941,7 +944,7 @@ class stationTabBarWidget extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: isSendingIcon
                       ? Icon(
-                          Icons.near_me,
+                          FontAwesomeIcons.comment,
                           color: appColor,
                           size: 24,
                         )

@@ -23,19 +23,18 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
-import 'package:intl_phone_field/countries.dart';
+
 import 'package:map_launcher/map_launcher.dart' as Luncher;
 import 'package:provider/provider.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
-import 'package:search_choices/search_choices.dart';
+
 import 'package:searchfield/searchfield.dart';
 import 'package:text_scroll/text_scroll.dart';
-import 'package:textfield_search/textfield_search.dart';
 
 import '../enums.dart';
 import '../figma/page-1/filter.dart';
 import '../figma/page-1/profile.dart';
-import '../main.dart';
+
 import '../modals/distance_matrix_model.dart';
 import '../modals/electric_store.dart';
 import '../providers/calculate_distance_provider.dart';
@@ -83,6 +82,10 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   TextEditingController myController = TextEditingController();
 
   int numberCalled = 0;
+
+  var userHasFavoriteStation = false;
+
+  int numberOfUserFavoriteStation = 0;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -136,9 +139,28 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   //
   //   return distinctAmenities.toList();
   // }
+  Future<bool> checkIfUserHasFavoriteStations() async {
+    Map<String, dynamic> result =
+        await FavoriteStationServiceClass.doesUserHaveAnyFavoriteStation(
+      auth.currentUser!.uid,
+    );
+
+    bool userHasFavoriteStation = result['hasChargeStations'];
+
+    print('User has favorite stations: $userHasFavoriteStation');
+
+    setState(() {
+      numberOfUserFavoriteStation = result['chargeStationCount'];
+      print('number of user favorite stations ${result['chargeStationCount']}');
+      this.userHasFavoriteStation = userHasFavoriteStation;
+    });
+
+    return userHasFavoriteStation;
+  }
 
   @override
   void initState() {
+    checkIfUserHasFavoriteStations();
     ElectricStore firstAmnities =
         ElectricStore.fromElectricStation(widget.allStations.first);
     print(
@@ -808,12 +830,17 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       child: Center(
                         child: IconButton(
                           icon: Icon(
-                            FontAwesomeIcons.solidHeart,
+                            userHasFavoriteStation
+                                ? FontAwesomeIcons.solidHeart
+                                : FontAwesomeIcons.heart,
                             color: appColor,
                           ),
                           onPressed: () {
                             NavigationHelper.pushPage(
-                                context, FavoriteStationsPage());
+                                context,
+                                FavoriteStationsPage(
+                                    numberOfStations:
+                                        numberOfUserFavoriteStation));
                             // activateTerrain();
                             // Handle changing terrain
                           },
@@ -1688,6 +1715,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   Future<Marker> Function(Cluster<ElectricStation>) get _markerBuilder =>
       (cluster) async {
+        ElectricStore store;
         return Marker(
           infoWindow: InfoWindow(),
           markerId: MarkerId(cluster.getId()),
@@ -1727,7 +1755,11 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           cluster.isMultiple ? cluster.count.toString() : null,
                     )
                   : BitmapDescriptor.fromBytes(
-                      await getBytesFromAsset('assets/icons/blueIcon.png', 85),
+                      cluster.items.first.plug['hasDC'] <= 0
+                          ? await getBytesFromAsset(
+                              'assets/icons/blueIcon.png', 85)
+                          : await getBytesFromAsset(
+                              'assets/images/editedphoto.png', 85),
                     ),
         );
       };

@@ -162,7 +162,8 @@ class _FilterPageState extends State<FilterPage> {
                                               Widget? child) {
                                             return Checkbox(
                                               activeColor: appColor,
-                                              value: getterProvider.listOfCheckBoxValues[0],
+                                              value: getterProvider
+                                                  .listOfCheckBoxValues[0],
                                               onChanged: (bool? value) {
                                                 print(
                                                     'the value of the toggle is $value');
@@ -200,7 +201,7 @@ class _FilterPageState extends State<FilterPage> {
                                       ),
                                     ),
                                     Container(
-                                      // frame311m9 (202:1174)
+                                        // frame311m9 (202:1174)
                                         width: 20 * fem,
                                         height: 20 * fem,
                                         child: Consumer(
@@ -208,7 +209,8 @@ class _FilterPageState extends State<FilterPage> {
                                               Widget? child) {
                                             return Checkbox(
                                               activeColor: appColor,
-                                              value: getterProvider.listOfCheckBoxValues[1],
+                                              value: getterProvider
+                                                  .listOfCheckBoxValues[1],
                                               onChanged: (bool? value) {
                                                 print(
                                                     'the value of the toggle is $value');
@@ -252,7 +254,7 @@ class _FilterPageState extends State<FilterPage> {
                                       ),
                                     ),
                                     Container(
-                                      // frame311m9 (202:1174)
+                                        // frame311m9 (202:1174)
                                         width: 20 * fem,
                                         height: 20 * fem,
                                         child: Consumer(
@@ -260,7 +262,8 @@ class _FilterPageState extends State<FilterPage> {
                                               Widget? child) {
                                             return Checkbox(
                                               activeColor: appColor,
-                                              value: getterProvider.listOfCheckBoxValues[2],
+                                              value: getterProvider
+                                                  .listOfCheckBoxValues[2],
                                               onChanged: (bool? value) {
                                                 print(
                                                     'the value of the toggle is $value');
@@ -298,7 +301,7 @@ class _FilterPageState extends State<FilterPage> {
                                       ),
                                     ),
                                     Container(
-                                      // frame311m9 (202:1174)
+                                        // frame311m9 (202:1174)
                                         width: 20 * fem,
                                         height: 20 * fem,
                                         child: Consumer(
@@ -306,7 +309,8 @@ class _FilterPageState extends State<FilterPage> {
                                               Widget? child) {
                                             return Checkbox(
                                               activeColor: appColor,
-                                              value: getterProvider.listOfCheckBoxValues[3],
+                                              value: getterProvider
+                                                  .listOfCheckBoxValues[3],
                                               onChanged: (bool? value) {
                                                 print(
                                                     'the value of the toggle is $value');
@@ -350,7 +354,7 @@ class _FilterPageState extends State<FilterPage> {
                                       ),
                                     ),
                                     Container(
-                                      // frame311m9 (202:1174)
+                                        // frame311m9 (202:1174)
                                         width: 20 * fem,
                                         height: 20 * fem,
                                         child: Consumer(
@@ -358,7 +362,8 @@ class _FilterPageState extends State<FilterPage> {
                                               Widget? child) {
                                             return Checkbox(
                                               activeColor: appColor,
-                                              value: getterProvider.listOfCheckBoxValues[4],
+                                              value: getterProvider
+                                                  .listOfCheckBoxValues[4],
                                               onChanged: (bool? value) {
                                                 print(
                                                     'the value of the toggle is $value');
@@ -396,7 +401,7 @@ class _FilterPageState extends State<FilterPage> {
                                       ),
                                     ),
                                     Container(
-                                      // frame311m9 (202:1174)
+                                        // frame311m9 (202:1174)
                                         width: 20 * fem,
                                         height: 20 * fem,
                                         child: Consumer(
@@ -404,7 +409,8 @@ class _FilterPageState extends State<FilterPage> {
                                               Widget? child) {
                                             return Checkbox(
                                               activeColor: appColor,
-                                              value: getterProvider.listOfCheckBoxValues[5],
+                                              value: getterProvider
+                                                  .listOfCheckBoxValues[5],
                                               onChanged: (bool? value) {
                                                 print(
                                                     'the value of the toggle is $value');
@@ -445,7 +451,7 @@ class _FilterPageState extends State<FilterPage> {
           ),
           Container(
             decoration: BoxDecoration(
-              // color: Colors.blue,
+                // color: Colors.blue,
                 border: Border.all(color: Colors.grey),
                 borderRadius: BorderRadius.circular(10)),
             padding: EdgeInsets.fromLTRB(10, 5, 5, 10),
@@ -459,7 +465,7 @@ class _FilterPageState extends State<FilterPage> {
                 Container(
                   // listtitlebmy (202:1166)
                   margin:
-                  EdgeInsets.fromLTRB(5 * fem, 5 * fem, 0 * fem, 24 * fem),
+                      EdgeInsets.fromLTRB(5 * fem, 5 * fem, 0 * fem, 24 * fem),
                   width: 94 * fem,
                   height: 20 * fem,
                   child: Text(
@@ -487,14 +493,15 @@ class _FilterPageState extends State<FilterPage> {
                             Expanded(
                               child: Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
                                     // h6Ycf (202:1173)
                                     margin: EdgeInsets.fromLTRB(
                                         0 * fem, 1 * fem, 0 * fem, 0 * fem),
                                     child: Text(
-                                      setterProvider.listOfBrands[0],
+                                      Provider.of<Filter>(context)
+                                          .listOfBrands[0],
                                       style: SafeGoogleFont(
                                         'Montserrat',
                                         fontSize: 14 * ffem,
@@ -506,7 +513,7 @@ class _FilterPageState extends State<FilterPage> {
                                     ),
                                   ),
                                   Container(
-                                    // frame311m9 (202:1174)
+                                      // frame311m9 (202:1174)
                                       width: 20 * fem,
                                       height: 20 * fem,
                                       child: Consumer(
@@ -514,7 +521,8 @@ class _FilterPageState extends State<FilterPage> {
                                             Widget? child) {
                                           return Checkbox(
                                             activeColor: appColor,
-                                            value: getterProvider.listOfCheckBoxValues[0],
+                                            value: getterProvider
+                                                .listOfCheckBoxValues[0],
                                             onChanged: (bool? value) {
                                               print(
                                                   'the value of the toggle is $value');
@@ -533,7 +541,7 @@ class _FilterPageState extends State<FilterPage> {
                             Expanded(
                               child: Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
                                     // h6Ycf (202:1173)
@@ -552,7 +560,7 @@ class _FilterPageState extends State<FilterPage> {
                                     ),
                                   ),
                                   Container(
-                                    // frame311m9 (202:1174)
+                                      // frame311m9 (202:1174)
                                       width: 20 * fem,
                                       height: 20 * fem,
                                       child: Consumer(
@@ -560,7 +568,8 @@ class _FilterPageState extends State<FilterPage> {
                                             Widget? child) {
                                           return Checkbox(
                                             activeColor: appColor,
-                                            value: getterProvider.listOfCheckBoxValues[1],
+                                            value: getterProvider
+                                                .listOfCheckBoxValues[1],
                                             onChanged: (bool? value) {
                                               print(
                                                   'the value of the toggle is $value');
@@ -585,7 +594,7 @@ class _FilterPageState extends State<FilterPage> {
                             Expanded(
                               child: Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
                                     // h6Ycf (202:1173)
@@ -604,7 +613,7 @@ class _FilterPageState extends State<FilterPage> {
                                     ),
                                   ),
                                   Container(
-                                    // frame311m9 (202:1174)
+                                      // frame311m9 (202:1174)
                                       width: 20 * fem,
                                       height: 20 * fem,
                                       child: Consumer(
@@ -612,7 +621,8 @@ class _FilterPageState extends State<FilterPage> {
                                             Widget? child) {
                                           return Checkbox(
                                             activeColor: appColor,
-                                            value: getterProvider.listOfCheckBoxValues[2],
+                                            value: getterProvider
+                                                .listOfCheckBoxValues[2],
                                             onChanged: (bool? value) {
                                               print(
                                                   'the value of the toggle is $value');
@@ -631,7 +641,7 @@ class _FilterPageState extends State<FilterPage> {
                             Expanded(
                               child: Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
                                     // h6Ycf (202:1173)
@@ -650,7 +660,7 @@ class _FilterPageState extends State<FilterPage> {
                                     ),
                                   ),
                                   Container(
-                                    // frame311m9 (202:1174)
+                                      // frame311m9 (202:1174)
                                       width: 20 * fem,
                                       height: 20 * fem,
                                       child: Consumer(
@@ -658,7 +668,8 @@ class _FilterPageState extends State<FilterPage> {
                                             Widget? child) {
                                           return Checkbox(
                                             activeColor: appColor,
-                                            value: getterProvider.listOfCheckBoxValues[3],
+                                            value: getterProvider
+                                                .listOfCheckBoxValues[3],
                                             onChanged: (bool? value) {
                                               print(
                                                   'the value of the toggle is $value');
@@ -683,7 +694,7 @@ class _FilterPageState extends State<FilterPage> {
                             Expanded(
                               child: Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
                                     // h6Ycf (202:1173)
@@ -702,7 +713,7 @@ class _FilterPageState extends State<FilterPage> {
                                     ),
                                   ),
                                   Container(
-                                    // frame311m9 (202:1174)
+                                      // frame311m9 (202:1174)
                                       width: 20 * fem,
                                       height: 20 * fem,
                                       child: Consumer(
@@ -710,7 +721,8 @@ class _FilterPageState extends State<FilterPage> {
                                             Widget? child) {
                                           return Checkbox(
                                             activeColor: appColor,
-                                            value: getterProvider.listOfCheckBoxValues[4],
+                                            value: getterProvider
+                                                .listOfCheckBoxValues[4],
                                             onChanged: (bool? value) {
                                               print(
                                                   'the value of the toggle is $value');
@@ -729,7 +741,7 @@ class _FilterPageState extends State<FilterPage> {
                             Expanded(
                               child: Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
                                     // h6Ycf (202:1173)
@@ -748,7 +760,7 @@ class _FilterPageState extends State<FilterPage> {
                                     ),
                                   ),
                                   Container(
-                                    // frame311m9 (202:1174)
+                                      // frame311m9 (202:1174)
                                       width: 20 * fem,
                                       height: 20 * fem,
                                       child: Consumer(
@@ -756,7 +768,8 @@ class _FilterPageState extends State<FilterPage> {
                                             Widget? child) {
                                           return Checkbox(
                                             activeColor: appColor,
-                                            value: getterProvider.listOfCheckBoxValues[5],
+                                            value: getterProvider
+                                                .listOfCheckBoxValues[5],
                                             onChanged: (bool? value) {
                                               print(
                                                   'the value of the toggle is $value');
@@ -794,10 +807,7 @@ class _FilterPageState extends State<FilterPage> {
               ],
             ),
           ),
-
-
           Material(
-
             color: Colors.white,
 // borderRadius: BorderRadius.circular(12),
             elevation: 10,
@@ -810,25 +820,29 @@ class _FilterPageState extends State<FilterPage> {
                     height: 40,
                     width: 165,
                     decoration: BoxDecoration(
-                      color: appColor,
+                        color: appColor,
                         borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: appColor)
-                    ),
+                        border: Border.all(color: appColor)),
                     child: TextButton(
                       style: TextButton.styleFrom(
-                        // backgroundColor: Colors.white,
+                          // backgroundColor: Colors.white,
+                          ),
+                      child: Text(
+                        'Filtre Uygula',
+                        style: SafeGoogleFont(
+                          'Montserrat',
+                          fontSize: 14 * ffem,
+                          fontWeight: FontWeight.w700,
+                          height: 1.2175 * ffem / fem,
+                          // decoration: TextDecoration.underline,
+                          color: Colors.white,
+                          // decorationColor: Color(0xff143463),
+                        ),
                       ),
-                      child: Text('Filtre Uygula',style:SafeGoogleFont(
-                        'Montserrat',
-                        fontSize: 14 * ffem,
-                        fontWeight: FontWeight.w700,
-                        height: 1.2175 * ffem / fem,
-                        // decoration: TextDecoration.underline,
-                        color: Colors.white,
-                        // decorationColor: Color(0xff143463),
-                      ),),onPressed: (){
-                      print('clicked');
-                      },),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -840,22 +854,28 @@ class _FilterPageState extends State<FilterPage> {
                     height: 40,
                     width: 165,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: appColor)
-                    ),
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: appColor)),
                     child: TextButton(
                       style: TextButton.styleFrom(
-                        // backgroundColor: Colors.white,
+                          // backgroundColor: Colors.white,
+                          ),
+                      child: Text(
+                        'Iptal Et',
+                        style: SafeGoogleFont(
+                          'Montserrat',
+                          fontSize: 14 * ffem,
+                          fontWeight: FontWeight.w700,
+                          height: 1.2175 * ffem / fem,
+                          // decoration: TextDecoration.underline,
+                          color: appColor,
+                          // decorationColor: Color(0xff143463),
+                        ),
                       ),
-                      child: Text('Iptal Et',style:SafeGoogleFont(
-                        'Montserrat',
-                        fontSize: 14 * ffem,
-                        fontWeight: FontWeight.w700,
-                        height: 1.2175 * ffem / fem,
-                        // decoration: TextDecoration.underline,
-                        color: appColor,
-                        // decorationColor: Color(0xff143463),
-                      ),),onPressed: (){},),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
                   ),
                 ),
               ],
@@ -909,7 +929,8 @@ class _FilterPageState extends State<FilterPage> {
                           color: Color(0xff143463),
                         ),
                       ),
-                      value: Provider.of<Filter>(context,listen: true).listOfCheckBoxValues[index],
+                      value: Provider.of<Filter>(context, listen: true)
+                          .listOfCheckBoxValues[index],
                       onChanged: (bool? value) {
                         filterProvider.toggleCheckBox(index, value!);
                         // listOfCheckBoxValues[index] = value!;
