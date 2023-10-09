@@ -460,7 +460,7 @@ class _FilterPageState extends State<FilterPage> {
               ),
               Container(
                 decoration: BoxDecoration(
-                    color: Colors.blue,
+                    // color: Colors.blue,
                     border: Border.all(color: appColor),
                     borderRadius: BorderRadius.circular(10)),
                 padding: EdgeInsets.fromLTRB(10, 5, 5, 10),
@@ -509,7 +509,7 @@ class _FilterPageState extends State<FilterPage> {
                                         Container(
                                           // h6Ycf (202:1173)
                                           margin: EdgeInsets.fromLTRB(0 * fem,
-                                              1 * fem, 0 * fem, 0 * fem),
+                                              1 * fem, 5 * fem, 0 * fem),
                                           child: Text(
                                             Provider.of<Filter>(context)
                                                 .listOfSocket[0],
@@ -547,9 +547,7 @@ class _FilterPageState extends State<FilterPage> {
                                       ],
                                     ),
                                   ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
+
                                   Expanded(
                                     child: Row(
                                       mainAxisAlignment:
@@ -596,7 +594,7 @@ class _FilterPageState extends State<FilterPage> {
                                     ),
                                   ),
                                   SizedBox(
-                                    width: 5,
+                                    width: 10,
                                   ),
                                   Expanded(
                                     child: Row(
@@ -606,7 +604,7 @@ class _FilterPageState extends State<FilterPage> {
                                         Container(
                                           // h6Ycf (202:1173)
                                           margin: EdgeInsets.fromLTRB(0 * fem,
-                                              1 * fem, 0 * fem, 0 * fem),
+                                              1 * fem, 5 * fem, 0 * fem),
                                           child: Text(
                                             Provider.of<Filter>(context)
                                                 .listOfSocket[2],
@@ -786,71 +784,76 @@ class _FilterPageState extends State<FilterPage> {
                 child: Material(
                   // color: Colors.blue,
 // borderRadius: BorderRadius.circular(12),
-                  elevation: 10,
+//                   elevation: 10,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          height: 40,
-                          width: 165,
-                          decoration: BoxDecoration(
-                              color: appColor,
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: appColor)),
-                          child: TextButton(
-                            style: TextButton.styleFrom(
-                                // backgroundColor: Colors.white,
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            height: 40,
+                            width: 165,
+                            decoration: BoxDecoration(
+                                color: appColor,
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: appColor)),
+                            child: TextButton(
+                              style: TextButton.styleFrom(
+                                  // backgroundColor: Colors.white,
+                                  ),
+                              child: Text(
+                                'Filtre Uygula',
+                                style: SafeGoogleFont(
+                                  'Montserrat',
+                                  fontSize: 14 * ffem,
+                                  fontWeight: FontWeight.w700,
+                                  height: 1.2175 * ffem / fem,
+                                  // decoration: TextDecoration.underline,
+                                  color: Colors.white,
+                                  // decorationColor: Color(0xff143463),
                                 ),
-                            child: Text(
-                              'Filtre Uygula',
-                              style: SafeGoogleFont(
-                                'Montserrat',
-                                fontSize: 14 * ffem,
-                                fontWeight: FontWeight.w700,
-                                height: 1.2175 * ffem / fem,
-                                // decoration: TextDecoration.underline,
-                                color: Colors.white,
-                                // decorationColor: Color(0xff143463),
                               ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
                             ),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
                           ),
                         ),
                       ),
                       SizedBox(
                         width: 10,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          height: 40,
-                          width: 165,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: appColor)),
-                          child: TextButton(
-                            style: TextButton.styleFrom(
-                                // backgroundColor: Colors.white,
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            height: 40,
+                            width: 165,
+                            decoration: BoxDecoration(
+                                // color: Colors.orange,
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: appColor)),
+                            child: TextButton(
+                              style: TextButton.styleFrom(
+                                  // backgroundColor: Colors.white,
+                                  ),
+                              child: Text(
+                                'Iptal Et',
+                                style: SafeGoogleFont(
+                                  'Montserrat',
+                                  fontSize: 14 * ffem,
+                                  fontWeight: FontWeight.w700,
+                                  height: 1.2175 * ffem / fem,
+                                  // decoration: TextDecoration.underline,
+                                  color: appColor,
+                                  // decorationColor: Color(0xff143463),
                                 ),
-                            child: Text(
-                              'Iptal Et',
-                              style: SafeGoogleFont(
-                                'Montserrat',
-                                fontSize: 14 * ffem,
-                                fontWeight: FontWeight.w700,
-                                height: 1.2175 * ffem / fem,
-                                // decoration: TextDecoration.underline,
-                                color: appColor,
-                                // decorationColor: Color(0xff143463),
                               ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
                             ),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
                           ),
                         ),
                       ),

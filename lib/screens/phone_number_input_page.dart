@@ -35,6 +35,14 @@ class _PhoneNumberInputPageState extends State<PhoneNumberInputPage> {
 
   @override
   Widget build(BuildContext context) {
+    var inputDecoration = InputDecoration(
+      isCollapsed: false,
+      contentPadding: EdgeInsets.all(10),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+      labelText: 'Telefon Numarası',
+    );
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
@@ -141,6 +149,7 @@ class _PhoneNumberInputPageState extends State<PhoneNumberInputPage> {
                                 Expanded(
                                   flex: 3,
                                   child: Container(
+                                    // color: Colors.blue,
                                     height: 50,
                                     child: TextFormField(
                                       onChanged: (value) {
@@ -164,17 +173,18 @@ class _PhoneNumberInputPageState extends State<PhoneNumberInputPage> {
                                       controller: _phoneNumberController,
                                       keyboardType:
                                           TextInputType.numberWithOptions(),
-                                      decoration: InputDecoration(
-                                        isCollapsed: false,
-                                        contentPadding: EdgeInsets.all(10),
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        labelText: 'Telefon Numarası',
-                                      ),
+                                      decoration: inputDecoration,
                                       validator: (value) {
                                         if (value!.isEmpty) {
+                                          print('entere here');
+                                          setState(() {
+                                            inputDecoration = InputDecoration(
+                                              isCollapsed: false,
+                                              contentPadding:
+                                                  EdgeInsets.all(10),
+                                              labelText: 'Telefon Numarası',
+                                            );
+                                          });
                                           return 'Please enter a phone number';
                                         }
 
