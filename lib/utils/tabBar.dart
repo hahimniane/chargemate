@@ -854,14 +854,19 @@ class stationWidget extends StatelessWidget {
             isItThreeWidgets: false,
             iconUrl: 'assets/icons/distanceIcon.png',
             label: 'Konum',
-            secondLabel: Text(
-              store.address,
-              style: SafeGoogleFont(
-                'Montserrat',
-                color: appColor,
-                fontWeight: FontWeight.w400,
-                fontSize: 12,
-                letterSpacing: 0.1,
+            secondLabel: Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Text(
+                // 'Montserrat dfgd dfgdfg sfsdfsdfsfadd',
+                store.address,
+                textAlign: TextAlign.end,
+                style: SafeGoogleFont(
+                  'Montserrat',
+                  color: appColor,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 12,
+                  letterSpacing: 0.1,
+                ),
               ),
             ),
             station: station,
@@ -871,7 +876,10 @@ class stationWidget extends StatelessWidget {
             isItThreeWidgets: false,
             iconUrl: 'assets/icons/distanceIcon.png',
             label: 'Açıklama',
-            secondLabel: Text('-'),
+            secondLabel: Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Text('-'),
+            ),
             station: station,
           ),
           stationTabBarWidget(
@@ -891,10 +899,15 @@ class stationWidget extends StatelessWidget {
                 }
                 //dialer opened
               },
-              child: Text(
-                '+905541524403',
-                style:
-                    TextStyle(color: appColor, fontWeight: FontWeight.normal),
+              child: Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: Text(
+                  '+905541524403',
+                  style: TextStyle(
+                      color: appColor,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 12),
+                ),
               ),
             ),
             station: station,
@@ -903,10 +916,13 @@ class stationWidget extends StatelessWidget {
             isItThreeWidgets: false,
             iconUrl: 'assets/icons/distanceIcon.png',
             label: 'çalışma saatleri',
-            secondLabel: Text(
-              '09:00/ 21:30',
-              style: SafeGoogleFont('Montserrat',
-                  color: appColor, fontSize: 12, fontWeight: FontWeight.w400),
+            secondLabel: Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Text(
+                '09:00/ 21:30',
+                style: SafeGoogleFont('Montserrat',
+                    color: appColor, fontSize: 12, fontWeight: FontWeight.w400),
+              ),
             ),
             station: station,
           ),
@@ -976,7 +992,7 @@ class stationTabBarWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
                 elevation: 3,
                 child: Container(
-                  color: Colors.blue,
+                  // color: Colors.blue,
                   // decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
                   height: 43,
                   child: Row(
@@ -984,7 +1000,7 @@ class stationTabBarWidget extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Container(
-                          color: Colors.red,
+                          // color: Colors.red,
                           child: Padding(
                               padding: const EdgeInsets.only(left: 8.0),
                               child: Text(
@@ -1031,7 +1047,9 @@ class stationTabBarWidget extends StatelessWidget {
                             )
                           : Expanded(
                               flex: 2,
-                              child: secondLabel,
+                              child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: secondLabel),
                             ),
                     ],
                   ),
