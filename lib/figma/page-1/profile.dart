@@ -49,7 +49,6 @@ class ProfileCard extends StatelessWidget {
                     EdgeInsets.fromLTRB(15 * fem, 30 * fem, 15 * fem, 25 * fem),
                 width: double.infinity,
                 decoration: BoxDecoration(
-
                   color: Color(0xffffffff),
                   boxShadow: [
                     BoxShadow(
@@ -132,7 +131,10 @@ class ProfileCard extends StatelessWidget {
                             onPressed: () {
                               showLogoutConfirmationDialog(context);
                             },
-                            icon: Icon(Icons.logout,color: Colors.red,),
+                            icon: Icon(
+                              Icons.logout,
+                              color: Colors.red,
+                            ),
                           )),
                     ),
                   ],
@@ -198,7 +200,7 @@ class ProfileCard extends StatelessWidget {
                               margin: EdgeInsets.fromLTRB(
                                   1 * fem, 0 * fem, 0 * fem, 20 * fem),
                               child: Text(
-                                '${firstName[0].toUpperCase()+firstName.substring(1)} ${lastName[0].toUpperCase()+lastName.substring(1)}',
+                                '${firstName[0].toUpperCase() + firstName.substring(1)} ${lastName[0].toUpperCase() + lastName.substring(1)}',
                                 style: SafeGoogleFont(
                                   'Montserrat',
                                   fontSize: 16 * ffem,
@@ -609,11 +611,12 @@ class ProfileCard extends StatelessWidget {
                                       .doc(auth.currentUser!.uid)
                                       .snapshots(),
                                   builder: (context, snapshot) {
-                                    if(!snapshot.hasData){
+                                    if (!snapshot.hasData) {
                                       return Container(
                                         height: 30,
                                         width: 30,
-                                        child: Center(child: CircularProgressIndicator()),
+                                        child: Center(
+                                            child: CircularProgressIndicator()),
                                       );
                                     }
                                     return Row(
@@ -647,16 +650,20 @@ class ProfileCard extends StatelessWidget {
                                                   ),
                                                 ),
                                               ),
-                                              Text(
-                                                // GUo (251:1323)
-                                                snapshot.data!['phone_number'],
-                                                style: SafeGoogleFont(
-                                                  'Montserrat',
-                                                  fontSize: 13 * ffem,
-                                                  fontWeight: FontWeight.w400,
-                                                  height: 1.2175 * ffem / fem,
-                                                  letterSpacing: 0.78 * fem,
-                                                  color: Color(0xff1d3557),
+                                              FittedBox(
+                                                fit: BoxFit.fill,
+                                                child: Text(
+                                                  // GUo (251:1323)
+                                                  snapshot
+                                                      .data!['phone_number'],
+                                                  style: SafeGoogleFont(
+                                                    'Montserrat',
+                                                    fontSize: 13 * ffem,
+                                                    fontWeight: FontWeight.w400,
+                                                    height: 1.2175 * ffem / fem,
+                                                    letterSpacing: 0.78 * fem,
+                                                    color: Color(0xff1d3557),
+                                                  ),
                                                 ),
                                               ),
                                             ],
@@ -690,15 +697,23 @@ class ProfileCard extends StatelessWidget {
                                                     ),
                                                   ),
                                                 ),
-                                                Text(
-                                                  // johnemailcomqRR (251:1333)
-                                                  snapshot.data!['email'],
-                                                  style: SafeGoogleFont(
-                                                    'Montserrat',
-                                                    fontSize: 13 * ffem,
-                                                    fontWeight: FontWeight.w400,
-                                                    height: 1.2175 * ffem / fem,
-                                                    color: Color(0xff1d3557),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                FittedBox(
+                                                  fit: BoxFit.fill,
+                                                  child: Text(
+                                                    // johnemailcomqRR (251:1333)
+                                                    snapshot.data!['email'],
+                                                    style: SafeGoogleFont(
+                                                      'Montserrat',
+                                                      fontSize: 13 * ffem,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      height:
+                                                          1.2175 * ffem / fem,
+                                                      color: Color(0xff1d3557),
+                                                    ),
                                                   ),
                                                 ),
                                               ],

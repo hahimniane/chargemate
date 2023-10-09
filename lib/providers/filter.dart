@@ -28,9 +28,6 @@ class Filter extends ChangeNotifier {
     'ERC Charge',
     'Şarjon'
   ];
-  List<String> listOfSocket = ['CHAdeMo', 'CCS', 'Type 2'];
-  List<bool> listOfSocketsCheckBoxes = [false, false, false];
-
   List<bool> listOfCheckBoxValues = [
     false,
     false,
@@ -56,8 +53,6 @@ class Filter extends ChangeNotifier {
     false,
     false
   ];
-// bool temVariable=false;
-
   toggleCheckBox(int index, bool value) {
     listOfCheckBoxValues[index] = value;
     // temVariable=!temVariable;
@@ -65,12 +60,15 @@ class Filter extends ChangeNotifier {
     notifyListeners();
   }
 
+  //// these are for the sockets parameters
+  List<String> listOfSocket = ['CHAdeMo', 'CCS', 'Type 2'];
+  List<bool> listOfSocketsCheckBoxes = [false, false, false];
   toggleSocketCheckBox(int index, bool value) {
     listOfSocketsCheckBoxes[index] = value;
-    // temVariable=!temVariable;
-
     notifyListeners();
   }
+
+// bool temVariable=false;
 
   void clearAllFilters() {
     for (int i = 0; i < listOfCheckBoxValues.length; i++) {
