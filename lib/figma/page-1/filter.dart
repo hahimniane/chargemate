@@ -117,7 +117,7 @@ class _FilterPageState extends State<FilterPage> {
                       fontWeight: FontWeight.w700,
                       height: 1.5 * ffem / fem,
                       letterSpacing: 0.1000000015 * fem,
-                      color: Color(0xff143463),
+                      color: appColor,
                     ),
                   ),
                 ),

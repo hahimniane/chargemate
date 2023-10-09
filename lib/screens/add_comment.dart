@@ -23,7 +23,7 @@ class AddCommentPage extends StatefulWidget {
 class _AddCommentPageState extends State<AddCommentPage> {
   var _selectedChargeStatus = "Bsşarılı";
   var selectedValue = 0;
-  String _selectedChargeType = 'DC';
+  String _selectedChargeType = 'CHAdeMo';
 
   bool isActive = true;
 
@@ -49,6 +49,8 @@ class _AddCommentPageState extends State<AddCommentPage> {
   int _rating = 0;
 
   TextEditingController commentController = TextEditingController();
+
+  int maxWords = 3;
   // Callback function to update the selected charge type
   void _updateSelectedChargeType(String chargeType) {
     setState(() {
@@ -157,13 +159,14 @@ class _AddCommentPageState extends State<AddCommentPage> {
                       screenWidth: screenWidth,
                       onTap: () {},
                       imageUrl: 'assets/images/img_1.png',
-                      label: 'DC-CCS',
-                      isSelected: _selectedChargeType == 'DC',
+                      label: 'CHAdeMo',
+                      isSelected: _selectedChargeType == 'CHAdeMo',
                       onSelectionChanged: (isSelected) {
                         if (isSelected) {
-                          _updateSelectedChargeType('DC');
+                          _updateSelectedChargeType('CHAdeMo');
                         }
                       },
+                      imageFit: BoxFit.fill,
                     ),
                     ChargeTypeContainer(
                       availableHeight: availableHeight,
@@ -172,14 +175,32 @@ class _AddCommentPageState extends State<AddCommentPage> {
                         print('tapped container two');
                       },
                       imageUrl: 'assets/images/img_3.png',
-                      label: 'AC Type 2',
-                      isSelected:
-                          _selectedChargeType == 'AC', // Check if it's selected
+                      label: 'CCS',
+                      isSelected: _selectedChargeType ==
+                          'CCS', // Check if it's selected
                       onSelectionChanged: (isSelected) {
                         if (isSelected) {
-                          _updateSelectedChargeType('AC');
+                          _updateSelectedChargeType('CCS');
                         }
                       },
+                      imageFit: BoxFit.cover,
+                    ),
+                    ChargeTypeContainer(
+                      availableHeight: availableHeight,
+                      screenWidth: screenWidth,
+                      onTap: () {
+                        print('tapped container two');
+                      },
+                      imageUrl: 'assets/images/img_3.png',
+                      label: 'Type 2',
+                      isSelected: _selectedChargeType ==
+                          'Type 2', // Check if it's selected
+                      onSelectionChanged: (isSelected) {
+                        if (isSelected) {
+                          _updateSelectedChargeType('Type 2');
+                        }
+                      },
+                      imageFit: BoxFit.cover,
                     ),
                   ],
                 ),
@@ -358,6 +379,7 @@ class _AddCommentPageState extends State<AddCommentPage> {
                             child: Padding(
                               padding: const EdgeInsets.only(left: 8.0),
                               child: TextField(
+                                keyboardType: TextInputType.number,
                                 controller: chargingTimeController,
                                 style: GoogleFonts.montserrat(
                                     color: appColor, fontSize: 14),
@@ -413,6 +435,7 @@ class _AddCommentPageState extends State<AddCommentPage> {
                             child: Padding(
                               padding: const EdgeInsets.only(left: 8.0),
                               child: TextField(
+                                keyboardType: TextInputType.number,
                                 controller: maxKwController,
                                 style: GoogleFonts.montserrat(
                                     color: appColor, fontSize: 14),
@@ -468,6 +491,7 @@ class _AddCommentPageState extends State<AddCommentPage> {
                             child: Padding(
                               padding: const EdgeInsets.only(left: 8.0),
                               child: TextField(
+                                keyboardType: TextInputType.number,
                                 controller: amountController,
                                 style: GoogleFonts.montserrat(
                                     color: appColor, fontSize: 14),
@@ -728,6 +752,16 @@ class _AddCommentPageState extends State<AddCommentPage> {
                                   border: Border.all(color: appColor),
                                   borderRadius: BorderRadius.circular(8)),
                               child: TextField(
+                                onChanged: (text) {
+                                  // You can implement word count validation here if needed
+                                  // For example, to prevent exceeding the word limit:
+                                  if (_countWords(text) > maxWords) {
+                                    setState(() {
+                                      commentController.text =
+                                          _truncateText(text, maxWords);
+                                    });
+                                  }
+                                },
                                 controller: commentController,
                                 onTap: () {
                                   scrollToShowTextField();
@@ -807,7 +841,7 @@ class _AddCommentPageState extends State<AddCommentPage> {
                       fit: BoxFit.cover,
                       child: Text(
                         key: targetWidgetKey,
-                        'Gonder',
+                        'Gönder',
                         style: GoogleFonts.montserrat(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -839,6 +873,20 @@ class _AddCommentPageState extends State<AddCommentPage> {
     // Request focus on the TextField
     _focusNode.requestFocus();
   }
+
+  int _countWords(String text) {
+    if (text.isEmpty) return 0;
+    return text.split(' ').length;
+  }
+
+  String _truncateText(String text, int maxWords) {
+    List<String> words = text.split(' ');
+    if (words.length <= maxWords) {
+      return text;
+    }
+    words = words.sublist(0, maxWords);
+    return words.join(' ');
+  }
 }
 
 class ChargeTypeContainer extends StatefulWidget {
@@ -850,7 +898,8 @@ class ChargeTypeContainer extends StatefulWidget {
     required this.imageUrl,
     required this.label,
     required this.isSelected,
-    required this.onSelectionChanged, // New callback
+    required this.onSelectionChanged,
+    required this.imageFit, // New callback
   }) : super(key: key);
 
   final bool isSelected;
@@ -859,6 +908,8 @@ class ChargeTypeContainer extends StatefulWidget {
   final VoidCallback onTap;
   final String imageUrl;
   final String label;
+  final BoxFit imageFit;
+
   final ValueChanged<bool> onSelectionChanged; // New callback
 
   @override
@@ -868,45 +919,49 @@ class ChargeTypeContainer extends StatefulWidget {
 class _ChargeTypeContainerState extends State<ChargeTypeContainer> {
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        widget.onTap(); // Invoke the existing onTap callback
-        widget.onSelectionChanged(!widget.isSelected); // Toggle isSelected
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: widget.isSelected ? appColor : Colors.white,
-          borderRadius: BorderRadius.circular(6),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              height: widget.availableHeight * 0.0423,
-              width: widget.screenWidth * 0.0423,
-              child: Image(
-                fit: BoxFit.contain,
-                image: AssetImage(widget.imageUrl),
+    return Expanded(
+      child: InkWell(
+        onTap: () {
+          widget.onTap(); // Invoke the existing onTap callback
+          widget.onSelectionChanged(!widget.isSelected); // Toggle isSelected
+        },
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: widget.screenWidth * 0.02),
+          decoration: BoxDecoration(
+            color: widget.isSelected ? appColor : Colors.white,
+            borderRadius: BorderRadius.circular(6),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                // color: Colors.yellow,
                 height: widget.availableHeight * 0.0423,
                 width: widget.screenWidth * 0.0423,
-                color: widget.isSelected ? Colors.white : appColor,
-              ),
-            ),
-            Container(
-              height: widget.availableHeight * 0.0144,
-              child: FittedBox(
-                child: Text(
-                  widget.label,
-                  style: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.w600,
-                    color: widget.isSelected ? Colors.white : appColor,
-                  ),
+                child: Image(
+                  fit: widget.imageFit,
+                  image: AssetImage(widget.imageUrl),
+                  height: widget.availableHeight * 0.0423,
+                  width: widget.screenWidth * 0.0423,
+                  color: widget.isSelected ? Colors.white : appColor,
                 ),
               ),
-            )
-          ],
+              Container(
+                height: widget.availableHeight * 0.0144,
+                child: FittedBox(
+                  child: Text(
+                    widget.label,
+                    style: GoogleFonts.montserrat(
+                      fontWeight: FontWeight.w600,
+                      color: widget.isSelected ? Colors.white : appColor,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+          width: widget.screenWidth * 0.4,
         ),
-        width: widget.screenWidth * 0.4,
       ),
     );
   }
