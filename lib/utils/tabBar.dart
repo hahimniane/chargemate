@@ -854,7 +854,16 @@ class stationWidget extends StatelessWidget {
             isItThreeWidgets: false,
             iconUrl: 'assets/icons/distanceIcon.png',
             label: 'Konum',
-            secondLabel: Text(store.address),
+            secondLabel: Text(
+              store.address,
+              style: SafeGoogleFont(
+                'Montserrat',
+                color: appColor,
+                fontWeight: FontWeight.w400,
+                fontSize: 12,
+                letterSpacing: 0.1,
+              ),
+            ),
             station: station,
           ),
           stationTabBarWidget(
@@ -894,7 +903,11 @@ class stationWidget extends StatelessWidget {
             isItThreeWidgets: false,
             iconUrl: 'assets/icons/distanceIcon.png',
             label: 'çalışma saatleri',
-            secondLabel: Text('09:00/ 21:30'),
+            secondLabel: Text(
+              '09:00/ 21:30',
+              style: SafeGoogleFont('Montserrat',
+                  color: appColor, fontSize: 12, fontWeight: FontWeight.w400),
+            ),
             station: station,
           ),
           // stationTabBarWidget(
@@ -934,6 +947,7 @@ class stationTabBarWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(bottom: 5.0),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -962,21 +976,27 @@ class stationTabBarWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
                 elevation: 3,
                 child: Container(
+                  color: Colors.blue,
                   // decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
                   height: 43,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
-                        child: Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: Text(
-                              label,
-                              style: TextStyle(
-                                color: appColor,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )),
+                        child: Container(
+                          color: Colors.red,
+                          child: Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: Text(
+                                label,
+                                style: SafeGoogleFont(
+                                  'Montserrat',
+                                  color: appColor,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              )),
+                        ),
                       ),
                       isItThreeWidgets
                           ? Expanded(

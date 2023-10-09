@@ -1,3 +1,4 @@
+import 'package:chargemate/figma/utils.dart';
 import 'package:chargemate/modals/electric_store.dart';
 import 'package:chargemate/modals/model_stations.dart';
 import 'package:chargemate/service/firebase_servies.dart';
@@ -166,7 +167,7 @@ class _AddCommentPageState extends State<AddCommentPage> {
                           _updateSelectedChargeType('CHAdeMo');
                         }
                       },
-                      imageFit: BoxFit.fill,
+                      imageFit: BoxFit.contain,
                     ),
                     ChargeTypeContainer(
                       availableHeight: availableHeight,
@@ -700,7 +701,8 @@ class _AddCommentPageState extends State<AddCommentPage> {
                     FittedBox(
                       child: Text(
                         'Bu İstasyonu nasıl değerlendiriyorsunuz?',
-                        style: GoogleFonts.montserrat(
+                        style: SafeGoogleFont(
+                          'Montserrat',
                           fontSize: 16,
 
                           color: appColor,
