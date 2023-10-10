@@ -34,7 +34,7 @@ Future<void> main() async {
 
   runApp(
     DevicePreview(
-      enabled: false,
+      enabled: true,
       builder: (context) => MyApp(
         firstTimeUser: isFirstTimeUser,
       ), // Pass the firstTimeUser value to MyApp

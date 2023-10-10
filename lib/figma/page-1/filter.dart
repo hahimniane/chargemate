@@ -24,6 +24,10 @@ class _FilterPageState extends State<FilterPage> {
 
   @override
   Widget build(context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    EdgeInsets padding = MediaQuery.of(context).padding;
+    double availableHeight =
+        MediaQuery.of(context).size.height - padding.top - padding.bottom;
     var setterProvider = Provider.of<Filter>(context, listen: false);
     var getterProvider = Provider.of<Filter>(context, listen: true);
     double baseWidth = MediaQuery.of(context).size.width;
@@ -39,12 +43,45 @@ class _FilterPageState extends State<FilterPage> {
             height: 10,
           ),
           Center(
-            child: Image(
-              height: 30,
-              fit: BoxFit.cover,
-              image: AssetImage(
-                'page-1/images/yatay-logo-1-1sd.png',
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(
+                          left: MediaQuery.of(context).size.width * 0.04,
+                          top: availableHeight * 0.01174),
+                      // color: Colors.brown,
+                      height: availableHeight * 0.0462,
+                      width: screenWidth * 0.118,
+                      child: Material(
+                        elevation: 0.3,
+                        borderRadius: BorderRadius.circular(4),
+                        child: Icon(
+                          Icons.arrow_back_outlined,
+                          color: appColor,
+                          // size: MediaQuery.of(context).size.width * 0.064,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 15,
+                  child: Image(
+                    height: 30,
+                    fit: BoxFit.contain,
+                    image: AssetImage(
+                      'page-1/images/yatay-logo-1-1sd.png',
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           SizedBox(
