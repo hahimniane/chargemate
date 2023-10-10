@@ -209,19 +209,19 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     // print('the device padding is ${MediaQuery.of(context).viewPadding.bottom}');
     // print('Device has notch ${Device.get().hasNotch}');
     Completer<GoogleMapController> _controller = Completer();
-    return GestureDetector(
-      onTap: () {
-        if (MediaQuery.of(context).viewInsets.bottom <= 0) {
-          print('the keyboard is not active *****');
-        } else {
-          print('the keyboard is active *********');
-        }
-        FocusManager.instance.primaryFocus?.unfocus();
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
       },
-      child: WillPopScope(
-        onWillPop: () async {
-          return false;
-        },
+      child: GestureDetector(
+        // onDoubleTap: () {
+        //   if (MediaQuery.of(context).viewInsets.bottom <= 0) {
+        //     print('the keyboard is not active *****');
+        //   } else {
+        //     print('the keyboard is active *********');
+        //   }
+        //   FocusManager.instance.primaryFocus?.unfocus();
+        // },
         child: Scaffold(
           backgroundColor: Colors.white,
           key: _key,
@@ -236,6 +236,15 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               activeView == screenViewTypes.mapView
                   ? initialCameraPosition != null
                       ? GoogleMap(
+                          onTap: (latLong) {
+                            print('clicked');
+                            if (MediaQuery.of(context).viewInsets.bottom <= 0) {
+                              print('the keyboard is not active *****');
+                            } else {
+                              print('the keyboard is active *********');
+                              FocusManager.instance.primaryFocus?.unfocus();
+                            }
+                          },
                           mapType: mapType,
                           initialCameraPosition:
                               initialCameraPosition!, // Use the calculated position
@@ -361,9 +370,6 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                               StationDetailedPage(
                                                 station: station.item!,
                                               )));
-
-                                  // print(
-                                  //     'the clicked station is ${station.item!.id}');
                                 },
                                 searchInputDecoration: InputDecoration(
                                   prefixIcon: InkWell(
@@ -1235,8 +1241,6 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                         children: store
                                                                             .amenities
                                                                             .map((placeName) {
-                                                                          // print(firstSnapshot.data!.first.id);
-                                                                          // print('the first element emnities lenggh is ${store.amenities.length}');
                                                                           final bool
                                                                               contains =
                                                                               amenityIcons.keys.contains(placeName.toString().trim().toLowerCase());

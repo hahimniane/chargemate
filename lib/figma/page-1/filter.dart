@@ -133,10 +133,711 @@ class _FilterPageState extends State<FilterPage> {
               Container(
                 decoration: BoxDecoration(
                     // color: Colors.blue,
-                    border: Border.all(color: Colors.grey),
+                    border: Border.all(color: appColor),
                     borderRadius: BorderRadius.circular(10)),
                 padding: EdgeInsets.fromLTRB(10, 5, 5, 10),
-                margin: EdgeInsets.fromLTRB(15, 30, 15, 0),
+                margin: EdgeInsets.fromLTRB(15, 10, 15, 0),
+                height: size.height * 0.12,
+                width: size.width * 0.90,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      // color: Colors.yellow,
+                      margin: EdgeInsets.fromLTRB(
+                          5 * fem, 5 * fem, 0 * fem, 10 * fem),
+                      width: 94 * fem,
+                      height: 20 * fem,
+                      child: Text(
+                        'Soket',
+                        style: SafeGoogleFont(
+                          'Montserrat',
+                          fontSize: 16 * ffem,
+                          fontWeight: FontWeight.w700,
+                          height: 1.5 * ffem / fem,
+                          letterSpacing: 0.1000000015 * fem,
+                          color: Color(0xff143463),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      // color: Colors.purple,
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          // h6Ycf (202:1173)
+                                          margin: EdgeInsets.fromLTRB(0 * fem,
+                                              1 * fem, 5 * fem, 0 * fem),
+                                          child: Text(
+                                            Provider.of<Filter>(context)
+                                                .listOfSocket[0],
+                                            style: SafeGoogleFont(
+                                              'Montserrat',
+                                              fontSize: 14 * ffem,
+                                              fontWeight: FontWeight.w700,
+                                              height: 1.2175 * ffem / fem,
+                                              letterSpacing: 0.200000003 * fem,
+                                              color: Color(0xff143463),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                            // frame311m9 (202:1174)
+                                            width: 20 * fem,
+                                            height: 20 * fem,
+                                            child: Consumer(
+                                              builder: (BuildContext context,
+                                                  value, Widget? child) {
+                                                return Checkbox(
+                                                  activeColor: appColor,
+                                                  value: getterProvider
+                                                      .listOfSocketsCheckBoxes[0],
+                                                  onChanged: (bool? value) {
+                                                    print(
+                                                        'the value of the toggle is $value');
+                                                    setterProvider
+                                                        .toggleSocketCheckBox(
+                                                            0, value!);
+                                                  },
+                                                );
+                                              },
+                                            )),
+                                      ],
+                                    ),
+                                  ),
+
+                                  Expanded(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          // h6Ycf (202:1173)
+                                          margin: EdgeInsets.fromLTRB(0 * fem,
+                                              1 * fem, 5 * fem, 0 * fem),
+                                          child: Text(
+                                            setterProvider.listOfSocket[1],
+                                            style: SafeGoogleFont(
+                                              'Montserrat',
+                                              fontSize: 14 * ffem,
+                                              fontWeight: FontWeight.w700,
+                                              height: 1.2175 * ffem / fem,
+                                              letterSpacing: 0.200000003 * fem,
+                                              color: Color(0xff143463),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                            // frame311m9 (202:1174)
+                                            width: 20 * fem,
+                                            height: 20 * fem,
+                                            child: Consumer(
+                                              builder: (BuildContext context,
+                                                  value, Widget? child) {
+                                                return Checkbox(
+                                                  activeColor: appColor,
+                                                  value: getterProvider
+                                                      .listOfSocketsCheckBoxes[1],
+                                                  onChanged: (bool? value) {
+                                                    print(
+                                                        'the value of the toggle is $value');
+                                                    setterProvider
+                                                        .toggleSocketCheckBox(
+                                                            1, value!);
+                                                  },
+                                                );
+                                              },
+                                            )),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Expanded(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          // h6Ycf (202:1173)
+                                          margin: EdgeInsets.fromLTRB(0 * fem,
+                                              1 * fem, 5 * fem, 0 * fem),
+                                          child: Text(
+                                            Provider.of<Filter>(context)
+                                                .listOfSocket[2],
+                                            style: SafeGoogleFont(
+                                              'Montserrat',
+                                              fontSize: 14 * ffem,
+                                              fontWeight: FontWeight.w700,
+                                              height: 1.2175 * ffem / fem,
+                                              letterSpacing: 0.200000003 * fem,
+                                              color: Color(0xff143463),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                            // frame311m9 (202:1174)
+                                            width: 20 * fem,
+                                            height: 20 * fem,
+                                            child: Consumer(
+                                              builder: (BuildContext context,
+                                                  value, Widget? child) {
+                                                return Checkbox(
+                                                  activeColor: appColor,
+                                                  value: getterProvider
+                                                      .listOfSocketsCheckBoxes[2],
+                                                  onChanged: (bool? value) {
+                                                    print(
+                                                        'the value of the toggle is $value');
+                                                    setterProvider
+                                                        .toggleSocketCheckBox(
+                                                            2, value!);
+                                                  },
+                                                );
+                                              },
+                                            )),
+                                      ],
+                                    ),
+                                  ),
+                                  // SizedBox(
+                                  //   width: 30,
+                                  // ),
+                                ],
+                              ),
+                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.only(bottom: 10),
+                            //   child: Row(
+                            //     mainAxisAlignment: MainAxisAlignment.start,
+                            //     crossAxisAlignment: CrossAxisAlignment.center,
+                            //     children: [
+                            //       Expanded(
+                            //         child: Row(
+                            //           mainAxisAlignment:
+                            //               MainAxisAlignment.spaceBetween,
+                            //           children: [
+                            //             Container(
+                            //               // h6Ycf (202:1173)
+                            //               margin: EdgeInsets.fromLTRB(
+                            //                   0 * fem, 1 * fem, 0 * fem, 0 * fem),
+                            //               child: Text(
+                            //                 setterProvider.listOfSocket[2],
+                            //                 style: SafeGoogleFont(
+                            //                   'Montserrat',
+                            //                   fontSize: 14 * ffem,
+                            //                   fontWeight: FontWeight.w700,
+                            //                   height: 1.2175 * ffem / fem,
+                            //                   letterSpacing: 0.200000003 * fem,
+                            //                   color: Color(0xff143463),
+                            //                 ),
+                            //               ),
+                            //             ),
+                            //             Container(
+                            //                 // frame311m9 (202:1174)
+                            //                 width: 20 * fem,
+                            //                 height: 20 * fem,
+                            //                 child: Consumer(
+                            //                   builder: (BuildContext context, value,
+                            //                       Widget? child) {
+                            //                     return Checkbox(
+                            //                       activeColor: appColor,
+                            //                       value: getterProvider
+                            //                           .listOfSocketsCheckBoxes[2],
+                            //                       onChanged: (bool? value) {
+                            //                         print(
+                            //                             'the value of the toggle is $value');
+                            //                         setterProvider
+                            //                             .toggleSocketCheckBox(
+                            //                                 2, value!);
+                            //                       },
+                            //                     );
+                            //                   },
+                            //                 )),
+                            //           ],
+                            //         ),
+                            //       ),
+                            //       SizedBox(
+                            //         width: 30,
+                            //       ),
+                            //       // Expanded(
+                            //       //   child: Row(
+                            //       //     mainAxisAlignment:
+                            //       //         MainAxisAlignment.spaceBetween,
+                            //       //     children: [
+                            //       //       Container(
+                            //       //         // h6Ycf (202:1173)
+                            //       //         margin: EdgeInsets.fromLTRB(
+                            //       //             0 * fem, 1 * fem, 0 * fem, 0 * fem),
+                            //       //         child: Text(
+                            //       //           setterProvider.listOfBrands[3],
+                            //       //           style: SafeGoogleFont(
+                            //       //             'Montserrat',
+                            //       //             fontSize: 14 * ffem,
+                            //       //             fontWeight: FontWeight.w700,
+                            //       //             height: 1.2175 * ffem / fem,
+                            //       //             letterSpacing: 0.200000003 * fem,
+                            //       //             color: Color(0xff143463),
+                            //       //           ),
+                            //       //         ),
+                            //       //       ),
+                            //       //       Container(
+                            //       //           // frame311m9 (202:1174)
+                            //       //           width: 20 * fem,
+                            //       //           height: 20 * fem,
+                            //       //           child: Consumer(
+                            //       //             builder: (BuildContext context, value,
+                            //       //                 Widget? child) {
+                            //       //               return Checkbox(
+                            //       //                 activeColor: appColor,
+                            //       //                 value: getterProvider
+                            //       //                     .listOfCheckBoxValues[3],
+                            //       //                 onChanged: (bool? value) {
+                            //       //                   print(
+                            //       //                       'the value of the toggle is $value');
+                            //       //                   setterProvider.toggleCheckBox(
+                            //       //                       3, value!);
+                            //       //                 },
+                            //       //               );
+                            //       //             },
+                            //       //           )),
+                            //       //     ],
+                            //       //   ),
+                            //       // )
+                            //     ],
+                            //   ),
+                            // ),
+
+                            // GestureDetector(
+                            //   child: Text(
+                            //     'Tümünü göster',
+                            //     style: SafeGoogleFont('Montserrat',
+                            //         fontSize: 16 * ffem,
+                            //         fontWeight: FontWeight.w700,
+                            //         height: 1.5 * ffem / fem,
+                            //         letterSpacing: 0.1000000015 * fem,
+                            //         color: Color(0xff143463),
+                            //         decoration: TextDecoration.underline),
+                            //   ),
+                            //   onTap: () {
+                            //     // _showPopup();
+                            //     // _showSocketPopup();
+                            //     // for (bool icon in listOfCheckBoxValues) {
+                            //     //   print(icon);
+                            //     // }
+                            //   },
+                            // )
+                          ]),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    // color: Colors.blue,
+                    border: Border.all(color: appColor),
+                    borderRadius: BorderRadius.circular(10)),
+                padding: EdgeInsets.fromLTRB(10, 5, 5, 10),
+                margin: EdgeInsets.fromLTRB(15, 10, 15, 0),
+                height: size.height * 0.16,
+                width: size.width * 0.90,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      // color: Colors.yellow,
+                      margin: EdgeInsets.fromLTRB(
+                          5 * fem, 5 * fem, 0 * fem, 10 * fem),
+                      // width: 94 * fem,
+                      height: 20 * fem,
+                      child: Text(
+                        'Tesis Imkani',
+                        style: SafeGoogleFont(
+                          'Montserrat',
+                          fontSize: 16 * ffem,
+                          fontWeight: FontWeight.w700,
+                          height: 1.5 * ffem / fem,
+                          letterSpacing: 0.1000000015 * fem,
+                          color: Color(0xff143463),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        // color: Colors.purple,
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 5),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Container(
+                                              // color: Colors.blue,
+                                              margin: EdgeInsets.fromLTRB(
+                                                  0 * fem,
+                                                  1 * fem,
+                                                  5 * fem,
+                                                  0 * fem),
+                                              child: Text(
+                                                Provider.of<Filter>(context)
+                                                    .listOfAmenities[0],
+                                                style: SafeGoogleFont(
+                                                  'Montserrat',
+                                                  fontSize: 14 * ffem,
+                                                  fontWeight: FontWeight.w700,
+                                                  height: 1.2175 * ffem / fem,
+                                                  letterSpacing:
+                                                      0.200000003 * fem,
+                                                  color: Color(0xff143463),
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                                // color: Colors.green,
+                                                // frame311m9 (202:1174)
+                                                width: 20 * fem,
+                                                height: 20 * fem,
+                                                child: Consumer(
+                                                  builder:
+                                                      (BuildContext context,
+                                                          value,
+                                                          Widget? child) {
+                                                    return Checkbox(
+                                                      activeColor: appColor,
+                                                      value: getterProvider
+                                                          .listOfAmenitiesCheckBoxes[0],
+                                                      onChanged: (bool? value) {
+                                                        print(
+                                                            'the value of the toggle is $value');
+                                                        setterProvider
+                                                            .toggleAmenitiesCheckBox(
+                                                                0, value!);
+                                                      },
+                                                    );
+                                                  },
+                                                )),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Expanded(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Container(
+                                              // color: Colors.orange,
+                                              margin: EdgeInsets.fromLTRB(
+                                                  0 * fem,
+                                                  1 * fem,
+                                                  5 * fem,
+                                                  0 * fem),
+                                              child: Text(
+                                                setterProvider
+                                                    .listOfAmenities[1],
+                                                style: SafeGoogleFont(
+                                                  'Montserrat',
+                                                  fontSize: 14 * ffem,
+                                                  fontWeight: FontWeight.w700,
+                                                  height: 1.2175 * ffem / fem,
+                                                  letterSpacing:
+                                                      0.200000003 * fem,
+                                                  color: Color(0xff143463),
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                                // frame311m9 (202:1174)
+                                                width: 20 * fem,
+                                                height: 20 * fem,
+                                                child: Consumer(
+                                                  builder:
+                                                      (BuildContext context,
+                                                          value,
+                                                          Widget? child) {
+                                                    return Checkbox(
+                                                      activeColor: appColor,
+                                                      value: getterProvider
+                                                          .listOfAmenitiesCheckBoxes[1],
+                                                      onChanged: (bool? value) {
+                                                        print(
+                                                            'the value of the toggle is $value');
+                                                        setterProvider
+                                                            .toggleAmenitiesCheckBox(
+                                                                1, value!);
+                                                      },
+                                                    );
+                                                  },
+                                                )),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Expanded(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Container(
+                                              // h6Ycf (202:1173)
+                                              margin: EdgeInsets.fromLTRB(
+                                                  0 * fem,
+                                                  1 * fem,
+                                                  5 * fem,
+                                                  0 * fem),
+                                              child: Text(
+                                                Provider.of<Filter>(context)
+                                                    .listOfAmenities[2],
+                                                style: SafeGoogleFont(
+                                                  'Montserrat',
+                                                  fontSize: 14 * ffem,
+                                                  fontWeight: FontWeight.w700,
+                                                  height: 1.2175 * ffem / fem,
+                                                  letterSpacing:
+                                                      0.200000003 * fem,
+                                                  color: Color(0xff143463),
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                                // frame311m9 (202:1174)
+                                                width: 20 * fem,
+                                                height: 20 * fem,
+                                                child: Consumer(
+                                                  builder:
+                                                      (BuildContext context,
+                                                          value,
+                                                          Widget? child) {
+                                                    return Checkbox(
+                                                      activeColor: appColor,
+                                                      value: getterProvider
+                                                          .listOfAmenitiesCheckBoxes[2],
+                                                      onChanged: (bool? value) {
+                                                        print(
+                                                            'the value of the toggle is $value');
+                                                        setterProvider
+                                                            .toggleAmenitiesCheckBox(
+                                                                2, value!);
+                                                      },
+                                                    );
+                                                  },
+                                                )),
+                                          ],
+                                        ),
+                                      ),
+                                      // SizedBox(
+                                      //   width: 30,
+                                      // ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 5),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
+                                            // h6Ycf (202:1173)
+                                            margin: EdgeInsets.fromLTRB(0 * fem,
+                                                1 * fem, 5 * fem, 0 * fem),
+                                            child: Text(
+                                              Provider.of<Filter>(context)
+                                                  .listOfAmenities[3],
+                                              style: SafeGoogleFont(
+                                                'Montserrat',
+                                                fontSize: 14 * ffem,
+                                                fontWeight: FontWeight.w700,
+                                                height: 1.2175 * ffem / fem,
+                                                letterSpacing:
+                                                    0.200000003 * fem,
+                                                color: Color(0xff143463),
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                              // frame311m9 (202:1174)
+                                              width: 20 * fem,
+                                              height: 20 * fem,
+                                              child: Consumer(
+                                                builder: (BuildContext context,
+                                                    value, Widget? child) {
+                                                  return Checkbox(
+                                                    activeColor: appColor,
+                                                    value: getterProvider
+                                                        .listOfAmenitiesCheckBoxes[3],
+                                                    onChanged: (bool? value) {
+                                                      print(
+                                                          'the value of the toggle is $value');
+                                                      setterProvider
+                                                          .toggleAmenitiesCheckBox(
+                                                              3, value!);
+                                                    },
+                                                  );
+                                                },
+                                              )),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Expanded(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
+                                            // h6Ycf (202:1173)
+                                            margin: EdgeInsets.fromLTRB(0 * fem,
+                                                1 * fem, 5 * fem, 0 * fem),
+                                            child: Text(
+                                              setterProvider.listOfAmenities[4],
+                                              style: SafeGoogleFont(
+                                                'Montserrat',
+                                                fontSize: 14 * ffem,
+                                                fontWeight: FontWeight.w700,
+                                                height: 1.2175 * ffem / fem,
+                                                letterSpacing:
+                                                    0.200000003 * fem,
+                                                color: Color(0xff143463),
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                              // frame311m9 (202:1174)
+                                              width: 20 * fem,
+                                              height: 20 * fem,
+                                              child: Consumer(
+                                                builder: (BuildContext context,
+                                                    value, Widget? child) {
+                                                  return Checkbox(
+                                                    activeColor: appColor,
+                                                    value: getterProvider
+                                                        .listOfAmenitiesCheckBoxes[4],
+                                                    onChanged: (bool? value) {
+                                                      print(
+                                                          'the value of the toggle is $value');
+                                                      setterProvider
+                                                          .toggleAmenitiesCheckBox(
+                                                              4, value!);
+                                                    },
+                                                  );
+                                                },
+                                              )),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Expanded(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
+                                            // h6Ycf (202:1173)
+                                            margin: EdgeInsets.fromLTRB(0 * fem,
+                                                1 * fem, 5 * fem, 0 * fem),
+                                            child: Text(
+                                              Provider.of<Filter>(context)
+                                                  .listOfAmenities[5],
+                                              style: SafeGoogleFont(
+                                                'Montserrat',
+                                                fontSize: 14 * ffem,
+                                                fontWeight: FontWeight.w700,
+                                                height: 1.2175 * ffem / fem,
+                                                letterSpacing:
+                                                    0.200000003 * fem,
+                                                color: Color(0xff143463),
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                              // frame311m9 (202:1174)
+                                              width: 20 * fem,
+                                              height: 20 * fem,
+                                              child: Consumer(
+                                                builder: (BuildContext context,
+                                                    value, Widget? child) {
+                                                  return Checkbox(
+                                                    activeColor: appColor,
+                                                    value: getterProvider
+                                                        .listOfAmenitiesCheckBoxes[5],
+                                                    onChanged: (bool? value) {
+                                                      print(
+                                                          'the value of the toggle is $value');
+                                                      setterProvider
+                                                          .toggleAmenitiesCheckBox(
+                                                              5, value!);
+                                                    },
+                                                  );
+                                                },
+                                              )),
+                                        ],
+                                      ),
+                                    ),
+                                    // SizedBox(
+                                    //   width: 30,
+                                    // ),
+                                  ],
+                                ),
+                              ),
+                            ]),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    // color: Colors.blue,
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(10)),
+                padding: EdgeInsets.fromLTRB(10, 1, 5, 10),
+                margin: EdgeInsets.fromLTRB(15, 20, 15, 0),
                 height: size.height * 0.28,
                 width: size.width * 0.90,
                 child: Column(
@@ -490,322 +1191,6 @@ class _FilterPageState extends State<FilterPage> {
                                 // }
                               },
                             )
-                          ]),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                    // color: Colors.blue,
-                    border: Border.all(color: appColor),
-                    borderRadius: BorderRadius.circular(10)),
-                padding: EdgeInsets.fromLTRB(10, 5, 5, 10),
-                margin: EdgeInsets.fromLTRB(15, 10, 15, 5),
-                height: size.height * 0.12,
-                width: size.width * 0.90,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      // color: Colors.yellow,
-                      margin: EdgeInsets.fromLTRB(
-                          5 * fem, 5 * fem, 0 * fem, 10 * fem),
-                      width: 94 * fem,
-                      height: 20 * fem,
-                      child: Text(
-                        'Soket',
-                        style: SafeGoogleFont(
-                          'Montserrat',
-                          fontSize: 16 * ffem,
-                          fontWeight: FontWeight.w700,
-                          height: 1.5 * ffem / fem,
-                          letterSpacing: 0.1000000015 * fem,
-                          color: Color(0xff143463),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      // color: Colors.purple,
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 5),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          // h6Ycf (202:1173)
-                                          margin: EdgeInsets.fromLTRB(0 * fem,
-                                              1 * fem, 5 * fem, 0 * fem),
-                                          child: Text(
-                                            Provider.of<Filter>(context)
-                                                .listOfSocket[0],
-                                            style: SafeGoogleFont(
-                                              'Montserrat',
-                                              fontSize: 14 * ffem,
-                                              fontWeight: FontWeight.w700,
-                                              height: 1.2175 * ffem / fem,
-                                              letterSpacing: 0.200000003 * fem,
-                                              color: Color(0xff143463),
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                            // frame311m9 (202:1174)
-                                            width: 20 * fem,
-                                            height: 20 * fem,
-                                            child: Consumer(
-                                              builder: (BuildContext context,
-                                                  value, Widget? child) {
-                                                return Checkbox(
-                                                  activeColor: appColor,
-                                                  value: getterProvider
-                                                      .listOfSocketsCheckBoxes[0],
-                                                  onChanged: (bool? value) {
-                                                    print(
-                                                        'the value of the toggle is $value');
-                                                    setterProvider
-                                                        .toggleSocketCheckBox(
-                                                            0, value!);
-                                                  },
-                                                );
-                                              },
-                                            )),
-                                      ],
-                                    ),
-                                  ),
-
-                                  Expanded(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          // h6Ycf (202:1173)
-                                          margin: EdgeInsets.fromLTRB(0 * fem,
-                                              1 * fem, 5 * fem, 0 * fem),
-                                          child: Text(
-                                            setterProvider.listOfSocket[1],
-                                            style: SafeGoogleFont(
-                                              'Montserrat',
-                                              fontSize: 14 * ffem,
-                                              fontWeight: FontWeight.w700,
-                                              height: 1.2175 * ffem / fem,
-                                              letterSpacing: 0.200000003 * fem,
-                                              color: Color(0xff143463),
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                            // frame311m9 (202:1174)
-                                            width: 20 * fem,
-                                            height: 20 * fem,
-                                            child: Consumer(
-                                              builder: (BuildContext context,
-                                                  value, Widget? child) {
-                                                return Checkbox(
-                                                  activeColor: appColor,
-                                                  value: getterProvider
-                                                      .listOfSocketsCheckBoxes[1],
-                                                  onChanged: (bool? value) {
-                                                    print(
-                                                        'the value of the toggle is $value');
-                                                    setterProvider
-                                                        .toggleSocketCheckBox(
-                                                            1, value!);
-                                                  },
-                                                );
-                                              },
-                                            )),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Expanded(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          // h6Ycf (202:1173)
-                                          margin: EdgeInsets.fromLTRB(0 * fem,
-                                              1 * fem, 5 * fem, 0 * fem),
-                                          child: Text(
-                                            Provider.of<Filter>(context)
-                                                .listOfSocket[2],
-                                            style: SafeGoogleFont(
-                                              'Montserrat',
-                                              fontSize: 14 * ffem,
-                                              fontWeight: FontWeight.w700,
-                                              height: 1.2175 * ffem / fem,
-                                              letterSpacing: 0.200000003 * fem,
-                                              color: Color(0xff143463),
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                            // frame311m9 (202:1174)
-                                            width: 20 * fem,
-                                            height: 20 * fem,
-                                            child: Consumer(
-                                              builder: (BuildContext context,
-                                                  value, Widget? child) {
-                                                return Checkbox(
-                                                  activeColor: appColor,
-                                                  value: getterProvider
-                                                      .listOfSocketsCheckBoxes[2],
-                                                  onChanged: (bool? value) {
-                                                    print(
-                                                        'the value of the toggle is $value');
-                                                    setterProvider
-                                                        .toggleSocketCheckBox(
-                                                            2, value!);
-                                                  },
-                                                );
-                                              },
-                                            )),
-                                      ],
-                                    ),
-                                  ),
-                                  // SizedBox(
-                                  //   width: 30,
-                                  // ),
-                                ],
-                              ),
-                            ),
-                            // Padding(
-                            //   padding: const EdgeInsets.only(bottom: 10),
-                            //   child: Row(
-                            //     mainAxisAlignment: MainAxisAlignment.start,
-                            //     crossAxisAlignment: CrossAxisAlignment.center,
-                            //     children: [
-                            //       Expanded(
-                            //         child: Row(
-                            //           mainAxisAlignment:
-                            //               MainAxisAlignment.spaceBetween,
-                            //           children: [
-                            //             Container(
-                            //               // h6Ycf (202:1173)
-                            //               margin: EdgeInsets.fromLTRB(
-                            //                   0 * fem, 1 * fem, 0 * fem, 0 * fem),
-                            //               child: Text(
-                            //                 setterProvider.listOfSocket[2],
-                            //                 style: SafeGoogleFont(
-                            //                   'Montserrat',
-                            //                   fontSize: 14 * ffem,
-                            //                   fontWeight: FontWeight.w700,
-                            //                   height: 1.2175 * ffem / fem,
-                            //                   letterSpacing: 0.200000003 * fem,
-                            //                   color: Color(0xff143463),
-                            //                 ),
-                            //               ),
-                            //             ),
-                            //             Container(
-                            //                 // frame311m9 (202:1174)
-                            //                 width: 20 * fem,
-                            //                 height: 20 * fem,
-                            //                 child: Consumer(
-                            //                   builder: (BuildContext context, value,
-                            //                       Widget? child) {
-                            //                     return Checkbox(
-                            //                       activeColor: appColor,
-                            //                       value: getterProvider
-                            //                           .listOfSocketsCheckBoxes[2],
-                            //                       onChanged: (bool? value) {
-                            //                         print(
-                            //                             'the value of the toggle is $value');
-                            //                         setterProvider
-                            //                             .toggleSocketCheckBox(
-                            //                                 2, value!);
-                            //                       },
-                            //                     );
-                            //                   },
-                            //                 )),
-                            //           ],
-                            //         ),
-                            //       ),
-                            //       SizedBox(
-                            //         width: 30,
-                            //       ),
-                            //       // Expanded(
-                            //       //   child: Row(
-                            //       //     mainAxisAlignment:
-                            //       //         MainAxisAlignment.spaceBetween,
-                            //       //     children: [
-                            //       //       Container(
-                            //       //         // h6Ycf (202:1173)
-                            //       //         margin: EdgeInsets.fromLTRB(
-                            //       //             0 * fem, 1 * fem, 0 * fem, 0 * fem),
-                            //       //         child: Text(
-                            //       //           setterProvider.listOfBrands[3],
-                            //       //           style: SafeGoogleFont(
-                            //       //             'Montserrat',
-                            //       //             fontSize: 14 * ffem,
-                            //       //             fontWeight: FontWeight.w700,
-                            //       //             height: 1.2175 * ffem / fem,
-                            //       //             letterSpacing: 0.200000003 * fem,
-                            //       //             color: Color(0xff143463),
-                            //       //           ),
-                            //       //         ),
-                            //       //       ),
-                            //       //       Container(
-                            //       //           // frame311m9 (202:1174)
-                            //       //           width: 20 * fem,
-                            //       //           height: 20 * fem,
-                            //       //           child: Consumer(
-                            //       //             builder: (BuildContext context, value,
-                            //       //                 Widget? child) {
-                            //       //               return Checkbox(
-                            //       //                 activeColor: appColor,
-                            //       //                 value: getterProvider
-                            //       //                     .listOfCheckBoxValues[3],
-                            //       //                 onChanged: (bool? value) {
-                            //       //                   print(
-                            //       //                       'the value of the toggle is $value');
-                            //       //                   setterProvider.toggleCheckBox(
-                            //       //                       3, value!);
-                            //       //                 },
-                            //       //               );
-                            //       //             },
-                            //       //           )),
-                            //       //     ],
-                            //       //   ),
-                            //       // )
-                            //     ],
-                            //   ),
-                            // ),
-
-                            // GestureDetector(
-                            //   child: Text(
-                            //     'Tümünü göster',
-                            //     style: SafeGoogleFont('Montserrat',
-                            //         fontSize: 16 * ffem,
-                            //         fontWeight: FontWeight.w700,
-                            //         height: 1.5 * ffem / fem,
-                            //         letterSpacing: 0.1000000015 * fem,
-                            //         color: Color(0xff143463),
-                            //         decoration: TextDecoration.underline),
-                            //   ),
-                            //   onTap: () {
-                            //     // _showPopup();
-                            //     // _showSocketPopup();
-                            //     // for (bool icon in listOfCheckBoxValues) {
-                            //     //   print(icon);
-                            //     // }
-                            //   },
-                            // )
                           ]),
                     ),
                   ],

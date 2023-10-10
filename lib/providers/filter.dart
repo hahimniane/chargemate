@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 class Filter extends ChangeNotifier {
   // List<String> sockets = ['DC'];
+  /// these are for the brand parameters
   List<String> listOfBrands = [
     'Tesla',
     'Trugo',
@@ -60,7 +61,7 @@ class Filter extends ChangeNotifier {
     notifyListeners();
   }
 
-  //// these are for the sockets parameters
+  /// these are for the sockets parameters
   List<String> listOfSocket = ['CHAdeMo', 'CCS', 'Type 2'];
   List<bool> listOfSocketsCheckBoxes = [false, false, false];
   toggleSocketCheckBox(int index, bool value) {
@@ -68,11 +69,36 @@ class Filter extends ChangeNotifier {
     notifyListeners();
   }
 
-// bool temVariable=false;
+  /// this is for the tesis imakani
+  ///
+  List<String> listOfAmenities = [
+    'restoran',
+    'avm',
+    'banka',
+    'cami',
+    'hastane',
+    'üniversite'
+  ];
+  List<bool> listOfAmenitiesCheckBoxes = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ];
+  toggleAmenitiesCheckBox(int index, bool value) {
+    listOfAmenitiesCheckBoxes[index] = value;
+    notifyListeners();
+  }
 
+  /// this is for all common methods in the Filter page.
   void clearAllFilters() {
     for (int i = 0; i < listOfCheckBoxValues.length; i++) {
       listOfCheckBoxValues[i] = false;
+    }
+    for (int i = 0; i < listOfSocketsCheckBoxes.length; ++i) {
+      listOfSocketsCheckBoxes[i] = false;
     }
     notifyListeners();
   }
